@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getSortedPosts } from "@/lib/posts";
 import SocialGrid from "@/components/SocialGrid";
 import SurpriseMe from "@/components/SurpriseMe";
+import NowDoing from "@/components/NowDoing";
+import HeavyRotation from "@/components/HeavyRotation";
 
 export default function Home() {
   const posts = getSortedPosts().slice(0, 3); // Get latest 3 posts
@@ -75,6 +77,8 @@ export default function Home() {
           <p className="text-xs text-muted mt-1">Find me across the web.</p>
         </div>
         <SocialGrid />
+        <NowDoing />
+        <HeavyRotation />
       </section>
     </div>
   );

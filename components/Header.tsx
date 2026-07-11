@@ -20,6 +20,9 @@ export default function Header() {
             <Link href="/me" className="text-sm font-medium hover-link">
               Me
             </Link>
+            <Link href="/guestbook" className="text-sm font-medium hover-link">
+              Guestbook
+            </Link>
           </nav>
           <div className="flex items-center gap-1 sm:gap-2 sm:border-l sm:border-border sm:pl-4">
             <AccentPicker />

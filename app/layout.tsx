@@ -5,6 +5,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
 import VisitorTracker from "@/components/VisitorTracker";
+import MouseGlow from "@/components/MouseGlow";
+import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -62,6 +64,8 @@ export default function RootLayout({
         <Footer />
         <MobileNav />
         <VisitorTracker />
+        <MouseGlow />
+        <TerminalEasterEgg />
       </body>
     </html>
   );
