@@ -34,16 +34,11 @@ const projects: Project[] = [
     link: "https://bowlit.in",
   },
   {
-    title: "buildflow",
-    description: "Real-time liquidity forecaster for commercial subcontractors. Syncs ongoing field work completion rates with project draw requirements to estimate cash deficits before they occur.",
-    tech: ["TypeScript", "React", "Supabase", "Tailwind CSS"],
-    github: "https://github.com/RahulBiswas1704/buildflow",
-  },
-  {
-    title: "next-mdx-minimalist-starter",
-    description: "An open-source, ultra-minimalist blog template optimized for high performance, zero client bundle weight, and custom styling overrides.",
-    tech: ["Next.js", "MDX", "Tailwind CSS"],
-    github: "https://github.com/RahulBiswas1704/next-mdx-minimalist-starter",
+    title: "Camera Wale",
+    description: "A platform for renting cameras and photography equipment.",
+    tech: ["Next.js", "React", "Tailwind CSS"],
+    github: "https://github.com/RahulBiswas1704/camera-wale",
+    link: "https://camera-wale.vercel.app/",
   },
 ];
 
