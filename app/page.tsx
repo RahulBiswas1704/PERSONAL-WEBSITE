@@ -22,15 +22,10 @@ export default function Home() {
           Hey, I&apos;m Rahul.
         </h1>
         <p className="text-muted dark:text-neutral-300 leading-relaxed text-base max-w-prose">
-          I build products, write code, and study companies. Currently, I&apos;m developing{" "}
-          <Link href="/projects" className="accent-link">
-            bowlit
-          </Link>
-          , a subscription food-prep and batch-delivery logistics platform. I also balance cash balances and subcontractor draw workflows in the commercial construction industry while pursuing my MBA.
+          I&apos;m a self-taught full-stack developer and aspiring founder based in Krishnanagar, West Bengal. I dropped out of engineering school to take control of my own education, and I have a habit of diving headfirst into whatever interests me—mostly tech, business, and good movies.
         </p>
         <p className="text-muted dark:text-neutral-300 leading-relaxed text-sm max-w-prose">
-          I enjoy building with <strong className="text-foreground font-semibold">Next.js</strong> and{" "}
-          <strong className="text-foreground font-semibold">Supabase</strong>, focusing on fast rendering and clean layouts.
+          Everything I know about software, I learned myself. I enjoy building clean, high-performance web experiences using modern web tools.
         </p>
       </section>
 

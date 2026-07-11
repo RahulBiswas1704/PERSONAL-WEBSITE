@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import MobileNav from "@/components/MobileNav";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -52,12 +53,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0">
         <Header />
         <main className="max-w-2xl mx-auto px-6 py-12 flex-1 w-full">
           {children}
         </main>
         <Footer />
+        <MobileNav />
       </body>
     </html>
   );

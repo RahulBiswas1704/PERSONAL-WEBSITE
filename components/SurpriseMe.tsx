@@ -4,11 +4,11 @@ import { useState } from "react";
 import { Sparkles } from "lucide-react";
 
 const FACTS = [
-  "I once debugged a Supabase batch routing query while coordinating the preparation of 200 hot meals in our bowlit kitchen. Peak developer multitasking.",
-  "Subcontractor retention is 10% of every bill. Tiffin subscription delivery is 100% of your daily hunger. Both require perfect schedule modeling.",
-  "Psst! Click the colored circles in the top right navbar to swap the website accent color. Dynamic CSS variables at work!",
-  "Currently pursuing my MBA. If I calculated the Weighted Average Cost of Capital (WACC) of my Postgres instances, Next.js efficiency would top the charts.",
-  "Our tiffin service bowlit routes driver shipments geographically using a custom batching algorithm. We basically solved the Traveling Salesperson Problem... with curry.",
+  "I was born in 2003 and raised in Krishnanagar, West Bengal.",
+  "During the 2020 lockdowns, I realized a piece of paper isn't everything and dropped out of my Electrical Engineering diploma to take control of my education.",
+  "I've never taken a professional coding course. Everything I know about building software, I learned through the web and YouTube!",
+  "At one point, I almost pursued a career as a seafarer because I loved the idea of high pay and traveling the world.",
+  "Psst! Click the palette icon in the top right navbar to swap the website accent color. Dynamic CSS variables at work!",
 ];
 
 export default function SurpriseMe() {
@@ -51,7 +51,7 @@ export default function SurpriseMe() {
       
       <p className="text-sm text-muted dark:text-neutral-300 leading-relaxed min-h-[3rem] flex items-center">
         {index === null
-          ? "Click the button to reveal a random project anecdote or secret tip."
+          ? "Click the button to reveal a random fact about me."
           : FACTS[index]}
       </p>
     </div>
