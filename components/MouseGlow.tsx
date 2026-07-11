@@ -10,6 +10,10 @@ export default function MouseGlow() {
     setIsMounted(true);
     const updateMousePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
+      
+      // Update global CSS variables for fluid hover effects
+      document.documentElement.style.setProperty("--mouse-x", `${e.clientX}px`);
+      document.documentElement.style.setProperty("--mouse-y", `${e.clientY}px`);
     };
 
     window.addEventListener("mousemove", updateMousePosition);

@@ -9,37 +9,63 @@ export default function FloatingShapes() {
     // Only run on desktop where mousemove makes sense
     if (window.matchMedia("(hover: none)").matches) return;
 
+    let requestRef: number;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    // Smoother easing
+    const ease = 0.04;
+
     const handleMouseMove = (e: MouseEvent) => {
+      targetX = window.innerWidth / 2 - e.clientX;
+      targetY = window.innerHeight / 2 - e.clientY;
+    };
+
+    const animate = () => {
       if (!containerRef.current) return;
+      
+      currentX += (targetX - currentX) * ease;
+      currentY += (targetY - currentY) * ease;
 
       const shapes = containerRef.current.querySelectorAll('.parallax-shape');
       shapes.forEach((shape, i) => {
-        // Different speed for different depths
         const speed = (i + 1) * 15;
-        const xOffset = (window.innerWidth / 2 - e.clientX) * speed / 1000;
-        const yOffset = (window.innerHeight / 2 - e.clientY) * speed / 1000;
-        // Apply rotation as well for extra flair
-        (shape as HTMLElement).style.transform = `translate(${xOffset}px, ${yOffset}px) rotate(${xOffset * 0.5}deg)`;
+        const xOffset = currentX * speed / 1000;
+        const yOffset = currentY * speed / 1000;
+        const rotation = currentX * (i + 1) * 0.03;
+        
+        (shape as HTMLElement).style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0) rotate(${rotation}deg)`;
       });
+
+      requestRef = requestAnimationFrame(animate);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    requestRef = requestAnimationFrame(animate);
+    
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(requestRef);
+    };
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none -z-10 opacity-30 dark:opacity-20 hidden md:block">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none -z-10 opacity-40 dark:opacity-20 hidden md:block">
       {/* Circle */}
-      <div className="parallax-shape absolute top-24 right-[15%] w-24 h-24 rounded-full border-4 border-accent/40 transition-transform duration-75 ease-out" />
+      <div className="parallax-shape absolute top-[15%] right-[12%] w-32 h-32 rounded-full border-[6px] border-accent/40 opacity-70" />
       
       {/* Square */}
-      <div className="parallax-shape absolute top-48 left-[10%] w-16 h-16 rounded-xl border-4 border-rose-500/40 transition-transform duration-75 ease-out" />
+      <div className="parallax-shape absolute top-[40%] left-[8%] w-20 h-20 rounded-2xl border-4 border-rose-500/40 opacity-60" />
       
       {/* Triangle */}
-      <div className="parallax-shape absolute bottom-32 right-[25%] w-0 h-0 border-l-[25px] border-l-transparent border-r-[25px] border-r-transparent border-b-[45px] border-b-blue-500/40 transition-transform duration-75 ease-out opacity-70" />
+      <div className="parallax-shape absolute bottom-[25%] right-[20%] w-0 h-0 border-l-[35px] border-l-transparent border-r-[35px] border-r-transparent border-b-[60px] border-b-blue-500/40 opacity-70" />
 
       {/* Tiny Dot */}
-      <div className="parallax-shape absolute bottom-20 left-[20%] w-6 h-6 rounded-full bg-emerald-500/30 transition-transform duration-75 ease-out" />
+      <div className="parallax-shape absolute bottom-[15%] left-[18%] w-8 h-8 rounded-full bg-emerald-500/40 opacity-80" />
+      
+      {/* Extra Floating Line */}
+      <div className="parallax-shape absolute top-[25%] left-[25%] w-24 h-2 rounded-full bg-purple-500/30 opacity-60 transform -rotate-45" />
     </div>
   );
 }

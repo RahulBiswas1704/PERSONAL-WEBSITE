@@ -7,6 +7,8 @@ import MobileNav from "@/components/MobileNav";
 import VisitorTracker from "@/components/VisitorTracker";
 import MouseGlow from "@/components/MouseGlow";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
+import FixedLeftSidebar from "@/components/FixedLeftSidebar";
+import FixedRightSidebar from "@/components/FixedRightSidebar";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -62,8 +64,10 @@ export default function RootLayout({
                     document.documentElement.classList.remove('dark');
                   }
                   
-                  var accent = localStorage.getItem('accent') || 'amber';
-                  document.documentElement.setAttribute('data-accent', accent);
+                  var accents = ['amber', 'emerald', 'rose', 'blue', 'purple'];
+                  var randomAccent = accents[Math.floor(Math.random() * accents.length)];
+                  localStorage.setItem('accent', randomAccent);
+                  document.documentElement.setAttribute('data-accent', randomAccent);
                 } catch (e) {}
               })();
             `,
@@ -72,9 +76,11 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0">
         <Header />
-        <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full">
+        <FixedLeftSidebar />
+        <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
           {children}
         </main>
+        <FixedRightSidebar />
         <Footer />
         <MobileNav />
         <VisitorTracker />
