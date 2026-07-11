@@ -20,6 +20,9 @@ export default function Header() {
             <Link href="/me" className="text-sm font-medium hover-link">
               Me
             </Link>
+            <Link href="/sandbox" className="text-sm font-medium hover-link">
+              Sandbox
+            </Link>
             <Link href="/guestbook" className="text-sm font-medium hover-link">
               Guestbook
             </Link>

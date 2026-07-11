@@ -2,10 +2,10 @@
 
 :root {
   /* Premium Soft Monochrome Light Theme */
-  --background: #fdfdfd;
-  --foreground: #1a1a1a;
-  --muted: #52525b;
-  --muted-light: #71717a;
+  --background: #fafafa;
+  --foreground: #18181b;
+  --muted: #71717a;
+  --muted-light: #a1a1aa;
   --border: #e4e4e7;
   --code-bg: #f4f4f5;
   --code-fg: #be123c;

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -32,6 +34,10 @@ export default function Footer() {
           >
             Email
           </a>
+          <span className="text-border">/</span>
+          <Link href="/uses" className="hover-link">
+            Uses
+          </Link>
         </div>
       </div>
     </footer>

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import SocialGrid from "@/components/SocialGrid";
+import JourneyTimeline from "@/components/JourneyTimeline";
 
 export const metadata: Metadata = {
   title: "Me",
@@ -29,32 +30,7 @@ export default function MePage() {
           </p>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-base font-bold text-foreground">The Unconventional Path</h2>
-          <p>
-            My path hasn&apos;t been a straight line. After finishing my schooling at Krishnanagar AV High School in 2019, I enrolled in a Diploma in Electrical Engineering at the Modern Institute of Engineering and Technology. 
-          </p>
-          <p>
-            But when the 2020 lockdowns hit, I had a lot of time at home to think about my future. I realized that a piece of paper isn&apos;t everything. I made the tough call to drop out after my third semester so I could take control of my own education.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-base font-bold text-foreground">Self-Taught & Driven</h2>
-          <p>
-            I have never taken a professional coding course. Everything I know about building software, architecting systems, and creating web experiences, I learned myself through the web and YouTube. I believe that curiosity is the best curriculum.
-          </p>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-base font-bold text-foreground">Exploring Different Lives</h2>
-          <p>
-            I&apos;ve explored a few different lives before settling on software. At one point, the promise of high pay and traveling the world had me seriously pursuing a career as a seafarer! 
-          </p>
-          <p>
-            Ultimately, building digital products won me over. I get to travel the world through the internet anyway, building things that reach people globally.
-          </p>
-        </section>
+        <JourneyTimeline />
 
         <section className="space-y-4 pt-4 border-t border-border/60">
           <h2 className="text-base font-bold text-foreground">Let&apos;s Chat!</h2>
