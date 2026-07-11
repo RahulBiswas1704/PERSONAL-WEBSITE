@@ -74,15 +74,27 @@ export default function Home() {
         )}
       </section>
 
-      {/* Social Networks Grid */}
-      <section className="space-y-6 animate-fade-in-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
-        <div className="border-b border-border pb-3">
-          <h2 className="text-lg font-bold tracking-tight text-foreground">Let&apos;s Connect</h2>
-          <p className="text-xs text-muted mt-1">Find me across the web.</p>
+      {/* Bento Box Dashboard */}
+      <section className="animate-fade-in-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
+        <div className="border-b border-border pb-3 mb-6">
+          <h2 className="text-lg font-bold tracking-tight text-foreground">Dashboard</h2>
+          <p className="text-xs text-muted mt-1">A real-time look into my digital life.</p>
         </div>
-        <SocialGrid />
-        <NowDoing />
-        <HeavyRotation />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-6 flex flex-col">
+            <div className="bg-neutral-50/50 dark:bg-neutral-900/30 border border-border/50 rounded-2xl p-5 flex-1">
+              <h2 className="text-sm font-bold tracking-tight text-foreground mb-4 flex items-center gap-2">Let&apos;s Connect</h2>
+              <SocialGrid />
+            </div>
+            <div className="bg-neutral-50/50 dark:bg-neutral-900/30 border border-border/50 rounded-2xl p-5 flex-1">
+              <NowDoing />
+            </div>
+          </div>
+          <div className="bg-neutral-50/50 dark:bg-neutral-900/30 border border-border/50 rounded-2xl p-5">
+            <HeavyRotation />
+          </div>
+        </div>
       </section>
     </div>
   );

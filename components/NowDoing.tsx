@@ -2,7 +2,7 @@ import { Terminal, Film, BookOpen } from "lucide-react";
 
 export default function NowDoing() {
   return (
-    <div className="mt-12 animate-fade-in-up" style={{ animationDelay: "150ms" }}>
+    <div className="animate-fade-in-up h-full" style={{ animationDelay: "150ms" }}>
       <h2 className="text-lg font-bold tracking-tight text-foreground mb-4 border-b border-border/60 pb-2">
         Currently...
       </h2>

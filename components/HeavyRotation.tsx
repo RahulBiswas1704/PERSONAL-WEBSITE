@@ -29,7 +29,7 @@ export default function HeavyRotation() {
 
   if (loading) {
     return (
-      <div className="mt-12 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+      <div className="animate-fade-in-up h-full" style={{ animationDelay: "200ms" }}>
          <h2 className="text-lg font-bold tracking-tight text-foreground mb-4 border-b border-border/60 pb-2 flex items-center justify-between">
             Heavy Rotation <Disc3 className="w-4 h-4 text-muted-light animate-[spin_4s_linear_infinite]" />
          </h2>
@@ -45,7 +45,7 @@ export default function HeavyRotation() {
   if (tracks.length === 0) return null;
 
   return (
-    <div className="mt-12 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
+    <div className="animate-fade-in-up h-full" style={{ animationDelay: "200ms" }}>
       <h2 className="text-lg font-bold tracking-tight text-foreground mb-4 border-b border-border/60 pb-2 flex items-center justify-between">
         Heavy Rotation 
         <Disc3 className="w-4 h-4 text-accent animate-[spin_4s_linear_infinite]" />
