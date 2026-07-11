@@ -32,21 +32,22 @@ export default function GravityCanvas() {
     canvas.width = width;
     canvas.height = height;
 
-    const colors = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b", "#8b5cf6", "#a855f7"];
+    // Classic Kancha (glass marble) base colors
+    const colors = ["#10b981", "#3b82f6", "#ef4444", "#f59e0b", "#06b6d4"];
 
     const handleClick = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      const numBalls = Math.floor(Math.random() * 3) + 3;
+      const numBalls = Math.floor(Math.random() * 4) + 4; // Scatter more Kanchas
       for (let i=0; i<numBalls; i++) {
         ballsRef.current.push({
           x,
           y,
           vx: (Math.random() - 0.5) * 20,
           vy: (Math.random() - 0.5) * 20 - 5,
-          radius: Math.random() * 12 + 6,
+          radius: Math.random() * 10 + 8, // slightly larger, varied sizes
           color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
@@ -82,9 +83,22 @@ export default function GravityCanvas() {
           ball.vx *= -b;
         }
 
+        // Draw shiny glass marble (Kancha) effect using radial gradient
+        const gradient = ctx.createRadialGradient(
+          ball.x - ball.radius * 0.3, 
+          ball.y - ball.radius * 0.3, 
+          ball.radius * 0.1, 
+          ball.x, 
+          ball.y, 
+          ball.radius
+        );
+        gradient.addColorStop(0, '#ffffff'); // Shiny highlight
+        gradient.addColorStop(0.3, ball.color); // Base color
+        gradient.addColorStop(1, '#000000'); // Shadow
+
         ctx.beginPath();
         ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-        ctx.fillStyle = ball.color;
+        ctx.fillStyle = gradient;
         ctx.fill();
         ctx.closePath();
       }
@@ -113,57 +127,59 @@ export default function GravityCanvas() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-5 sm:p-4 rounded-xl border border-border/50 bg-neutral-50/50 dark:bg-neutral-900/50">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-5 rounded-2xl border-2 border-emerald-200 dark:border-emerald-900/50 bg-emerald-50/50 dark:bg-emerald-950/30">
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-xs font-bold text-foreground">Gravity</label>
-            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{gravity.toFixed(2)}</span>
+            <label className="text-xs font-black uppercase tracking-widest text-emerald-900 dark:text-emerald-100">Gravity</label>
+            <span className="text-[10px] text-emerald-800 dark:text-emerald-200 font-mono px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 border border-emerald-300 dark:border-emerald-700 font-bold">{gravity.toFixed(2)}</span>
           </div>
           <input 
             type="range" min="-1" max="2" step="0.1" 
             value={gravity} onChange={e => setGravity(parseFloat(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full accent-emerald-500"
           />
         </div>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-xs font-bold text-foreground">Bounce</label>
-            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{bounce.toFixed(2)}</span>
+            <label className="text-xs font-black uppercase tracking-widest text-emerald-900 dark:text-emerald-100">Bounce</label>
+            <span className="text-[10px] text-emerald-800 dark:text-emerald-200 font-mono px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 border border-emerald-300 dark:border-emerald-700 font-bold">{bounce.toFixed(2)}</span>
           </div>
           <input 
             type="range" min="0" max="1.5" step="0.1" 
             value={bounce} onChange={e => setBounce(parseFloat(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full accent-emerald-500"
           />
         </div>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-xs font-bold text-foreground">Friction</label>
-            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{friction.toFixed(2)}</span>
+            <label className="text-xs font-black uppercase tracking-widest text-emerald-900 dark:text-emerald-100">Friction</label>
+            <span className="text-[10px] text-emerald-800 dark:text-emerald-200 font-mono px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 border border-emerald-300 dark:border-emerald-700 font-bold">{friction.toFixed(2)}</span>
           </div>
           <input 
             type="range" min="0" max="1" step="0.05" 
             value={friction} onChange={e => setFriction(parseFloat(e.target.value))}
-            className="w-full accent-accent"
+            className="w-full accent-emerald-500"
           />
         </div>
       </div>
 
       {/* Canvas */}
-      <div ref={containerRef} className="w-full rounded-2xl border border-border/50 overflow-hidden bg-neutral-100/30 dark:bg-neutral-900/30 cursor-pointer relative group">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-0 transition-opacity duration-500">
-          <span className="text-sm font-mono text-muted font-bold tracking-widest uppercase">Click to spawn</span>
+      <div ref={containerRef} className="w-full rounded-3xl border-4 border-dashed border-emerald-300 dark:border-emerald-800 overflow-hidden bg-neutral-100/50 dark:bg-neutral-900/50 cursor-pointer relative group">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-60 group-hover:opacity-0 transition-opacity duration-500">
+          <div className="bg-white/80 dark:bg-black/80 px-6 py-3 rounded-full shadow-lg backdrop-blur-sm border-2 border-emerald-200 dark:border-emerald-900/50 transform -rotate-2">
+            <span className="text-base font-black text-emerald-800 dark:text-emerald-200 tracking-widest uppercase">Click to scatter Kanchas!</span>
+          </div>
         </div>
         <button 
           onClick={(e) => { e.stopPropagation(); clearCanvas(); }}
-          className="absolute top-3 right-3 p-2 rounded-lg bg-background/80 border border-border/50 text-muted hover:text-foreground hover:bg-background transition-all z-10"
-          title="Clear Canvas"
+          className="absolute top-4 right-4 p-3 rounded-xl bg-white dark:bg-black border-2 border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 hover:text-white hover:bg-emerald-600 dark:hover:bg-emerald-600 transition-all z-10 shadow-md transform hover:rotate-6 hover:scale-110 font-bold"
+          title="Sweep away"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
-        <canvas ref={canvasRef} className="block w-full h-[300px]" />
+        <canvas ref={canvasRef} className="block w-full h-[400px]" />
       </div>
     </div>
   );

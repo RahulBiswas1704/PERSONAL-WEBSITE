@@ -30,8 +30,8 @@ export default function HeavyRotation() {
   if (loading) {
     return (
       <div className="animate-fade-in-up h-full" style={{ animationDelay: "200ms" }}>
-         <h2 className="text-lg font-bold tracking-tight text-foreground mb-4 border-b border-border/60 pb-2 flex items-center justify-between">
-            Heavy Rotation <Disc3 className="w-4 h-4 text-muted-light animate-[spin_4s_linear_infinite]" />
+         <h2 className="text-xl font-black tracking-tight text-amber-950 dark:text-amber-50 mb-4 font-serif border-b-2 border-dashed border-amber-200 dark:border-amber-900/50 pb-2 flex items-center justify-between">
+            Heavy Rotation <Disc3 className="w-5 h-5 text-amber-700 dark:text-amber-300 animate-[spin_4s_linear_infinite]" />
          </h2>
          <div className="animate-pulse space-y-3">
            <div className="h-14 bg-border/40 rounded-xl w-full"></div>
@@ -46,9 +46,9 @@ export default function HeavyRotation() {
 
   return (
     <div className="animate-fade-in-up h-full" style={{ animationDelay: "200ms" }}>
-      <h2 className="text-lg font-bold tracking-tight text-foreground mb-4 border-b border-border/60 pb-2 flex items-center justify-between">
+      <h2 className="text-xl font-black tracking-tight text-amber-950 dark:text-amber-50 mb-4 font-serif border-b-2 border-dashed border-amber-200 dark:border-amber-900/50 pb-2 flex items-center justify-between">
         Heavy Rotation 
-        <Disc3 className="w-4 h-4 text-accent animate-[spin_4s_linear_infinite]" />
+        <Disc3 className="w-5 h-5 text-accent animate-[spin_4s_linear_infinite]" />
       </h2>
       <div className="flex flex-col gap-3">
         {tracks.map((track, i) => (

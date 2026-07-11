@@ -90,11 +90,11 @@ export default function GuestbookClient() {
           entries.map((entry, i) => {
             // Deterministic pseudo-randomness for quirky rotations
             const rotations = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
-            const bgColors = [
-              "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50",
-              "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/50",
-              "bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50",
-              "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50"
+            const themes = [
+              { bg: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50", text: "text-amber-950 dark:text-amber-50", muted: "text-amber-800 dark:text-amber-200" },
+              { bg: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/50", text: "text-blue-950 dark:text-blue-50", muted: "text-blue-800 dark:text-blue-200" },
+              { bg: "bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50", text: "text-rose-950 dark:text-rose-50", muted: "text-rose-800 dark:text-rose-200" },
+              { bg: "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50", text: "text-emerald-950 dark:text-emerald-50", muted: "text-emerald-800 dark:text-emerald-200" }
             ];
             
             // Generate a simple hash from the string ID to pick consistent styles
@@ -105,24 +105,24 @@ export default function GuestbookClient() {
             hash = Math.abs(hash);
             
             const rotationClass = rotations[hash % rotations.length];
-            const colorClass = bgColors[hash % bgColors.length];
+            const theme = themes[hash % themes.length];
 
             return (
               <div 
                 key={entry.id} 
-                className={`p-6 rounded-3xl border-2 shadow-sm hover:shadow-md transition-all duration-300 transform ${rotationClass} hover:rotate-0 hover:-translate-y-1 ${colorClass} relative text-neutral-900 dark:text-neutral-100`}
+                className={`p-6 rounded-3xl border-2 shadow-sm hover:shadow-md transition-all duration-300 transform ${rotationClass} hover:rotate-0 hover:-translate-y-1 ${theme.bg} relative ${theme.text}`}
               >
                 {/* Quirky Tape / Pin */}
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-neutral-200/80 dark:bg-neutral-700/80 backdrop-blur-sm -rotate-2 shadow-sm" />
                 
                 <div className="flex items-start gap-4 mt-2">
-                  <div className="w-10 h-10 rounded-full bg-white dark:bg-black/50 flex items-center justify-center flex-shrink-0 text-neutral-400 dark:text-neutral-500 shadow-inner border border-black/5 dark:border-white/5">
+                  <div className={`w-10 h-10 rounded-full bg-white dark:bg-black/50 flex items-center justify-center flex-shrink-0 shadow-inner border border-black/5 dark:border-white/5 ${theme.muted}`}>
                     <User className="w-5 h-5" />
                   </div>
                   <div className="flex flex-col min-w-0 pt-0.5">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span className="font-bold text-base font-serif">{entry.name || "Anonymous"}</span>
-                      <span className="text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400 font-mono px-2 py-0.5 bg-white/50 dark:bg-black/30 rounded-full">
+                      <span className={`text-[10px] sm:text-xs font-mono px-2 py-0.5 bg-white/50 dark:bg-black/30 rounded-full ${theme.muted}`}>
                         {new Date(entry.timestamp).toLocaleDateString()}
                       </span>
                     </div>

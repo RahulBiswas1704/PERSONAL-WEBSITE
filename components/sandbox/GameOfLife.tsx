@@ -72,7 +72,7 @@ export default function GameOfLife() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Toolbar */}
       <div className="flex items-center gap-3">
         <button
@@ -83,22 +83,23 @@ export default function GameOfLife() {
               runSimulation();
             }
           }}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-semibold text-sm transition-colors ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all transform hover:scale-105 border-2 shadow-sm ${
             running 
-              ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500/20' 
-              : 'bg-accent/10 text-accent hover:bg-accent/20'
+              ? 'bg-rose-100 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800 rotate-1 hover:rotate-0' 
+              : 'bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300 border-orange-300 dark:border-orange-800 -rotate-1 hover:rotate-0'
           }`}
         >
           {running ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-          {running ? "Pause" : "Start"}
+          {running ? "Pause" : "Start Kolam"}
         </button>
         
         <button
           onClick={randomize}
-          className="p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 text-muted-light hover:text-foreground transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-2 border-border hover:border-orange-400 hover:text-orange-600 dark:hover:text-orange-400 transition-all transform hover:-rotate-2 hover:scale-105 shadow-sm"
           title="Randomize"
         >
           <Shuffle className="w-4 h-4" />
+          Scatter
         </button>
         
         <button
@@ -106,17 +107,18 @@ export default function GameOfLife() {
             setGrid(createEmptyGrid());
             setRunning(false);
           }}
-          className="p-2 rounded-md bg-neutral-100 dark:bg-neutral-800 text-muted-light hover:text-foreground transition-colors"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border-2 border-border hover:border-rose-400 hover:text-rose-600 dark:hover:text-rose-400 transition-all transform hover:rotate-2 hover:scale-105 shadow-sm"
           title="Clear"
         >
           <RotateCcw className="w-4 h-4" />
+          Wipe Clean
         </button>
       </div>
 
       {/* Grid */}
-      <div className="w-full overflow-x-auto rounded-xl border border-border/50 bg-neutral-50/50 dark:bg-neutral-900/30 p-4 custom-scrollbar">
+      <div className="w-full overflow-x-auto rounded-2xl border-4 border-dashed border-orange-200 dark:border-orange-900/50 bg-neutral-50 dark:bg-neutral-950 p-6 custom-scrollbar flex justify-center items-center">
         <div 
-          className="inline-grid" 
+          className="inline-grid gap-0.5 sm:gap-1" 
           style={{ gridTemplateColumns: `repeat(${NUM_COLS}, minmax(12px, 1fr))` }}
         >
           {grid.map((rows, i) =>
@@ -124,8 +126,10 @@ export default function GameOfLife() {
               <div
                 key={`${i}-${j}`}
                 onClick={() => toggleCell(i, j)}
-                className={`w-[12px] h-[12px] sm:w-[16px] sm:h-[16px] border border-border/20 transition-colors duration-150 ${
-                  grid[i][j] ? 'bg-accent' : 'bg-transparent hover:bg-accent/20'
+                className={`w-[12px] h-[12px] sm:w-[16px] sm:h-[16px] rounded-full transition-all duration-300 cursor-pointer ${
+                  grid[i][j] 
+                    ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.8)] scale-110' 
+                    : 'bg-orange-100 dark:bg-orange-900/30 hover:bg-orange-200 dark:hover:bg-orange-800/50 scale-100'
                 }`}
               />
             ))
