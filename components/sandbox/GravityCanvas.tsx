@@ -1,10 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { RotateCcw } from "lucide-react";
 
 export default function GravityCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  const [gravity, setGravity] = useState(0.6);
+  const [bounce, setBounce] = useState(0.7);
+  const [friction, setFriction] = useState(0.8);
+  
+  const physicsRef = useRef({ gravity, bounce, friction });
+  
+  useEffect(() => {
+    physicsRef.current = { gravity, bounce, friction };
+  }, [gravity, bounce, friction]);
+
+  const ballsRef = useRef<{ x: number; y: number; vx: number; vy: number; radius: number; color: string }[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -19,8 +32,6 @@ export default function GravityCanvas() {
     canvas.width = width;
     canvas.height = height;
 
-    const balls: { x: number; y: number; vx: number; vy: number; radius: number; color: string }[] = [];
-    // Matching the beautiful accent colors of the site
     const colors = ["#10b981", "#3b82f6", "#f43f5e", "#f59e0b", "#8b5cf6", "#a855f7"];
 
     const handleClick = (e: MouseEvent) => {
@@ -28,10 +39,9 @@ export default function GravityCanvas() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      // Spawn 3-5 balls per click for more fun
       const numBalls = Math.floor(Math.random() * 3) + 3;
       for (let i=0; i<numBalls; i++) {
-        balls.push({
+        ballsRef.current.push({
           x,
           y,
           vx: (Math.random() - 0.5) * 20,
@@ -47,42 +57,34 @@ export default function GravityCanvas() {
     let animationFrameId: number;
 
     const render = () => {
-      // Create a slight trailing effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-      // We want the trail to match theme, but canvas doesn't know theme easily. 
-      // We'll just clear rect for crisp rendering instead of trailing to avoid dark mode conflicts
       ctx.clearRect(0, 0, width, height);
       
-      const gravity = 0.6;
-      const friction = 0.8;
-      const bounce = 0.7;
+      const { gravity: g, friction: f, bounce: b } = physicsRef.current;
 
-      for (let i = 0; i < balls.length; i++) {
-        const b = balls[i];
+      for (let i = 0; i < ballsRef.current.length; i++) {
+        const ball = ballsRef.current[i];
         
-        b.vy += gravity;
-        b.x += b.vx;
-        b.y += b.vy;
+        ball.vy += g;
+        ball.x += ball.vx;
+        ball.y += ball.vy;
 
-        // Floor collision
-        if (b.y + b.radius > height) {
-          b.y = height - b.radius;
-          b.vy *= -bounce;
-          b.vx *= friction;
+        if (ball.y + ball.radius > height) {
+          ball.y = height - ball.radius;
+          ball.vy *= -b;
+          ball.vx *= f;
         }
         
-        // Wall collisions
-        if (b.x + b.radius > width) {
-          b.x = width - b.radius;
-          b.vx *= -bounce;
-        } else if (b.x - b.radius < 0) {
-          b.x = b.radius;
-          b.vx *= -bounce;
+        if (ball.x + ball.radius > width) {
+          ball.x = width - ball.radius;
+          ball.vx *= -b;
+        } else if (ball.x - ball.radius < 0) {
+          ball.x = ball.radius;
+          ball.vx *= -b;
         }
 
         ctx.beginPath();
-        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-        ctx.fillStyle = b.color;
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = ball.color;
         ctx.fill();
         ctx.closePath();
       }
@@ -106,12 +108,63 @@ export default function GravityCanvas() {
     };
   }, []);
 
+  const clearCanvas = () => {
+    ballsRef.current = [];
+  };
+
   return (
-    <div ref={containerRef} className="w-full rounded-2xl border border-border/50 overflow-hidden bg-neutral-100/30 dark:bg-neutral-900/30 cursor-pointer relative group">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-0 transition-opacity duration-500">
-        <span className="text-sm font-mono text-muted font-bold tracking-widest uppercase">Click to spawn</span>
+    <div className="space-y-4">
+      {/* Controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 p-5 sm:p-4 rounded-xl border border-border/50 bg-neutral-50/50 dark:bg-neutral-900/50">
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-bold text-foreground">Gravity</label>
+            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{gravity.toFixed(2)}</span>
+          </div>
+          <input 
+            type="range" min="-1" max="2" step="0.1" 
+            value={gravity} onChange={e => setGravity(parseFloat(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-bold text-foreground">Bounce</label>
+            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{bounce.toFixed(2)}</span>
+          </div>
+          <input 
+            type="range" min="0" max="1.5" step="0.1" 
+            value={bounce} onChange={e => setBounce(parseFloat(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <label className="text-xs font-bold text-foreground">Friction</label>
+            <span className="text-[10px] text-muted-light font-mono px-1.5 py-0.5 rounded bg-background border border-border/50">{friction.toFixed(2)}</span>
+          </div>
+          <input 
+            type="range" min="0" max="1" step="0.05" 
+            value={friction} onChange={e => setFriction(parseFloat(e.target.value))}
+            className="w-full accent-accent"
+          />
+        </div>
       </div>
-      <canvas ref={canvasRef} className="block w-full h-[300px]" />
+
+      {/* Canvas */}
+      <div ref={containerRef} className="w-full rounded-2xl border border-border/50 overflow-hidden bg-neutral-100/30 dark:bg-neutral-900/30 cursor-pointer relative group">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 group-hover:opacity-0 transition-opacity duration-500">
+          <span className="text-sm font-mono text-muted font-bold tracking-widest uppercase">Click to spawn</span>
+        </div>
+        <button 
+          onClick={(e) => { e.stopPropagation(); clearCanvas(); }}
+          className="absolute top-3 right-3 p-2 rounded-lg bg-background/80 border border-border/50 text-muted hover:text-foreground hover:bg-background transition-all z-10"
+          title="Clear Canvas"
+        >
+          <RotateCcw className="w-4 h-4" />
+        </button>
+        <canvas ref={canvasRef} className="block w-full h-[300px]" />
+      </div>
     </div>
   );
 }

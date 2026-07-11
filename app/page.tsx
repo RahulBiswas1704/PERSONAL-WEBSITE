@@ -4,6 +4,10 @@ import SocialGrid from "@/components/SocialGrid";
 import SurpriseMe from "@/components/SurpriseMe";
 import NowDoing from "@/components/NowDoing";
 import HeavyRotation from "@/components/HeavyRotation";
+import AccentPicker from "@/components/AccentPicker";
+import TypewriterCycler from "@/components/TypewriterCycler";
+import InteractiveWave from "@/components/InteractiveWave";
+import FloatingShapes from "@/components/FloatingShapes";
 
 export default function Home() {
   const posts = getSortedPosts().slice(0, 3); // Get latest 3 posts
@@ -17,17 +21,17 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-16 animate-fade-in-up">
-      {/* Intro Bio Section */}
-      <section className="space-y-4">
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-          Hey, I&apos;m Rahul.
+    <div className="space-y-12 animate-fade-in-up relative">
+      <FloatingShapes />
+      
+      {/* Intro Section */}
+      <section className="space-y-6">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
+          Hi, I&apos;m Rahul <InteractiveWave />
         </h1>
-        <p className="text-muted dark:text-neutral-300 leading-relaxed text-base max-w-prose">
-          I&apos;m a self-taught full-stack developer and aspiring founder based in Krishnanagar, West Bengal. I dropped out of engineering school to take control of my own education, and I have a habit of diving headfirst into whatever interests me—mostly tech, business, and good movies.
-        </p>
-        <p className="text-muted dark:text-neutral-300 leading-relaxed text-sm max-w-prose">
-          Everything I know about software, I learned myself. I enjoy building clean, high-performance web experiences using modern web tools.
+        <p className="text-base sm:text-lg text-muted dark:text-neutral-400 max-w-xl leading-relaxed">
+          I am a <TypewriterCycler /> based in West Bengal. 
+          I love building beautiful digital products, exploring complex systems, and creating open-source tools.
         </p>
       </section>
 

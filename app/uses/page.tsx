@@ -6,26 +6,26 @@ export const metadata: Metadata = {
   description: "Hardware, software, and gear I use daily.",
 };
 
-// Placeholder data - user needs to edit this
 const uses = [
   {
     category: "Hardware",
     icon: Laptop,
     items: [
-      { name: "MacBook Pro 14\"", desc: "M3 Pro, 18GB RAM. The ultimate dev machine." },
-      { name: "LG 27\" 4K Monitor", desc: "Crisp text makes long coding sessions bearable." },
-      { name: "Keychron K2", desc: "Mechanical keyboard with brown switches." },
-      { name: "Logitech MX Master 3S", desc: "Best mouse ever made, hands down." }
+      { name: "ASUS TUF Gaming A15", desc: "My primary workhorse for development and heavy lifting." },
+      { name: "OnePlus 13R", desc: "My daily driver for mobile testing and staying connected." },
     ]
   },
   {
     category: "Software & Editor",
     icon: Terminal,
     items: [
-      { name: "VS Code", desc: "My editor of choice. Theme: One Dark Pro." },
-      { name: "Ghostty", desc: "Blazing fast, GPU-accelerated terminal." },
+      { name: "VS Code", desc: "My editor of choice for writing code." },
+      { name: "Vercel", desc: "Where all my frontend projects are deployed and hosted." },
+      { name: "Supabase", desc: "My go-to backend-as-a-service and PostgreSQL database." },
+      { name: "GitHub", desc: "For version control and open source contributions." },
       { name: "Figma", desc: "For UI mockups and design brainstorming." },
-      { name: "Notion", desc: "Where I organize my life and project ideas." }
+      { name: "Notion", desc: "Where I organize my life and project ideas." },
+      { name: "Slack", desc: "For team communication and community channels." }
     ]
   }
 ];
