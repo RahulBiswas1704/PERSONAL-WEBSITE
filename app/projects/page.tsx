@@ -83,7 +83,7 @@ export default function ProjectsPage() {
               descText: "text-blue-900 dark:text-blue-100",
               iconBg: "bg-blue-200/50 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200",
               badge: "bg-white/80 dark:bg-black/60 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100",
-              btn: "text-blue-950 dark:text-white bg-white dark:bg-black border-blue-200 dark:border-blue-800 hover:bg-blue-600 hover:text-white hover:border-blue-600"
+              btn: "text-blue-950 dark:text-white bg-blue-50/50 dark:bg-black border-blue-300 dark:border-blue-800 hover:bg-blue-600 hover:text-white hover:border-blue-600"
             },
             {
               bg: "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50 hover:border-emerald-400 dark:hover:border-emerald-600",
@@ -91,7 +91,7 @@ export default function ProjectsPage() {
               descText: "text-emerald-900 dark:text-emerald-100",
               iconBg: "bg-emerald-200/50 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200",
               badge: "bg-white/80 dark:bg-black/60 border-emerald-200 dark:border-emerald-800 text-emerald-900 dark:text-emerald-100",
-              btn: "text-emerald-950 dark:text-white bg-white dark:bg-black border-emerald-200 dark:border-emerald-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
+              btn: "text-emerald-950 dark:text-white bg-emerald-50/50 dark:bg-black border-emerald-300 dark:border-emerald-800 hover:bg-emerald-600 hover:text-white hover:border-emerald-600"
             },
             {
               bg: "bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/50 hover:border-rose-400 dark:hover:border-rose-600",
@@ -99,7 +99,7 @@ export default function ProjectsPage() {
               descText: "text-rose-900 dark:text-rose-100",
               iconBg: "bg-rose-200/50 dark:bg-rose-900/50 text-rose-800 dark:text-rose-200",
               badge: "bg-white/80 dark:bg-black/60 border-rose-200 dark:border-rose-800 text-rose-900 dark:text-rose-100",
-              btn: "text-rose-950 dark:text-white bg-white dark:bg-black border-rose-200 dark:border-rose-800 hover:bg-rose-600 hover:text-white hover:border-rose-600"
+              btn: "text-rose-950 dark:text-white bg-rose-50/50 dark:bg-black border-rose-300 dark:border-rose-800 hover:bg-rose-600 hover:text-white hover:border-rose-600"
             },
             {
               bg: "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/50 hover:border-amber-400 dark:hover:border-amber-600",
@@ -107,7 +107,7 @@ export default function ProjectsPage() {
               descText: "text-amber-900 dark:text-amber-100",
               iconBg: "bg-amber-200/50 dark:bg-amber-900/50 text-amber-800 dark:text-amber-200",
               badge: "bg-white/80 dark:bg-black/60 border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-100",
-              btn: "text-amber-950 dark:text-white bg-white dark:bg-black border-amber-200 dark:border-amber-800 hover:bg-amber-600 hover:text-white hover:border-amber-600"
+              btn: "text-amber-950 dark:text-white bg-amber-50/50 dark:bg-black border-amber-300 dark:border-amber-800 hover:bg-amber-600 hover:text-white hover:border-amber-600"
             }
           ];
           

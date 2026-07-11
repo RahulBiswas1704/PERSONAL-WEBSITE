@@ -11,8 +11,8 @@
   --code-fg: #be123c;
   
   /* Dynamic Accent defaults (Amber) */
-  --accent: #d97706;
-  --accent-hover: #b45309;
+  --accent: #b45309; /* amber-700 */
+  --accent-hover: #92400e; /* amber-800 */
 }
 
 .dark {
@@ -32,8 +32,8 @@
 
 /* Custom Dynamic Accent Color Themes */
 :root[data-accent="amber"] {
-  --accent: #d97706;
-  --accent-hover: #b45309;
+  --accent: #b45309; /* amber-700 */
+  --accent-hover: #92400e; /* amber-800 */
 }
 .dark[data-accent="amber"] {
   --accent: #f59e0b;
@@ -41,8 +41,8 @@
 }
 
 :root[data-accent="emerald"] {
-  --accent: #059669;
-  --accent-hover: #047857;
+  --accent: #047857; /* emerald-700 */
+  --accent-hover: #065f46; /* emerald-800 */
 }
 .dark[data-accent="emerald"] {
   --accent: #34d399;
@@ -50,8 +50,8 @@
 }
 
 :root[data-accent="rose"] {
-  --accent: #e11d48;
-  --accent-hover: #be123c;
+  --accent: #be123c; /* rose-700 */
+  --accent-hover: #9f1239; /* rose-800 */
 }
 .dark[data-accent="rose"] {
   --accent: #fb7185;
@@ -59,8 +59,8 @@
 }
 
 :root[data-accent="blue"] {
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --accent: #1d4ed8; /* blue-700 */
+  --accent-hover: #1e40af; /* blue-800 */
 }
 .dark[data-accent="blue"] {
   --accent: #60a5fa;
@@ -68,8 +68,8 @@
 }
 
 :root[data-accent="purple"] {
-  --accent: #7c3aed;
-  --accent-hover: #6d28d9;
+  --accent: #6d28d9; /* purple-700 */
+  --accent-hover: #5b21b6; /* purple-800 */
 }
 .dark[data-accent="purple"] {
   --accent: #a78bfa;

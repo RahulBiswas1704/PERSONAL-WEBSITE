@@ -110,7 +110,7 @@ export default function UsesPage() {
                 {section.items.map((item, i) => (
                   <li key={i} className="pl-4 border-l-4 border-current/20">
                     <h3 className="font-bold text-base">{item.name}</h3>
-                    <p className="text-sm opacity-80 mt-1 leading-relaxed font-medium">{item.desc}</p>
+                    <p className="text-sm mt-1 leading-relaxed font-medium text-current/90">{item.desc}</p>
                   </li>
                 ))}
               </ul>

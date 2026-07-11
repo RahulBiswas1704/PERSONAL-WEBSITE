@@ -127,7 +127,7 @@ export default function RangoliMaker() {
               <button
                 key={c.hex}
                 onClick={() => setColor(c.hex)}
-                className={`w-8 h-8 rounded-full border-2 transition-transform ${color === c.hex ? 'scale-125 border-white shadow-[0_0_10px_rgba(255,255,255,0.5)] z-10' : 'border-transparent hover:scale-110'}`}
+                className={`w-8 h-8 rounded-full border-2 transition-transform ${color === c.hex ? 'scale-125 border-black/30 dark:border-white shadow-[0_0_10px_rgba(255,255,255,0.5)] z-10' : 'border-black/10 dark:border-transparent hover:scale-110'}`}
                 style={{ backgroundColor: c.hex, boxShadow: color === c.hex ? `0 0 15px ${c.hex}` : `0 0 5px ${c.hex}80` }}
                 title={c.name}
               />
@@ -156,7 +156,7 @@ export default function RangoliMaker() {
         </div>
         <button 
           onClick={clearCanvas}
-          className="absolute top-4 right-4 p-3 rounded-xl bg-white/10 border border-white/20 text-white hover:bg-white/30 backdrop-blur-sm transition-all z-10 shadow-md transform hover:rotate-6 hover:scale-110 font-bold"
+          className="absolute top-4 right-4 p-3 rounded-xl bg-orange-950/10 dark:bg-white/10 border border-orange-950/20 dark:border-white/20 text-orange-950 dark:text-white hover:bg-orange-950/20 dark:hover:bg-white/30 backdrop-blur-sm transition-all z-10 shadow-md transform hover:rotate-6 hover:scale-110 font-bold"
           title="Wipe Clean"
         >
           <RotateCcw className="w-4 h-4" />
