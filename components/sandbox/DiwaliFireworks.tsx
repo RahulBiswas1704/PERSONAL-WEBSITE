@@ -159,7 +159,7 @@ export default function DiwaliFireworks() {
   return (
     <div className="space-y-6">
       <div ref={containerRef} className="w-full rounded-3xl border-4 border-dashed border-indigo-300 dark:border-indigo-800 overflow-hidden bg-[#0a0a0a] cursor-pointer relative group">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-60 group-hover:opacity-0 transition-opacity duration-500">
+        <div className="absolute inset-0 hidden sm:flex items-center justify-center pointer-events-none opacity-60 group-hover:opacity-0 transition-opacity duration-500">
           <div className="bg-white/10 px-6 py-3 rounded-full backdrop-blur-md border border-white/20 transform -rotate-2">
             <span className="text-base font-black text-indigo-200 tracking-widest uppercase">Click the sky to launch fireworks!</span>
           </div>

@@ -149,7 +149,7 @@ export default function RangoliMaker() {
       </div>
 
       <div ref={containerRef} className="w-full rounded-3xl border-4 border-dashed border-orange-300 dark:border-orange-800 overflow-hidden bg-[#050505] cursor-crosshair relative group shadow-inner">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40 group-hover:opacity-0 transition-opacity duration-500">
+        <div className="absolute inset-0 hidden sm:flex items-center justify-center pointer-events-none opacity-40 group-hover:opacity-0 transition-opacity duration-500">
           <div className="bg-white/10 px-6 py-3 rounded-full backdrop-blur-md border border-white/20 shadow-lg transform rotate-1">
             <span className="text-sm font-black text-orange-200 tracking-widest uppercase">Draw with Neon!</span>
           </div>

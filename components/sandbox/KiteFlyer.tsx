@@ -207,7 +207,7 @@ export default function KiteFlyer() {
       </div>
 
       <div ref={containerRef} className="w-full rounded-3xl border-4 border-dashed border-sky-300 dark:border-sky-800 overflow-hidden bg-gradient-to-b from-sky-300 to-sky-100 dark:from-sky-900 dark:to-slate-900 cursor-crosshair relative group shadow-inner">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-60 group-hover:opacity-0 transition-opacity duration-500">
+        <div className="absolute inset-0 hidden sm:flex items-center justify-center pointer-events-none opacity-60 group-hover:opacity-0 transition-opacity duration-500">
           <div className="bg-white/80 dark:bg-black/80 px-6 py-3 rounded-full shadow-lg backdrop-blur-sm border-2 border-sky-200 dark:border-sky-900/50 transform -rotate-2">
             <span className="text-sm font-black text-sky-800 dark:text-sky-200 tracking-widest uppercase">Guide the Patang!</span>
           </div>

@@ -46,7 +46,7 @@ export default function GuestbookClient() {
   return (
     <div className="space-y-16">
       {/* Form */}
-      <form onSubmit={handleSubmit} className="relative transform -rotate-1 hover:rotate-0 transition-transform duration-500 p-6 sm:p-8 rounded-3xl border-2 border-dashed border-border/80 bg-neutral-50 dark:bg-neutral-900 shadow-sm max-w-2xl mx-auto z-20">
+      <form onSubmit={handleSubmit} className="relative transform sm:-rotate-1 sm:hover:rotate-0 transition-transform duration-500 p-6 sm:p-8 rounded-3xl border-2 border-dashed border-border/80 bg-neutral-50 dark:bg-neutral-900 shadow-sm max-w-2xl mx-auto z-20">
         <div className="absolute -top-4 -right-4 bg-accent text-white text-xs font-bold font-mono px-3 py-1 rounded-full shadow-md transform rotate-12">
           New Entry
         </div>
@@ -89,7 +89,7 @@ export default function GuestbookClient() {
         ) : (
           entries.map((entry, i) => {
             // Deterministic pseudo-randomness for quirky rotations
-            const rotations = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
+            const rotations = ["sm:-rotate-2", "sm:rotate-1", "sm:-rotate-1", "sm:rotate-2"];
             const themes = [
               { bg: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50", text: "text-amber-950 dark:text-amber-50", muted: "text-amber-800 dark:text-amber-200" },
               { bg: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/50", text: "text-blue-950 dark:text-blue-50", muted: "text-blue-800 dark:text-blue-200" },
@@ -110,7 +110,7 @@ export default function GuestbookClient() {
             return (
               <div 
                 key={entry.id} 
-                className={`p-6 rounded-3xl border-2 shadow-sm hover:shadow-md transition-all duration-300 transform ${rotationClass} hover:rotate-0 hover:-translate-y-1 ${theme.bg} relative ${theme.text}`}
+                className={`p-6 rounded-3xl border-2 shadow-sm hover:shadow-md transition-all duration-300 transform ${rotationClass} sm:hover:rotate-0 hover:-translate-y-1 ${theme.bg} relative ${theme.text}`}
               >
                 {/* Quirky Tape / Pin */}
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-neutral-200/80 dark:bg-neutral-700/80 backdrop-blur-sm -rotate-2 shadow-sm" />
