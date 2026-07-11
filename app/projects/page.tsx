@@ -1,4 +1,5 @@
-import { ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, FileText } from "lucide-react";
 import { Metadata } from "next";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -24,6 +25,7 @@ interface Project {
   tech: string[];
   link?: string;
   github?: string;
+  slug?: string;
 }
 
 const projects: Project[] = [
@@ -32,6 +34,7 @@ const projects: Project[] = [
     description: "Centralized kitchen and batch-delivery logistics platform. Automates tiffin order aggregation, geographical driver route batching, and daily subscription cancellations for our food prep facilities.",
     tech: ["Next.js", "Supabase", "PostgreSQL", "Tailwind CSS"],
     link: "https://bowlit.in",
+    slug: "building-bowlit",
   },
   {
     title: "Camera Wale",
@@ -39,6 +42,7 @@ const projects: Project[] = [
     tech: ["Next.js", "React", "Tailwind CSS"],
     github: "https://github.com/RahulBiswas1704/camera-wale",
     link: "https://camera-wale.vercel.app/",
+    slug: "camera-wale",
   },
 ];
 
@@ -90,10 +94,22 @@ export default function ProjectsPage() {
                 )}
               </div>
             </div>
-            <p className="text-sm text-muted dark:text-neutral-300 leading-relaxed mt-2">
+            
+            <p className="text-sm text-muted dark:text-neutral-300 leading-relaxed mt-2 mb-4">
               {project.description}
             </p>
-            <div className="flex flex-wrap gap-1.5 mt-4">
+            
+            {project.slug && (
+              <Link 
+                href={`/projects/${project.slug}`}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-accent transition-colors duration-150 bg-neutral-100 dark:bg-neutral-900 px-3 py-1.5 rounded border border-border/50 hover:border-accent/30"
+              >
+                <FileText className="w-3.5 h-3.5" />
+                Read Case Study
+              </Link>
+            )}
+
+            <div className="flex flex-wrap gap-1.5 mt-4 pt-4 border-t border-border/30">
               {project.tech.map((tech) => (
                 <span
                   key={tech}

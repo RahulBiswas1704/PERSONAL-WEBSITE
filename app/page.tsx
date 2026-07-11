@@ -41,11 +41,11 @@ export default function Home() {
       </section>
 
       {/* Recent Posts Section */}
-      <section id="articles" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
+      <section id="projects" className="space-y-6 animate-fade-in-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
         <div className="flex items-center justify-between border-b border-border pb-3">
-          <h2 className="text-lg font-bold tracking-tight text-foreground">Recent Articles</h2>
-          <Link href="/articles" className="text-xs font-bold hover-link">
-            All Articles &rarr;
+          <h2 className="text-lg font-bold tracking-tight text-foreground">Recent Projects</h2>
+          <Link href="/projects" className="text-xs font-bold hover-link">
+            All Projects &rarr;
           </Link>
         </div>
         
@@ -61,7 +61,7 @@ export default function Home() {
                   }}
                 />
                 
-                <Link href={`/articles/${post.slug}`} className="block space-y-1 relative z-10">
+                <Link href={`/projects/${post.slug}`} className="block space-y-1 relative z-10">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
                     <h3 className="text-base font-bold text-foreground group-hover:text-accent transition-colors duration-150">
                       {post.metadata.title}
@@ -78,7 +78,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <p className="text-sm text-muted">No articles found.</p>
+          <p className="text-sm text-muted">No projects found.</p>
         )}
       </section>
 
