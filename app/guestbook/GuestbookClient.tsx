@@ -44,64 +44,94 @@ export default function GuestbookClient() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-16">
       {/* Form */}
-      <form onSubmit={handleSubmit} className="p-4 sm:p-6 rounded-2xl border border-border/50 bg-background/40 backdrop-blur-md space-y-4">
-        <div className="flex gap-4 flex-col sm:flex-row">
+      <form onSubmit={handleSubmit} className="relative transform -rotate-1 hover:rotate-0 transition-transform duration-500 p-6 sm:p-8 rounded-3xl border-2 border-dashed border-border/80 bg-neutral-50 dark:bg-neutral-900 shadow-sm max-w-2xl mx-auto z-20">
+        <div className="absolute -top-4 -right-4 bg-accent text-white text-xs font-bold font-mono px-3 py-1 rounded-full shadow-md transform rotate-12">
+          New Entry
+        </div>
+        <div className="flex flex-col gap-5">
           <input
             type="text"
-            placeholder="Your name (optional)"
+            placeholder="Who are you? (optional)"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="px-4 py-3 bg-neutral-100 dark:bg-neutral-900/50 border border-border/50 rounded-lg text-sm w-full sm:w-1/3 focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
+            className="px-4 py-3 bg-white dark:bg-black border-2 border-border/50 rounded-xl font-mono text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner"
           />
-          <input
-            type="text"
-            placeholder="Leave a message..."
+          <textarea
+            placeholder="Write something cool..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             required
-            className="px-4 py-3 bg-neutral-100 dark:bg-neutral-900/50 border border-border/50 rounded-lg text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all"
+            rows={3}
+            className="px-4 py-3 bg-white dark:bg-black border-2 border-border/50 rounded-xl font-mono text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner resize-none"
           />
           <button
             type="submit"
             disabled={isSubmitting || !message.trim()}
-            className="px-6 py-3 bg-foreground text-background font-bold text-sm rounded-lg flex items-center justify-center gap-2 hover:bg-accent hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="self-end px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm rounded-xl flex items-center justify-center gap-3 hover:scale-105 hover:bg-accent dark:hover:bg-accent hover:text-white dark:hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
           >
-            Sign <Send className="w-4 h-4" />
+            Submit <Send className="w-4 h-4" />
           </button>
         </div>
       </form>
 
       {/* Entries */}
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-64 bg-emerald-500/5 rounded-full blur-3xl -z-10" />
+        
         {loading ? (
-          <div className="animate-pulse flex space-x-4 p-4">
-            <div className="rounded-full bg-border/50 h-10 w-10"></div>
-            <div className="flex-1 space-y-2 py-1">
-              <div className="h-4 bg-border/50 rounded w-1/4"></div>
-              <div className="h-4 bg-border/50 rounded w-3/4"></div>
-            </div>
-          </div>
-        ) : entries.length === 0 ? (
-          <p className="text-center text-muted italic">No entries yet. Be the first!</p>
-        ) : (
-          entries.map((entry) => (
-            <div key={entry.id} className="p-4 rounded-xl border border-border/30 bg-background/30 hover:bg-background transition-colors flex gap-4">
-              <div className="w-10 h-10 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center flex-shrink-0 text-muted-light">
-                <User className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col min-w-0 pt-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-bold text-sm text-foreground">{entry.name}</span>
-                  <span className="text-[10px] text-muted-light font-mono">
-                    {new Date(entry.timestamp).toLocaleDateString()}
-                  </span>
-                </div>
-                <p className="text-sm text-muted break-words leading-relaxed">{entry.message}</p>
-              </div>
-            </div>
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="animate-pulse p-6 rounded-3xl border-2 border-border/30 bg-background/30 h-32"></div>
           ))
+        ) : entries.length === 0 ? (
+          <p className="text-center text-neutral-500 dark:text-neutral-400 italic col-span-full font-serif text-lg">No entries yet. Be the first to vandalize this wall!</p>
+        ) : (
+          entries.map((entry, i) => {
+            // Deterministic pseudo-randomness for quirky rotations
+            const rotations = ["-rotate-2", "rotate-1", "-rotate-1", "rotate-2"];
+            const bgColors = [
+              "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900/50",
+              "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900/50",
+              "bg-rose-50 dark:bg-rose-950/30 border-rose-200 dark:border-rose-900/50",
+              "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900/50"
+            ];
+            
+            // Generate a simple hash from the string ID to pick consistent styles
+            let hash = 0;
+            for (let j = 0; j < entry.id.length; j++) {
+              hash = entry.id.charCodeAt(j) + ((hash << 5) - hash);
+            }
+            hash = Math.abs(hash);
+            
+            const rotationClass = rotations[hash % rotations.length];
+            const colorClass = bgColors[hash % bgColors.length];
+
+            return (
+              <div 
+                key={entry.id} 
+                className={`p-6 rounded-3xl border-2 shadow-sm hover:shadow-md transition-all duration-300 transform ${rotationClass} hover:rotate-0 hover:-translate-y-1 ${colorClass} relative text-neutral-900 dark:text-neutral-100`}
+              >
+                {/* Quirky Tape / Pin */}
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-5 bg-neutral-200/80 dark:bg-neutral-700/80 backdrop-blur-sm -rotate-2 shadow-sm" />
+                
+                <div className="flex items-start gap-4 mt-2">
+                  <div className="w-10 h-10 rounded-full bg-white dark:bg-black/50 flex items-center justify-center flex-shrink-0 text-neutral-400 dark:text-neutral-500 shadow-inner border border-black/5 dark:border-white/5">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col min-w-0 pt-0.5">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <span className="font-bold text-base font-serif">{entry.name || "Anonymous"}</span>
+                      <span className="text-[10px] sm:text-xs text-neutral-500 dark:text-neutral-400 font-mono px-2 py-0.5 bg-white/50 dark:bg-black/30 rounded-full">
+                        {new Date(entry.timestamp).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <p className="text-sm sm:text-base opacity-80 break-words leading-relaxed font-medium">{entry.message}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })
         )}
       </div>
     </div>
