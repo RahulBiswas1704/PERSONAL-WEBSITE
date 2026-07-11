@@ -43,6 +43,9 @@ export default function RootLayout({
                   } else {
                     document.documentElement.classList.remove('dark');
                   }
+                  
+                  var accent = localStorage.getItem('accent') || 'amber';
+                  document.documentElement.setAttribute('data-accent', accent);
                 } catch (e) {}
               })();
             `,

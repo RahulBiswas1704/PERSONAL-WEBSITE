@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ThemeToggle from "./ThemeToggle";
+import AccentPicker from "./AccentPicker";
 
 export default function Header() {
   return (
@@ -8,17 +9,20 @@ export default function Header() {
         <Link href="/" className="font-bold text-base hover:text-accent transition-colors duration-150">
           Rahul
         </Link>
-        <nav className="flex items-center gap-6">
-          <Link href="/articles" className="text-sm font-medium hover-link">
+        <nav className="flex items-center gap-4 sm:gap-5">
+          <Link href="/articles" className="text-xs sm:text-sm font-medium hover-link">
             Articles
           </Link>
-          <Link href="/projects" className="text-sm font-medium hover-link">
+          <Link href="/projects" className="text-xs sm:text-sm font-medium hover-link">
             Projects
           </Link>
-          <Link href="/me" className="text-sm font-medium hover-link">
+          <Link href="/me" className="text-xs sm:text-sm font-medium hover-link">
             Me
           </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2 border-l border-border pl-2 sm:pl-4">
+            <AccentPicker />
+            <ThemeToggle />
+          </div>
         </nav>
       </div>
     </header>

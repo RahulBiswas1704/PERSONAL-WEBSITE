@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getSortedPosts } from "@/lib/posts";
+import SocialGrid from "@/components/SocialGrid";
+import SurpriseMe from "@/components/SurpriseMe";
 
 export default function Home() {
   const posts = getSortedPosts().slice(0, 3); // Get latest 3 posts
@@ -13,21 +15,32 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-16">
-      {/* Bio Section */}
+    <div className="space-y-16 animate-fade-in-up">
+      {/* Intro Bio Section */}
       <section className="space-y-4">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Hi, I&apos;m Rahul.</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+          Hey, I&apos;m Rahul.
+        </h1>
         <p className="text-muted dark:text-neutral-300 leading-relaxed text-base max-w-prose">
-          I&apos;m a full-stack developer and the founder of{" "}
+          I build products, write code, and study companies. Currently, I&apos;m developing{" "}
           <Link href="/projects" className="accent-link">
             bowlit
           </Link>
-          , a subscription-based tiffin service. I also work in cash management for the construction industry and am currently pursuing my MBA. I enjoy building with Next.js and Supabase.
+          , a subscription food-prep and batch-delivery logistics platform. I also balance cash balances and subcontractor draw workflows in the commercial construction industry while pursuing my MBA.
+        </p>
+        <p className="text-muted dark:text-neutral-300 leading-relaxed text-sm max-w-prose">
+          I enjoy building with <strong className="text-foreground font-semibold">Next.js</strong> and{" "}
+          <strong className="text-foreground font-semibold">Supabase</strong>, focusing on fast rendering and clean layouts.
         </p>
       </section>
 
+      {/* Surprise Me Sandbox */}
+      <section className="animate-fade-in-up" style={{ animationDelay: "150ms", animationFillMode: "both" }}>
+        <SurpriseMe />
+      </section>
+
       {/* Recent Posts Section */}
-      <section className="space-y-6">
+      <section className="space-y-6 animate-fade-in-up" style={{ animationDelay: "300ms", animationFillMode: "both" }}>
         <div className="flex items-center justify-between border-b border-border pb-3">
           <h2 className="text-lg font-bold tracking-tight text-foreground">Recent Articles</h2>
           <Link href="/articles" className="text-xs font-bold hover-link">
@@ -58,6 +71,15 @@ export default function Home() {
         ) : (
           <p className="text-sm text-muted">No articles found.</p>
         )}
+      </section>
+
+      {/* Social Networks Grid */}
+      <section className="space-y-6 animate-fade-in-up" style={{ animationDelay: "450ms", animationFillMode: "both" }}>
+        <div className="border-b border-border pb-3">
+          <h2 className="text-lg font-bold tracking-tight text-foreground">Let&apos;s Connect</h2>
+          <p className="text-xs text-muted mt-1">Find me across the web.</p>
+        </div>
+        <SocialGrid />
       </section>
     </div>
   );

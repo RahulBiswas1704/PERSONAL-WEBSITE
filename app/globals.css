@@ -1,29 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  /* High-contrast Monochrome Light Theme */
+  /* High-contrast Monochrome Light Theme base */
   --background: #ffffff;
   --foreground: #111111;
   --muted: #555555;
   --muted-light: #777777;
   --border: #eaeaea;
-  --accent: #d97706; /* Warm Amber */
-  --accent-hover: #b45309;
   --code-bg: #f5f5f5;
   --code-fg: #d01717;
+  
+  /* Dynamic Accent defaults (Amber) */
+  --accent: #d97706;
+  --accent-hover: #b45309;
 }
 
 .dark {
-  /* High-contrast Monochrome Dark Theme */
+  /* High-contrast Monochrome Dark Theme base */
   --background: #0d0d0d;
   --foreground: #eeeeee;
   --muted: #a0a0a0;
   --muted-light: #888888;
   --border: #262626;
-  --accent: #f59e0b; /* Amber */
-  --accent-hover: #fbbf24;
   --code-bg: #1a1a1a;
   --code-fg: #f43f5e;
+  
+  /* Dynamic Accent defaults (Amber) */
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+}
+
+/* Custom Dynamic Accent Color Themes */
+:root[data-accent="amber"] {
+  --accent: #d97706;
+  --accent-hover: #b45309;
+}
+.dark[data-accent="amber"] {
+  --accent: #f59e0b;
+  --accent-hover: #fbbf24;
+}
+
+:root[data-accent="emerald"] {
+  --accent: #059669;
+  --accent-hover: #047857;
+}
+.dark[data-accent="emerald"] {
+  --accent: #34d399;
+  --accent-hover: #6ee7b7;
+}
+
+:root[data-accent="rose"] {
+  --accent: #e11d48;
+  --accent-hover: #be123c;
+}
+.dark[data-accent="rose"] {
+  --accent: #fb7185;
+  --accent-hover: #fda4af;
+}
+
+:root[data-accent="blue"] {
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+}
+.dark[data-accent="blue"] {
+  --accent: #60a5fa;
+  --accent-hover: #93c5fd;
+}
+
+:root[data-accent="purple"] {
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+}
+.dark[data-accent="purple"] {
+  --accent: #a78bfa;
+  --accent-hover: #c4b5fd;
 }
 
 @theme {
@@ -46,7 +96,80 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+/* Entry Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Micro-interaction Lift and Tilt */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.25s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  border-color: var(--accent);
+}
+
+.dark .hover-lift:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Nav Link Hover Underline Animation */
+.hover-link {
+  position: relative;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.hover-link::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--accent);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.hover-link:hover {
+  color: var(--accent);
+}
+
+.hover-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+.accent-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.accent-link:hover {
+  text-decoration: underline;
 }
 
 /* Tania Rascia design inspired minimalist lines and layouts */
@@ -63,7 +186,7 @@ hr {
 
 .prose h2 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.025em;
   margin-top: 2.25rem;
   margin-bottom: 0.75rem;
@@ -71,7 +194,7 @@ hr {
 
 .prose h3 {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
   margin-top: 1.75rem;
   margin-bottom: 0.5rem;
@@ -125,25 +248,17 @@ hr {
   border-radius: 0;
 }
 
-/* Accent link hover underline effect */
-.hover-link {
-  color: var(--foreground);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
+/* Custom Playful Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
-
-.hover-link:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+::-webkit-scrollbar-track {
+  background: var(--background);
 }
-
-.accent-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
 }
-
-.accent-link:hover {
-  text-decoration: underline;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }

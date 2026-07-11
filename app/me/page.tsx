@@ -1,4 +1,6 @@
 import { Metadata } from "next";
+import Link from "next/link";
+import SocialGrid from "@/components/SocialGrid";
 
 export const metadata: Metadata = {
   title: "Me",
@@ -7,93 +9,62 @@ export const metadata: Metadata = {
 
 export default function MePage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-12 animate-fade-in-up">
+      {/* Title block */}
       <div className="border-b border-border pb-3">
         <h1 className="text-2xl font-bold tracking-tight text-foreground">Me</h1>
         <p className="text-sm text-muted dark:text-neutral-400 mt-1">
-          A summary of my work, studies, and building philosophy.
+          The story behind the screen, kitchens, and balance sheets.
         </p>
       </div>
 
-      <div className="space-y-8 text-sm text-muted dark:text-neutral-300 leading-relaxed">
+      <div className="space-y-8 text-sm text-muted dark:text-neutral-300 leading-relaxed max-w-prose">
         <section className="space-y-3">
+          <h2 className="text-base font-bold text-foreground">A Brief Intro</h2>
           <p>
-            Hello! I&apos;m Rahul. I am a full-stack developer based in India, currently working at the intersection of software logistics and construction finance.
+            Hey! I&apos;m Rahul. I&apos;m a developer, business builder, and graduate student based in India. I don&apos;t think about code in a vacuum—for me, software is a tool to solve physical, operational bottlenecks. 
           </p>
           <p>
-            I enjoy building responsive, minimalist web applications with clean code. I balance my time between writing code, analyzing corporate working capital, and running a food logistics business.
+            Whether it is dispatching meals on time or calculating interest rates on subcontractor draws, I like writing clean code that connects data directly to real-world outcomes.
           </p>
         </section>
 
-        <section className="space-y-4">
-          <h2 className="text-base font-bold text-foreground">Current Work</h2>
-          <ul className="space-y-4">
-            <li className="flex flex-col sm:flex-row gap-1 sm:gap-6">
-              <span className="font-mono text-xs text-muted-light dark:text-neutral-500 w-24 shrink-0">
-                bowlit
-              </span>
-              <div>
-                <strong className="text-sm font-semibold text-foreground block">Founder & Developer</strong>
-                <span className="text-xs text-muted dark:text-neutral-400 block mt-0.5">
-                  Managing kitchen schedules and geo-based routing logistics for subscription-based tiffins.
-                </span>
-              </div>
-            </li>
-            <li className="flex flex-col sm:flex-row gap-1 sm:gap-6">
-              <span className="font-mono text-xs text-muted-light dark:text-neutral-500 w-24 shrink-0">
-                Construction
-              </span>
-              <div>
-                <strong className="text-sm font-semibold text-foreground block">Cash Management</strong>
-                <span className="text-xs text-muted dark:text-neutral-400 block mt-0.5">
-                  Managing subcontractors, cash registers, and progress billings on commercial real estate projects.
-                </span>
-              </div>
-            </li>
-            <li className="flex flex-col sm:flex-row gap-1 sm:gap-6">
-              <span className="font-mono text-xs text-muted-light dark:text-neutral-500 w-24 shrink-0">
-                Education
-              </span>
-              <div>
-                <strong className="text-sm font-semibold text-foreground block">MBA Student</strong>
-                <span className="text-xs text-muted dark:text-neutral-400 block mt-0.5">
-                  Studying business economics, corporate operations, and financial accounting models.
-                </span>
-              </div>
-            </li>
-          </ul>
-        </section>
-
         <section className="space-y-3">
-          <h2 className="text-base font-bold text-foreground">Skills & Tech</h2>
-          <p className="text-xs text-muted dark:text-neutral-400">
-            I specialize in the Javascript/TypeScript ecosystem. I prefer standard, highly performance-optimized utilities rather than bloating client-side bundles.
-          </p>
-          <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-muted-light dark:text-neutral-500">
-            <span>Next.js</span>
-            <span>&bull;</span>
-            <span>React</span>
-            <span>&bull;</span>
-            <span>Tailwind CSS</span>
-            <span>&bull;</span>
-            <span>Supabase</span>
-            <span>&bull;</span>
-            <span>PostgreSQL</span>
-            <span>&bull;</span>
-            <span>Node.js</span>
-            <span>&bull;</span>
-            <span>Git</span>
-          </div>
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-base font-bold text-foreground">Contact</h2>
+          <h2 className="text-base font-bold text-foreground">The bowlit Story</h2>
           <p>
-            I am always open to chatting about software, database routing, or financial models. Feel free to shoot me an email at{" "}
-            <a href="mailto:rahul@example.com" className="accent-link">
-              rahul@example.com
-            </a>.
+            Like many projects, <strong className="text-foreground font-semibold">bowlit</strong> began because I wanted to solve a personal pain point. Tiffin subscriptions are often disorganized, unreliable, and lack quality control. I wondered if we could build a centralized kitchen system that ran with the precision of a software pipeline.
           </p>
+          <p>
+            So, we built it. Today, bowlit manages orders, plans recipe batches, and coordinates drivers geographically. It is built entirely on Next.js and Supabase, which lets us scale operations without maintaining heavy servers.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base font-bold text-foreground">Construction Finance</h2>
+          <p>
+            When I&apos;m not checking kitchen dashboards, I work in cash management for commercial construction projects. Construction runs on paper-thin margins and massive billing delays (milestones, progress claims, and retention pools).
+          </p>
+          <p>
+            I model cash positions and forecast subcontractor liquidity. Bridging the gap between spreadsheet formulas and database queries allows us to spot potential deficits weeks before they affect project sites.
+          </p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="text-base font-bold text-foreground">The MBA & Coding Philosophy</h2>
+          <p>
+            I am currently pursuing my MBA to study corporate operations, growth economics, and finance. It has heavily shaped how I write code—I value high performance, zero weight, and immediate utility. 
+          </p>
+          <p>
+            I draw heavy design inspiration from Tania Rascia&apos;s style: minimal design, high contrast, generous layouts, and code blocks that load in milliseconds.
+          </p>
+        </section>
+
+        <section className="space-y-4 pt-4 border-t border-border/60">
+          <h2 className="text-base font-bold text-foreground">Let&apos;s Chat!</h2>
+          <p>
+            I&apos;m always down to talk about React architectures, database configurations, food startups, or financial models. Feel free to shoot me an email or find me on my socials.
+          </p>
+          <SocialGrid />
         </section>
       </div>
     </div>
