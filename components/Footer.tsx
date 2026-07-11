@@ -11,7 +11,7 @@ export default function Footer() {
         </div>
         <div className="flex items-center gap-4">
           <a
-            href="https://github.com"
+            href="https://github.com/RahulBiswas1704"
             target="_blank"
             rel="noopener noreferrer"
             className="hover-link"
@@ -20,7 +20,7 @@ export default function Footer() {
           </a>
           <span className="text-border">/</span>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/rahul-biswas1704/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover-link"
@@ -29,7 +29,7 @@ export default function Footer() {
           </a>
           <span className="text-border">/</span>
           <a
-            href="mailto:rahul@example.com"
+            href="mailto:rahul.biswas1704@gmail.com"
             className="hover-link"
           >
             Email

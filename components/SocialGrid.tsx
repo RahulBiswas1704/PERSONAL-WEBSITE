@@ -14,8 +14,8 @@ interface SocialItem {
 const socials: SocialItem[] = [
   {
     name: "GitHub",
-    handle: "Rahul-Biswas1704",
-    url: "https://github.com/Rahul-Biswas1704",
+    handle: "RahulBiswas1704",
+    url: "https://github.com/RahulBiswas1704",
     colorClass: "hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white",
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
