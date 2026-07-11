@@ -23,10 +23,13 @@ export default function MePage() {
         <section className="space-y-3">
           <h2 className="text-base font-bold text-foreground">A Brief Intro</h2>
           <p>
-            Hey! I&apos;m Rahul. I&apos;m a self-taught full-stack developer, an aspiring founder, and generally a quirky guy with a massive curiosity for how things work. 
+            Hey! I&apos;m Rahul. Born in 2003 and raised in Krishnanagar, West Bengal, I have a habit of diving headfirst into whatever interests me. 
           </p>
           <p>
-            Born in 2003 and raised in Krishnanagar, West Bengal, I have a habit of diving headfirst into whatever interests me—which usually circles back to tech, business, and genuinely good movies.
+            Driven by a passion for technology and a flair for communication, I am constantly seeking new knowledge. My journey hasn&apos;t been a straight line—from dropping out of engineering, to working as a System and Project Manager, to chasing the dream of being a Seafarer, and ultimately teaching myself to build full-stack web applications.
+          </p>
+          <p>
+            Whether it&apos;s managing unexpected challenges in a corporate project or architecting new digital products from scratch, I thrive on continuous growth. When I&apos;m not coding, you&apos;ll find me reading, learning about AI, or practicing photography.
           </p>
         </section>
 
