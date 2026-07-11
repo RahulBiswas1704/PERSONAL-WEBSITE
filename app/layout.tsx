@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
+import VisitorTracker from "@/components/VisitorTracker";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -60,6 +61,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <MobileNav />
+        <VisitorTracker />
       </body>
     </html>
   );

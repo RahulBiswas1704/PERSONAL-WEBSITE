@@ -1,0 +1,44 @@
+{
+  "visits": [
+    {
+      "id": "bd8473d3-9e50-400d-87c7-a3442606dcfa",
+      "timestamp": "2026-07-11T13:04:37.863Z",
+      "country": "Unknown Country",
+      "city": "Unknown City",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "device": "desktop"
+    },
+    {
+      "id": "ae645c75-dd3d-4927-ab83-755ffc14392c",
+      "timestamp": "2026-07-11T13:04:37.879Z",
+      "country": "Unknown Country",
+      "city": "Unknown City",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "device": "desktop"
+    },
+    {
+      "id": "2767647c-21df-4695-998c-5c40ffabb419",
+      "timestamp": "2026-07-11T13:05:01.936Z",
+      "country": "Unknown Country",
+      "city": "Unknown City",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "device": "desktop"
+    },
+    {
+      "id": "99cef238-a1b6-4063-b856-c941e9781e48",
+      "timestamp": "2026-07-11T13:06:16.899Z",
+      "country": "Unknown Country",
+      "city": "Unknown City",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36",
+      "device": "desktop"
+    }
+  ],
+  "clicks": [
+    {
+      "id": "2d808495-1e22-4dbe-8cff-65fd285405aa",
+      "timestamp": "2026-07-11T13:05:15.567Z",
+      "platform": "GitHub",
+      "url": "https://github.com/Rahul-Biswas1704"
+    }
+  ]
+}

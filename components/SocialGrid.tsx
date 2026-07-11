@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 interface SocialItem {
@@ -122,6 +124,14 @@ const socials: SocialItem[] = [
 ];
 
 export default function SocialGrid() {
+  const trackClick = (platform: string, url: string) => {
+    fetch('/api/analytics/click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ platform, url }),
+    }).catch(console.error);
+  };
+
   return (
     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 pt-4">
       {socials.map((social) => (
@@ -130,6 +140,7 @@ export default function SocialGrid() {
           href={social.url}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackClick(social.name, social.url)}
           className={`flex items-center gap-3.5 p-4 border border-border rounded-md bg-background/50 hover-lift ${social.colorClass} group transition-all duration-200`}
         >
           <div className="flex-shrink-0 text-muted-light dark:text-neutral-500 group-hover:text-inherit transition-colors duration-200">
