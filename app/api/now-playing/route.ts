@@ -26,7 +26,7 @@ export async function GET() {
       title: t.name,
       artist: t.artist['#text'],
       cover: t.image.find((img: any) => img.size === 'extralarge')?.['#text'] || t.image.find((img: any) => img.size === 'large')?.['#text'] || '',
-      url: t.url,
+      url: `https://music.youtube.com/search?q=${encodeURIComponent(t.artist['#text'] + ' ' + t.name)}`,
       nowPlaying: t['@attr']?.nowplaying === 'true'
     }));
 
