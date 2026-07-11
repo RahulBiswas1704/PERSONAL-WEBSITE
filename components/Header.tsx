@@ -11,9 +11,6 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-3 sm:gap-5">
           <nav className="hidden sm:flex items-center gap-5">
-            <Link href="/articles" className="text-sm font-medium hover-link">
-              Articles
-            </Link>
             <Link href="/projects" className="text-sm font-medium hover-link">
               Projects
             </Link>
