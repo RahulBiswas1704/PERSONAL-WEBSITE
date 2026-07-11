@@ -26,6 +26,9 @@ export default function Header() {
             <Link href="/guestbook" className="text-sm font-medium hover-link">
               Guestbook
             </Link>
+            <Link href="/resume" className="text-sm font-medium hover-link">
+              Resume
+            </Link>
           </nav>
           <div className="flex items-center gap-1 sm:gap-2 sm:border-l sm:border-border sm:pl-4">
             <AccentPicker />

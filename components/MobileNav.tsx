@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, FileText, Code, User, MessageSquare, Beaker } from "lucide-react";
+import { Home, FileText, Code, User, MessageSquare, Beaker, Briefcase } from "lucide-react";
 
 export default function MobileNav() {
   const pathname = usePathname();
@@ -14,6 +14,7 @@ export default function MobileNav() {
     { href: "/me", label: "Me", icon: User },
     { href: "/sandbox", label: "Sandbox", icon: Beaker },
     { href: "/guestbook", label: "Guestbook", icon: MessageSquare },
+    { href: "/resume", label: "Resume", icon: Briefcase },
   ];
 
   return (

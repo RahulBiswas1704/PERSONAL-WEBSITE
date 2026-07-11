@@ -19,8 +19,22 @@ export const metadata: Metadata = {
     template: "%s | Rahul",
     default: "Rahul | Full-stack Developer & Founder",
   },
-  description: "Personal website and blog of Rahul. Full-stack developer, founder of bowlit, and MBA student.",
-  metadataBase: new URL("https://rahul.dev"), // Fallback base URL for metadata
+  description: "Personal website and blog of Rahul. Driven by a passion for technology and a flair for communication.",
+  metadataBase: new URL("https://rahul-website.vercel.app"),
+  openGraph: {
+    title: "Rahul | Full-stack Developer",
+    description: "Personal website, projects, and digital garden.",
+    url: "https://rahul-website.vercel.app",
+    siteName: "Rahul",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rahul | Full-stack Developer",
+    description: "Personal website, projects, and digital garden.",
+    creator: "@rahulbiswas1704",
+  },
 };
 
 export default function RootLayout({
