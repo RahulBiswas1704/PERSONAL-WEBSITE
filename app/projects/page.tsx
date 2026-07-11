@@ -102,7 +102,7 @@ export default function ProjectsPage() {
             {project.slug && (
               <Link 
                 href={`/projects/${project.slug}`}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-accent transition-colors duration-150 bg-neutral-100 dark:bg-neutral-900 px-3 py-1.5 rounded border border-border/50 hover:border-accent/30"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-white bg-accent hover:bg-accent/90 transition-colors duration-150 px-3.5 py-2 rounded-md shadow-sm border border-transparent hover:border-white/20"
               >
                 <FileText className="w-3.5 h-3.5" />
                 Read Case Study

@@ -50,7 +50,7 @@ export default function TerminalEasterEgg() {
         response = "You are an awesome visitor exploring my digital garden.";
         break;
       case "about":
-        response = "Rahul is a self-taught full-stack developer and aspiring founder from West Bengal.";
+        response = "Rahul is a self-taught full-stack developer and curious learner from West Bengal.";
         break;
       case "contact":
         response = "Email me at rahul.biswas1704@gmail.com";

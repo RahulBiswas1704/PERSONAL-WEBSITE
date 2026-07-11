@@ -85,23 +85,23 @@ export default function JourneyTimeline() {
   ];
 
   return (
-    <div className="relative border-l border-border ml-3 md:ml-4 space-y-10 my-12 pb-4">
+    <div className="relative border-l-2 border-dashed border-border/60 ml-4 md:ml-6 space-y-14 my-16 pb-4">
       {events.map((event, i) => (
-        <div key={i} className="relative pl-8 md:pl-10 group animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
+        <div key={i} className="relative pl-10 md:pl-12 group animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
           {/* Timeline Dot */}
-          <div className={`absolute -left-[17px] top-1 w-8 h-8 rounded-full ${event.bgColor} flex items-center justify-center ring-4 ring-background transition-transform group-hover:scale-110 duration-300 shadow-sm`}>
-            <event.icon className={`w-4 h-4 ${event.color}`} />
+          <div className={`absolute -left-[18px] top-4 w-9 h-9 rounded-full ${event.bgColor} flex items-center justify-center ring-8 ring-background transition-all duration-500 group-hover:scale-125 group-hover:rotate-12 shadow-md z-10`}>
+            <event.icon className={`w-4 h-4 ${event.color} transition-transform duration-300 group-hover:scale-110`} />
           </div>
           
-          {/* Content */}
-          <div className="flex flex-col gap-1.5">
-            <span className="inline-block px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-neutral-800 border border-border/50 text-[10px] sm:text-xs font-mono font-bold tracking-widest text-muted-light w-fit">
+          {/* Content Card */}
+          <div className="flex flex-col gap-2 p-5 rounded-2xl border-2 border-transparent hover:border-border/60 hover:bg-neutral-50 dark:hover:bg-neutral-900/40 transition-all duration-300 hover:shadow-sm -translate-y-2 group-hover:-translate-y-4">
+            <span className="inline-block px-3 py-1 rounded-lg bg-neutral-100 dark:bg-neutral-800 border border-border/50 text-[10px] sm:text-xs font-mono font-bold tracking-widest text-neutral-500 dark:text-neutral-400 w-fit transform group-hover:-rotate-2 transition-transform duration-300 shadow-sm">
               {event.year}
             </span>
-            <h3 className="text-base sm:text-lg font-bold text-foreground group-hover:text-accent transition-colors mt-1">
+            <h3 className="text-lg sm:text-xl font-bold text-foreground group-hover:text-accent transition-colors mt-2 font-serif">
               {event.title}
             </h3>
-            <p className="text-sm text-muted leading-relaxed mt-0.5 max-w-xl">
+            <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 leading-relaxed mt-1 max-w-xl group-hover:text-neutral-900 dark:group-hover:text-neutral-100 transition-colors duration-300">
               {event.description}
             </p>
           </div>

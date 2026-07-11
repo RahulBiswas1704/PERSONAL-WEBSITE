@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     template: "%s | Rahul",
-    default: "Rahul | Full-stack Developer & Founder",
+    default: "Rahul | Full-stack Developer & Lifelong Learner",
   },
   description: "Personal website and blog of Rahul. Driven by a passion for technology and a flair for communication.",
   metadataBase: new URL("https://rahul-website.vercel.app"),

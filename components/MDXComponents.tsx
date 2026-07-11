@@ -44,15 +44,15 @@ const MDXComponents = {
     <li className="leading-7" {...props} />
   ),
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className="overflow-x-auto p-4 rounded-md bg-neutral-50 dark:bg-neutral-900 border border-border my-6 text-sm font-mono leading-relaxed" {...props} />
+    <pre className="overflow-x-auto p-4 rounded-md bg-neutral-100 dark:bg-neutral-900 border border-border my-6 text-sm font-mono leading-relaxed text-neutral-800 dark:text-neutral-200" {...props} />
   ),
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => {
     const isCodeBlock = className?.includes("language-");
     if (isCodeBlock) {
-      return <code className={className} {...props} />;
+      return <code className={`${className} text-neutral-800 dark:text-neutral-200`} {...props} />;
     }
     return (
-      <code className="bg-code-bg text-code-fg dark:bg-neutral-900 dark:text-rose-400 px-1 py-0.5 rounded text-xs font-mono" {...props} />
+      <code className="bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200 px-1.5 py-0.5 rounded text-xs font-mono border border-border/50" {...props} />
     );
   },
 };
