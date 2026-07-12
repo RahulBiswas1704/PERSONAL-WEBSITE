@@ -9,6 +9,7 @@ import MouseGlow from "@/components/MouseGlow";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 import FixedLeftSidebar from "@/components/FixedLeftSidebar";
 import AICompanionSidebar from "@/components/AICompanionSidebar";
+import MobileDesktopHint from "@/components/MobileDesktopHint";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -81,6 +82,7 @@ export default function RootLayout({
           <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
             {children}
           </main>
+          <MobileDesktopHint />
           <AICompanionSidebar />
           <Footer />
         </div>
