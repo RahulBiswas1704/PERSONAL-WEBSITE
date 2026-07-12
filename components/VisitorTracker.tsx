@@ -1,12 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function VisitorTracker() {
+  const pathname = usePathname();
+  const isInsights = pathname.startsWith('/insights');
+  
   const tracked = useRef(false);
   const sessionStartTime = useRef<number | null>(null);
 
   useEffect(() => {
+    if (isInsights) return;
+
     // Only track once per browser session to avoid duplicate hits on navigation
     if (tracked.current || sessionStorage.getItem('visited')) {
       // If already visited, just make sure we have a session ID and tracking setup
@@ -46,10 +52,12 @@ export default function VisitorTracker() {
           body: JSON.stringify({ sessionId })
         }).catch(console.error);
       });
-  }, []);
+  }, [isInsights]);
 
   // Time on site tracking
   useEffect(() => {
+    if (isInsights) return;
+
     sessionStartTime.current = Date.now();
 
     const sendPing = () => {
@@ -99,8 +107,10 @@ export default function VisitorTracker() {
       clearInterval(interval);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', sendPing);
+      // Send a final ping when unmounting (e.g. navigating to /insights)
+      sendPing();
     };
-  }, []);
+  }, [isInsights]);
 
   return null; // This component renders nothing
 }

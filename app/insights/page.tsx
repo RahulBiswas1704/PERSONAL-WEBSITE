@@ -8,8 +8,14 @@ export const metadata: Metadata = {
   description: "Website Analytics",
 };
 
-// Force dynamic so it always reads the latest file contents
 export const dynamic = "force-dynamic";
+
+const getDurationText = (seconds?: number) => {
+  if (!seconds) return '< 2s';
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return m > 0 ? `${m}m ${s}s` : `${s}s`;
+};
 
 export default async function InsightsPage() {
   const data = await getAnalyticsData();
@@ -223,6 +229,7 @@ export default async function InsightsPage() {
                   <th className="px-6 py-4 font-black">Time</th>
                   <th className="px-6 py-4 font-black">Location</th>
                   <th className="px-6 py-4 font-black">Device</th>
+                  <th className="px-6 py-4 font-black">Time Spent</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-violet-200/40 dark:divide-violet-800/40">
@@ -254,6 +261,12 @@ export default async function InsightsPage() {
                           {v.browser}
                         </span>
                       )}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="inline-flex items-center gap-1.5 text-xs font-bold text-violet-700 dark:text-violet-300 bg-violet-100/50 dark:bg-violet-900/20 px-2.5 py-1 rounded-lg border border-violet-200/50 dark:border-violet-800/50">
+                        <Timer className="w-3.5 h-3.5" />
+                        {getDurationText(sessionDurations[v.id])}
+                      </div>
                     </td>
                   </tr>
                   );
@@ -299,9 +312,15 @@ export default async function InsightsPage() {
                     )}
                   </div>
                 </div>
-                <div className="font-extrabold text-violet-950 dark:text-violet-50 text-sm flex items-start gap-2">
-                  <Globe className="w-4 h-4 text-violet-400 dark:text-violet-600 shrink-0 mt-0.5" />
-                  {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
+                <div className="font-extrabold text-violet-950 dark:text-violet-50 text-sm flex items-start justify-between gap-2">
+                  <div className="flex items-start gap-2">
+                    <Globe className="w-4 h-4 text-violet-400 dark:text-violet-600 shrink-0 mt-0.5" />
+                    {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
+                  </div>
+                  <div className="text-xs text-violet-600 dark:text-violet-400 bg-violet-100/50 dark:bg-violet-900/30 px-2 py-0.5 rounded-md flex items-center gap-1.5 border border-violet-200/50 dark:border-violet-800/50">
+                    <Timer className="w-3 h-3" />
+                    {getDurationText(sessionDurations[v.id])}
+                  </div>
                 </div>
               </div>
               );
