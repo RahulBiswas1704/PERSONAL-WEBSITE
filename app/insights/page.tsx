@@ -348,11 +348,9 @@ export default async function InsightsPage() {
                   <span className="text-[10px] font-bold uppercase tracking-wider">{v.device}</span>
                 </div>
                 
-                {getDeviceModel(v.userAgent, v.os) && (
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
-                    {getDeviceModel(v.userAgent, v.os)}
-                  </span>
-                )}
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
+                  {getDeviceModel(v.userAgent, v.os) || 'Unknown Device'}
+                </span>
                 
                 {/* Browser */}
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
