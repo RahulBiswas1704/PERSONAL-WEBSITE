@@ -354,27 +354,25 @@ export default async function InsightsPage() {
                   </span>
                 )}
                 
-                {v.browser && v.browser !== 'Unknown' && (
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
-                    {v.browser}
-                  </span>
-                )}
+                {/* Browser */}
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
+                  {v.browser && v.browser !== 'Unknown' ? v.browser : 'Unknown Browser'}
+                </span>
 
                 {/* Secondary Micro-Badges */}
                 <div className="w-full h-0 sm:hidden"></div> {/* Break line on mobile */}
                 
-                {v.screenResolution && v.screenResolution !== 'Unknown' && (
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 flex items-center gap-1">
-                    <Layout className="w-3 h-3" /> {v.screenResolution}
-                  </span>
-                )}
+                {/* Resolution */}
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800/50 text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                  <Layout className="w-3 h-3" /> {v.screenResolution && v.screenResolution !== 'Unknown' ? v.screenResolution : 'N/A'}
+                </span>
                 
-                {v.connectionType && v.connectionType !== 'Unknown' && (
-                  <span className="text-[9px] font-mono uppercase font-bold px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800/50 text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                    <Wifi className="w-3 h-3" /> {v.connectionType}
-                  </span>
-                )}
+                {/* Connection Type */}
+                <span className="text-[9px] font-mono uppercase font-bold px-2 py-0.5 rounded-lg bg-gray-100 dark:bg-gray-800/50 text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <Wifi className="w-3 h-3" /> {v.connectionType && v.connectionType !== 'Unknown' ? v.connectionType : 'N/A'}
+                </span>
 
+                {/* Referrer */}
                 {v.referrer && v.referrer !== 'Direct' && (
                   <span className="text-[9px] font-mono px-2 py-0.5 rounded-lg bg-accent/5 text-accent border border-accent/20 flex items-center gap-1 max-w-[150px] truncate">
                     <LinkIcon className="w-3 h-3 shrink-0" /> {v.referrer.replace(/^https?:\/\//, '')}
