@@ -76,7 +76,7 @@ export default function AICompanionSidebar() {
       const eyeY = rect.top + rect.height / 2;
 
       const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-      const distance = Math.min(10, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
+      const distance = Math.min(16, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
 
       setPupilPos({
         x: Math.cos(angle) * distance,
@@ -158,8 +158,8 @@ export default function AICompanionSidebar() {
   };
 
   return (
-    <aside className="hidden xl:flex fixed right-0 top-0 bottom-0 w-[120px] p-6 flex-col justify-center items-end pointer-events-none z-40">
-      <div className="pointer-events-auto relative flex flex-col items-center gap-10 mt-12">
+    <aside className="hidden xl:flex fixed right-0 top-0 bottom-0 w-[200px] p-8 flex-col justify-center items-end pointer-events-none z-40">
+      <div className="pointer-events-auto relative flex flex-col items-center gap-8 mt-12 w-full">
 
         {/* Sarcastic Chat Bubble */}
         <div
@@ -188,7 +188,7 @@ export default function AICompanionSidebar() {
           ref={eyeRef}
           onClick={handleClick}
           onMouseEnter={() => setShowTouchMe(false)}
-          className="relative w-16 h-16 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden"
+          className="relative w-32 h-32 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0"
         >
           {/* Eyelids for realistic blink */}
           <div
@@ -201,14 +201,14 @@ export default function AICompanionSidebar() {
           />
 
           {/* Sclera & Iris */}
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
+          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
             {/* The Pupil that moves */}
             <div
-              className="w-5 h-5 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center shadow-lg"
+              className="w-8 h-8 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center shadow-lg"
               style={{ transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)` }}
             >
-              <div className="w-2 h-2 bg-black rounded-full" />
-              <div className="absolute top-1 right-1 w-1 h-1 bg-white rounded-full opacity-60" />
+              <div className="w-3 h-3 bg-black rounded-full" />
+              <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-white rounded-full opacity-60" />
             </div>
           </div>
         </div>
@@ -246,16 +246,14 @@ export default function AICompanionSidebar() {
                 <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
 
                 <div className="flex items-center justify-between z-10 w-full mb-1">
-                  <span className={`text-[8px] font-mono font-bold tracking-[0.2em] transition-colors ${color} flex items-center gap-1`}>
-                    {bpm > 150 ? <Zap className="w-2.5 h-2.5 animate-ping" /> : <Activity className="w-2.5 h-2.5" />}
+                  <span className={`text-[10px] font-mono font-bold tracking-[0.2em] transition-colors ${color} flex items-center gap-1.5`}>
+                    {bpm > 150 ? <Zap className="w-3 h-3 animate-ping" /> : <Activity className="w-3 h-3" />}
                     {status}
                   </span>
-                  <span className={`text-[10px] font-mono font-black ${color}`}>
-                    {bpm} <span className="text-[6px] opacity-70">BPM</span>
-                  </span>
+                  <span className={`text-[9px] font-mono font-bold ${color} transition-colors`}>{bpm}</span>
                 </div>
 
-                <div className="flex items-end justify-between w-full h-6 gap-[1px] z-10 mt-1">
+                <div className="flex items-end justify-between w-full h-8 gap-[2px] z-10 mt-1">
                   {/* Dense Spectrum Analyzer Bars */}
                   {[...Array(12)].map((_, i) => {
                     const currentActivity = activityLevel > 0
