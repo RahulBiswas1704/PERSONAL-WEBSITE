@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     template: "%s | Rahul",
     default: "Rahul | Full-stack Developer & Lifelong Learner",
   },
-  description: "Personal website and blog of Rahul. Driven by a passion for technology and a flair for communication.",
-  keywords: ["Rahul", "Full-stack Developer", "Software Engineer", "Web Development", "React", "Next.js", "Portfolio"],
+  description: "Personal website, portfolio, and digital garden of Rahul Biswas. Exploring system management, full-stack web development, and creative digital products.",
+  keywords: ["Rahul Biswas", "Rahul Biswas Portfolio", "System Manager West Bengal", "Full-stack Developer", "Self-taught Developer", "Software Engineer", "Web Development", "React", "Next.js"],
   metadataBase: new URL("https://rahul-website.vercel.app"),
   alternates: {
     canonical: '/',
@@ -41,8 +41,8 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Rahul | Full-stack Developer",
-    description: "Personal website, projects, and digital garden.",
+    title: "Rahul Biswas | Full-stack Developer & System Manager",
+    description: "Personal website, portfolio, and digital garden of Rahul Biswas.",
     url: "https://rahul-website.vercel.app",
     siteName: "Rahul",
     locale: "en_US",
@@ -50,8 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rahul | Full-stack Developer",
-    description: "Personal website, projects, and digital garden.",
+    title: "Rahul Biswas | Full-stack Developer",
+    description: "Personal website, portfolio, and digital garden of Rahul Biswas.",
     creator: "@rahulbiswas1704",
   },
 };
@@ -88,6 +88,36 @@ export default function RootLayout({
                 } catch (e) {}
               })();
             `,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Rahul Biswas",
+              "url": "https://rahul-website.vercel.app",
+              "jobTitle": ["System Manager", "Full-Stack Developer"],
+              "worksFor": [
+                {
+                  "@type": "Organization",
+                  "name": "ZK Construction"
+                }
+              ],
+              "alumniOf": "Krishnanagar Jawaharlal Nehru National Youth Computer Centre",
+              "sameAs": [
+                "https://github.com/RahulBiswas1704",
+                "https://twitter.com/rahulbiswas1704",
+                "https://www.linkedin.com/in/rahulbiswas1704"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Krishnanagar",
+                "addressRegion": "West Bengal",
+                "addressCountry": "India"
+              }
+            })
           }}
         />
       </head>

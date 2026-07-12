@@ -1,4 +1,14 @@
-"use client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Resume",
+  description: "Professional resume of Rahul Biswas. System & Project Manager, and Full-Stack Developer with experience at ZK Construction and Unique Star.",
+  openGraph: {
+    title: "Rahul Biswas | Resume",
+    description: "Professional resume of Rahul Biswas. System & Project Manager, and Full-Stack Developer.",
+    url: "https://rahul-website.vercel.app/resume",
+  }
+};
 
 export default function ResumePage() {
   return (
@@ -286,6 +296,27 @@ export default function ResumePage() {
           .w-16.h-5, .w-40.h-40 { display: none !important; }
         }
       `}} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "dateCreated": "2024-01-01T00:00:00Z",
+            "dateModified": new Date().toISOString(),
+            "mainEntity": {
+              "@type": "Person",
+              "name": "Rahul Biswas",
+              "jobTitle": "System & Project Manager",
+              "hasOccupation": {
+                "@type": "Occupation",
+                "name": "System and Project Manager",
+                "estimatedSalary": []
+              }
+            }
+          })
+        }}
+      />
     </div>
   );
 }

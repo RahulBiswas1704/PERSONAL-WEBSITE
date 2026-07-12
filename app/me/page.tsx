@@ -4,8 +4,13 @@ import SocialGrid from "@/components/SocialGrid";
 import JourneyTimeline from "@/components/JourneyTimeline";
 
 export const metadata: Metadata = {
-  title: "Me",
-  description: "About Rahul - self-taught full-stack developer and curious learner.",
+  title: "About Me",
+  description: "Learn more about Rahul Biswas: a self-taught full-stack developer, System Manager, and curious learner based in West Bengal.",
+  openGraph: {
+    title: "About Rahul Biswas",
+    description: "The story of a curious dropout, self-taught dev, and lifelong learner.",
+    url: "https://rahul-website.vercel.app/me",
+  }
 };
 
 export default function MePage() {
@@ -74,6 +79,18 @@ export default function MePage() {
           </div>
         </section>
       </div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AboutPage",
+            "name": "About Rahul Biswas",
+            "description": "The story of a curious dropout, self-taught dev, and lifelong learner.",
+            "url": "https://rahul-website.vercel.app/me"
+          })
+        }}
+      />
     </div>
   );
 }

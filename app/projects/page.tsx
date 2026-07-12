@@ -1,5 +1,16 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { ExternalLink, FileText } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Projects & Crafts",
+  description: "Explore the portfolio and projects built by Rahul Biswas, including full-stack applications, open-source tools, and design concepts.",
+  openGraph: {
+    title: "Rahul Biswas | Projects",
+    description: "Explore the portfolio and projects built by Rahul Biswas.",
+    url: "https://rahul-website.vercel.app/projects",
+  }
+};
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -45,15 +56,6 @@ const projects: Project[] = [
   },
 ];
 
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Projects",
-  description: "A showcase of platforms, applications, and tools I have built.",
-  alternates: {
-    canonical: "/projects",
-  },
-};
 
 export default function ProjectsPage() {
   return (
@@ -181,6 +183,26 @@ export default function ProjectsPage() {
           );
         })}
       </div>
+      
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": projects.map((project, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "item": {
+                "@type": "CreativeWork",
+                "name": project.title,
+                "description": project.description,
+                "url": project.link || "https://rahul-website.vercel.app/projects"
+              }
+            }))
+          })
+        }}
+      />
     </div>
   );
 }
