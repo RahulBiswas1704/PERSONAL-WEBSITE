@@ -9,6 +9,11 @@ const FACTS = [
   "I've never taken a professional coding course. Everything I know about building software, I learned through the web and YouTube!",
   "At one point, I almost pursued a career as a seafarer because I loved the idea of high pay and traveling the world.",
   "Psst! Click the palette icon in the top right navbar to swap the website accent color. Dynamic CSS variables at work!",
+  "By day, I work as a System and Project Manager, building strategic roadmaps and optimizing internal workflows.",
+  "I hold a Diploma in Information Technology, which I passed with an impressive 92.5% grade (370 out of 400).",
+  "When I'm not writing code or managing projects, you'll probably find me exploring photography, video editing, or graphic design.",
+  "I call my digital space an 'Aangan'—a traditional courtyard—because I want it to feel like a welcoming home for my ideas and crafts.",
+  "I'm a multilingual problem solver with a deep curiosity for modern technology, always learning things like AI Prompt Engineering.",
 ];
 
 export default function SurpriseMe() {
