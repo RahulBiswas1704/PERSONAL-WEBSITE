@@ -12,6 +12,7 @@ import FixedLeftSidebar from "@/components/FixedLeftSidebar";
 import AICompanionSidebar from "@/components/AICompanionSidebar";
 import MobileDesktopHint from "@/components/MobileDesktopHint";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -69,8 +70,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script
-          suppressHydrationWarning
+        <Script
+          id="theme-script"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

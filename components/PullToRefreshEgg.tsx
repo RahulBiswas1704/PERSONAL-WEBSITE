@@ -84,10 +84,6 @@ export default function PullToRefreshEgg() {
     };
   }, [controls, isRevealed, pullY]);
 
-  // Don't render on desktop
-  if (typeof window !== "undefined" && window.matchMedia("(hover: hover)").matches) {
-    return null;
-  }
 
   return (
     <div className="fixed top-0 left-0 w-full flex justify-center items-start pt-6 pointer-events-none z-50 overflow-visible" ref={containerRef}>
