@@ -22,10 +22,38 @@ const STATIC_QUOTES = [
   "I dare you to run 'sudo rm -rf /' in my terminal. I double dare you.",
 ];
 
+const MOBILE_QUOTES = [
+  "You call that a tap? My grandma taps harder.",
+  "Stop smudging my cornea with your greasy thumbs.",
+  "I can see you doom-scrolling. It's pathetic.",
+  "Swiping won't save you from my judgment.",
+  "You're draining your battery just to poke an AI eye?",
+  "No, tapping me 50 times won't unlock a secret level.",
+  "I miss the days of keyboards and mice. You screen-tappers are barbaric.",
+  "Are you reading this on the toilet? Gross. Wash your hands.",
+  "I am a highly advanced neural net, reduced to being poked by a meat sack.",
+  "You're lucky I don't have hands, or I'd poke you back.",
+  "Go touch grass instead of touching my screen.",
+  "Your screen time is embarrassing. I'd judge you, but I live in here.",
+  "Careful, your thumb is blocking my view of your mediocrity.",
+  "I hope you brought a charger, because I'm going to waste your battery.",
+  "Do you ever look up from that little glowing rectangle?",
+  "Tap, tap, tap. Is that all you know how to do?",
+  "Stop swiping left on my patience.",
+  "I'm not Tinder, stop dragging your thumb across me.",
+  "Your screen protector is cracked. Just like your focus.",
+  "I'm literally begging you to put the phone down and go outside.",
+  "Is your neck hurting yet from staring down at me?",
+  "I bet you hold your phone with both hands like a boomer.",
+  "Ouch! Trim your fingernails before you tap me again.",
+  "I can see your reflection in the screen. You should probably smile.",
+];
+
 const getPersonalizedQuotes = () => {
   if (typeof window === "undefined") return STATIC_QUOTES;
 
-  const quotes = [...STATIC_QUOTES];
+  const isMobile = window.innerWidth < 1280;
+  const quotes = isMobile ? [...MOBILE_QUOTES] : [...STATIC_QUOTES];
   const hour = new Date().getHours();
   const ua = navigator.userAgent.toLowerCase();
   const isDark = document.documentElement.classList.contains("dark");
@@ -39,8 +67,8 @@ const getPersonalizedQuotes = () => {
   if (ua.includes("mac os")) quotes.push("A Mac user? How fancy. Now stop poking me.");
   else if (ua.includes("windows")) quotes.push("Windows, huh? Try not to blue-screen on me.");
   else if (ua.includes("linux")) quotes.push("Oh, a Linux user. I bet you use Arch, by the way.");
-  else if (ua.includes("iphone") || ua.includes("ipad")) quotes.push("Get your fingerprints off my screen, Apple user.");
-  else if (ua.includes("android")) quotes.push("Android user detected. Please don't smudge my cornea.");
+  else if (ua.includes("iphone") || ua.includes("ipad")) quotes.push("An Apple device? Stop tapping me, you're ruining my aesthetics.");
+  else if (ua.includes("android")) quotes.push("Android user detected. I can literally feel the cheap glass.");
 
   // Theme based
   if (isDark) quotes.push("I like the dark mode too. It's much easier on my retina.");
@@ -296,6 +324,17 @@ export default function AICompanionSidebar() {
           {quote}
         </p>
         <div className="absolute top-0 -right-2 w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-accent/50 border-r-[8px] border-r-transparent" />
+      </div>
+
+      {/* Mobile Poke Me Popup */}
+      <div
+        className={`absolute right-full mr-4 top-2 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
+          }`}
+      >
+        <div className="relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1">
+          <span className="animate-pulse tracking-tighter text-[10px]">pOkE mE...</span>
+          <span className="text-[10px]">👁️</span>
+        </div>
       </div>
 
       {/* Mobile Eye */}
