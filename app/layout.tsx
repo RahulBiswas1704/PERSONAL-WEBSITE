@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased overflow-x-hidden`}
       suppressHydrationWarning
     >
       <head>
@@ -75,13 +75,15 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0 overflow-x-hidden">
-        <Header />
-        <FixedLeftSidebar />
-        <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
-          {children}
-        </main>
-        <FixedRightSidebar />
-        <Footer />
+        <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative">
+          <Header />
+          <FixedLeftSidebar />
+          <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
+            {children}
+          </main>
+          <FixedRightSidebar />
+          <Footer />
+        </div>
         <MobileNav />
         <VisitorTracker />
         <MouseGlow />

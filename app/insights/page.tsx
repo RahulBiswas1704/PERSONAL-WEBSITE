@@ -45,36 +45,36 @@ export default async function InsightsPage() {
 
       {/* KPI Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="flex flex-col p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Total Visits</span>
+        <div className="flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Total Visits</span>
             <Users className="w-4 h-4 text-violet-600 dark:text-violet-400 group-hover:text-accent transition-colors" />
           </div>
-          <span className="text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{totalVisits}</span>
+          <span className="text-3xl sm:text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{totalVisits}</span>
         </div>
 
-        <div className="flex flex-col p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Link Clicks</span>
+        <div className="flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Link Clicks</span>
             <MousePointerClick className="w-4 h-4 text-violet-600 dark:text-violet-400 group-hover:text-accent transition-colors" />
           </div>
-          <span className="text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{totalClicks}</span>
+          <span className="text-3xl sm:text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{totalClicks}</span>
         </div>
 
-        <div className="flex flex-col p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Mobile Users</span>
+        <div className="flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Mobile Users</span>
             <Smartphone className="w-4 h-4 text-violet-600 dark:text-violet-400 group-hover:text-accent transition-colors" />
           </div>
-          <span className="text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{mobileVisits}</span>
+          <span className="text-3xl sm:text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{mobileVisits}</span>
         </div>
 
-        <div className="flex flex-col p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
-          <div className="flex items-center justify-between mb-4">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Desktop Users</span>
+        <div className="flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200 dark:border-violet-800/50 bg-violet-50/50 dark:bg-violet-950/20 backdrop-blur-md shadow-sm hover:shadow-md hover:border-violet-400 transition-all duration-300 group">
+          <div className="flex items-center justify-between mb-3 sm:mb-4">
+            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-violet-700 dark:text-violet-300">Desktop Users</span>
             <Monitor className="w-4 h-4 text-violet-600 dark:text-violet-400 group-hover:text-accent transition-colors" />
           </div>
-          <span className="text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{desktopVisits}</span>
+          <span className="text-3xl sm:text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{desktopVisits}</span>
         </div>
       </div>
 
@@ -117,8 +117,8 @@ export default async function InsightsPage() {
             Recent Traffic Feed
             <Globe className="w-4 h-4 text-violet-600 dark:text-violet-400" />
           </h2>
-          <div className="border border-violet-200 dark:border-violet-800/50 rounded-xl overflow-hidden bg-white dark:bg-black shadow-sm">
-            <table className="w-full text-sm text-left">
+          <div className="border border-violet-200 dark:border-violet-800/50 rounded-xl overflow-x-auto bg-white dark:bg-black shadow-sm">
+            <table className="w-full text-sm text-left min-w-[500px]">
               <thead className="text-[10px] text-violet-700 dark:text-violet-300 bg-violet-50 dark:bg-violet-950/50 uppercase tracking-widest border-b border-violet-200 dark:border-violet-800/50">
                 <tr>
                   <th className="px-5 py-4 font-semibold">Time</th>
