@@ -17,6 +17,23 @@ const getDurationText = (seconds?: number) => {
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
 };
 
+const getDeviceModel = (ua: string): string => {
+  if (!ua || ua === 'Unknown') return '';
+  if (/iPhone/i.test(ua)) return "iPhone";
+  if (/iPad/i.test(ua)) return "iPad";
+  if (/Macintosh/i.test(ua)) return "Mac";
+  if (/Windows/i.test(ua)) return "PC";
+  if (/Android/i.test(ua)) {
+    const match = ua.match(/Android\s+[0-9\.]+(?:;\s+([^;)]+))?/i);
+    if (match && match[1]) {
+       const model = match[1].trim().split(' Build')[0];
+       if (model.length > 2 && !model.includes('wv')) return model;
+    }
+    return "Android";
+  }
+  return "";
+};
+
 export default async function InsightsPage() {
   const data = await getAnalyticsData();
   const sessionDurations = await getSessionDurations();
@@ -251,9 +268,9 @@ export default async function InsightsPage() {
                       }`}>
                         {v.device}
                       </span>
-                      {v.os && v.os !== 'Unknown' && (
+                      {getDeviceModel(v.userAgent) && (
                         <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50 shadow-sm">
-                          {v.os}
+                          {getDeviceModel(v.userAgent)}
                         </span>
                       )}
                       {v.browser && v.browser !== 'Unknown' && (
@@ -300,9 +317,9 @@ export default async function InsightsPage() {
                     }`}>
                       {v.device}
                     </span>
-                    {v.os && v.os !== 'Unknown' && (
+                    {getDeviceModel(v.userAgent) && (
                       <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50">
-                        {v.os}
+                        {getDeviceModel(v.userAgent)}
                       </span>
                     )}
                     {v.browser && v.browser !== 'Unknown' && (
