@@ -1,14 +1,6 @@
-import { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Resume",
-  description: "Professional resume of Rahul Biswas. System & Project Manager, and Full-Stack Developer with experience at ZK Construction and Unique Star.",
-  openGraph: {
-    title: "Rahul Biswas | Resume",
-    description: "Professional resume of Rahul Biswas. System & Project Manager, and Full-Stack Developer.",
-    url: "https://rahul-website.vercel.app/resume",
-  }
-};
+import { useEffect } from "react";
 
 export default function ResumePage() {
   return (
