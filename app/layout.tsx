@@ -64,7 +64,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full antialiased overflow-x-hidden`}
+      className={`${inter.variable} h-full antialiased overflow-x-hidden print:overflow-visible print:h-auto`}
       suppressHydrationWarning
     >
       <head>
@@ -74,8 +74,8 @@ export default function RootLayout({
               (function() {
                 try {
                   var theme = localStorage.getItem('theme');
-                  var supportDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                  if (theme === 'dark' || (!theme && supportDark)) {
+                  // Default to dark mode for new visitors
+                  if (theme === 'dark' || !theme) {
                     document.documentElement.classList.add('dark');
                   } else {
                     document.documentElement.classList.remove('dark');
@@ -91,8 +91,8 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0 overflow-x-hidden">
-        <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0">
+        <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
           <Header />
           <FixedLeftSidebar />
           <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">

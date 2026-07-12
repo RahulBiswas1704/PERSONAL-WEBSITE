@@ -2,7 +2,42 @@
 
 export default function ResumePage() {
   return (
-    <div className="space-y-16 animate-fade-in-up pb-16">
+    <div className="space-y-16 animate-fade-in-up pb-16 print:pb-0">
+      
+      {/* Cover Letter (Print Only) */}
+      <div className="hidden print:block print:pb-16" style={{ pageBreakAfter: 'always' }}>
+        <div className="relative pt-8 pb-10 mb-8 border-b-2 border-dashed border-border/60">
+          <div className="flex flex-col relative z-10">
+            <h1 className="text-6xl sm:text-8xl font-black tracking-tighter text-indigo-950 dark:text-indigo-50 w-fit">
+              HELLO.
+            </h1>
+            <div className="absolute top-16 sm:top-20 left-40 sm:left-48 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl">
+              Cover Letter
+            </div>
+            <p className="text-lg sm:text-xl text-indigo-800 dark:text-indigo-200 mt-8 max-w-xl font-serif italic leading-relaxed">
+              &quot;Building bridges between technical execution and business operations.&quot;
+            </p>
+          </div>
+        </div>
+        
+        <div className="space-y-6 text-base text-neutral-800 dark:text-neutral-200 leading-relaxed font-serif pl-2">
+          <p className="font-bold text-xl text-indigo-950 dark:text-indigo-50 font-sans">Dear Hiring Manager,</p>
+          <p>
+            With a strong foundation in system management and project coordination, I am excited to submit my resume for your consideration. Throughout my career at ZK Construction and Unique Star, I have demonstrated a consistent ability to execute strategic roadmaps, optimize internal systems, and bridge the gap between technical execution and client relations.
+          </p>
+          <p>
+            My background blends hands-on operational management with a deep curiosity for modern technology. I thrive in dynamic environments where managing complex projects and unexpected challenges is the norm. I am particularly proud of my ability to build comprehensive company profiles, streamline documentation, and lead teams toward unified goals.
+          </p>
+          <p>
+            I am eager to bring my proactive problem-solving mindset, analytical skills, and technical adaptability to your team. Thank you for your time and consideration. I look forward to the possibility of discussing how my experience aligns with your organization's needs.
+          </p>
+          <div className="pt-8 flex flex-col">
+            <span className="font-serif italic text-lg mb-2">Sincerely,</span>
+            <strong className="text-2xl font-black tracking-tighter text-indigo-950 dark:text-indigo-50 font-sans">Rahul Biswas</strong>
+            <span className="text-sm font-mono font-bold text-indigo-700 dark:text-indigo-300 mt-1 uppercase tracking-widest">System & Project Manager</span>
+          </div>
+        </div>
+      </div>
       <div className="relative pt-8 pb-10 mb-8 border-b-2 border-dashed border-border/60">
         <div className="absolute top-0 -left-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
         
@@ -118,7 +153,7 @@ export default function ResumePage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10 print:flex print:flex-col">
         {/* Skills Section (Emerald) */}
         <div className="relative transform rotate-1 hover:rotate-0 transition-transform duration-500 p-6 sm:p-8 rounded-3xl border-2 border-emerald-200 dark:border-emerald-900/50 bg-emerald-50 dark:bg-emerald-950/20 shadow-sm group">
           <h2 className="text-xl font-black uppercase tracking-widest text-emerald-950 dark:text-emerald-50 mb-6 font-mono transition-colors group-hover:text-emerald-600 dark:group-hover:text-emerald-400">Skills</h2>
@@ -204,8 +239,8 @@ export default function ResumePage() {
           .border-amber-200, .border-blue-200, .border-rose-200, .border-emerald-200, .border-indigo-200,
           .dark\\:border-amber-900\\/50, .dark\\:border-blue-900\\/50, .dark\\:border-rose-900\\/50,
           .dark\\:border-emerald-900\\/50, .dark\\:border-indigo-900\\/50,
-          .border-border\\/60, .border-blue-300, .dark\\:border-blue-700 { 
-            border-color: #e5e5e5 !important; 
+          .border-border\\/60, .border-blue-300, .dark\\:border-blue-700, .border-border\\/50 { 
+            border-color: transparent !important; 
           }
           
           .text-indigo-950, .text-amber-950, .text-blue-950, .text-rose-950, .text-emerald-950,
