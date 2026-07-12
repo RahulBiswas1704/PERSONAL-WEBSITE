@@ -17,8 +17,9 @@ const getDurationText = (seconds?: number) => {
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
 };
 
-const getDeviceModel = (ua: string, fallbackOS: string): string => {
-  if (!ua || ua === 'Unknown') return fallbackOS !== 'Unknown' ? fallbackOS : 'Unknown Device';
+const getDeviceModel = (ua: string, fallbackOS?: string): string => {
+  const os = fallbackOS || 'Unknown';
+  if (!ua || ua === 'Unknown') return os !== 'Unknown' ? os : 'Unknown Device';
   if (/iPhone/i.test(ua)) return "iPhone";
   if (/iPad/i.test(ua)) return "iPad";
   if (/Macintosh/i.test(ua)) return "Mac";
@@ -34,7 +35,7 @@ const getDeviceModel = (ua: string, fallbackOS: string): string => {
   if (/Linux/i.test(ua)) return "Linux";
   if (/CrOS/i.test(ua)) return "ChromeOS";
   
-  return fallbackOS !== 'Unknown' ? fallbackOS : 'Unknown Device';
+  return os !== 'Unknown' ? os : 'Unknown Device';
 };
 
 export default async function InsightsPage() {
