@@ -6,8 +6,10 @@ export default function FloatingShapes() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only run on desktop where mousemove makes sense
-    if (window.matchMedia("(hover: none)").matches) return;
+    // Only run on client
+    if (typeof window === 'undefined') return;
+    
+    const isMobile = window.matchMedia("(hover: none)").matches;
 
     let requestRef: number;
     let targetX = 0;
@@ -18,8 +20,20 @@ export default function FloatingShapes() {
     const ease = 0.04;
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobile) return;
       targetX = window.innerWidth / 2 - e.clientX;
       targetY = window.innerHeight / 2 - e.clientY;
+    };
+
+    const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
+      if (!isMobile) return;
+      // beta is front-to-back tilt [-180, 180]
+      // gamma is left-to-right tilt [-90, 90]
+      if (e.gamma !== null && e.beta !== null) {
+        // Multiply for stronger effect
+        targetX = e.gamma * 20; 
+        targetY = (e.beta - 45) * 20; // Assume 45 degrees is neutral holding angle
+      }
     };
 
     const animate = () => {
@@ -41,17 +55,26 @@ export default function FloatingShapes() {
       requestRef = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (isMobile) {
+      window.addEventListener("deviceorientation", handleDeviceOrientation);
+    } else {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
+    
     requestRef = requestAnimationFrame(animate);
     
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      if (isMobile) {
+        window.removeEventListener("deviceorientation", handleDeviceOrientation);
+      } else {
+        window.removeEventListener("mousemove", handleMouseMove);
+      }
       cancelAnimationFrame(requestRef);
     };
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none -z-10 opacity-40 dark:opacity-20 hidden md:block">
+    <div ref={containerRef} className="absolute inset-0 overflow-hidden pointer-events-none -z-10 opacity-30 md:opacity-40 dark:opacity-20">
       {/* Circle */}
       <div className="parallax-shape absolute top-[15%] right-[12%] w-32 h-32 rounded-full border-[6px] border-accent/40 opacity-70" />
       

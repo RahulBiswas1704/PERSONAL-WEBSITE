@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Code, User, MessageSquare, Beaker, Briefcase } from "lucide-react";
 import { useEffect, useState } from "react";
+import { hapticTick } from "@/lib/haptics";
 
 export default function MobileNav() {
   const pathname = usePathname();
@@ -49,6 +50,9 @@ export default function MobileNav() {
             <Link
               key={href}
               href={href}
+              onClick={() => {
+                if (!isActive) hapticTick();
+              }}
               className={`relative flex items-center justify-center transition-all duration-300 ease-out overflow-hidden ${
                 isActive 
                   ? "bg-accent text-white px-4 py-2 rounded-full gap-2" 

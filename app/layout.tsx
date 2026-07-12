@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileNav from "@/components/MobileNav";
+import PullToRefreshEgg from "@/components/PullToRefreshEgg";
 import VisitorTracker from "@/components/VisitorTracker";
 import MouseGlow from "@/components/MouseGlow";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
@@ -123,6 +124,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0">
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
+          <PullToRefreshEgg />
           <Header />
           <FixedLeftSidebar />
           <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">

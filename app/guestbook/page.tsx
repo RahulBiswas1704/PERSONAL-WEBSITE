@@ -1,4 +1,5 @@
 import GuestbookClient from "./GuestbookClient";
+import DoNotTapButton from "@/components/DoNotTapButton";
 
 export const metadata = {
   title: "Guestbook",
@@ -28,7 +29,11 @@ export default function GuestbookPage() {
         </p>
       </div>
       
+      
       <GuestbookClient />
+
+      {/* Global "DO NOT TAP" Button */}
+      <DoNotTapButton />
     </div>
   );
 }

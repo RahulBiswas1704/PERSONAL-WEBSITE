@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Sparkles } from "lucide-react";
+import { Sparkles, RefreshCw } from "lucide-react";
+import { hapticTick } from "@/lib/haptics";
 
 const FACTS = [
   "I was born in 2003 and raised in Krishnanagar, West Bengal.",
@@ -21,6 +22,7 @@ export default function SurpriseMe() {
   const [spinning, setSpinning] = useState(false);
 
   const showRandomFact = () => {
+    hapticTick();
     setSpinning(true);
     // Cycle to a new random fact that is different from the current one
     let nextIndex;

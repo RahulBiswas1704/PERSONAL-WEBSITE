@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { Activity, Zap } from "lucide-react";
+import { hapticTick } from "@/lib/haptics";
 
 const STATIC_QUOTES = [
   "Please stop poking my cornea.",

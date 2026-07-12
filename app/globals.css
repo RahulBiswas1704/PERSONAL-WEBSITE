@@ -264,3 +264,8 @@ hr {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
+
+.invert-colors {
+  filter: invert(1) hue-rotate(180deg);
+  transition: filter 0.5s ease;
+}
