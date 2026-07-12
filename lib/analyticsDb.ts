@@ -7,6 +7,8 @@ export interface VisitRecord {
   city: string;
   userAgent: string;
   device: 'mobile' | 'desktop' | 'unknown';
+  os?: string;
+  browser?: string;
 }
 
 export interface ClickRecord {

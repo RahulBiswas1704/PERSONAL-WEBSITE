@@ -20,13 +20,28 @@ export async function POST(req: NextRequest) {
     const isMobile = /mobile/i.test(userAgent);
     const device = isMobile ? 'mobile' : 'desktop';
 
+    let os = "Unknown";
+    if (/Windows/i.test(userAgent)) os = "Windows";
+    else if (/Mac OS|Macintosh/i.test(userAgent)) os = "Mac";
+    else if (/iPhone|iPad|iPod/i.test(userAgent)) os = "iOS";
+    else if (/Android/i.test(userAgent)) os = "Android";
+    else if (/Linux/i.test(userAgent)) os = "Linux";
+
+    let browser = "Unknown";
+    if (/Chrome|CriOS/i.test(userAgent) && !/Edg/i.test(userAgent)) browser = "Chrome";
+    else if (/Safari/i.test(userAgent) && !/Chrome|CriOS/i.test(userAgent)) browser = "Safari";
+    else if (/Firefox|FxiOS/i.test(userAgent)) browser = "Firefox";
+    else if (/Edg/i.test(userAgent)) browser = "Edge";
+
     await saveVisit({
       id: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
       country,
       city,
       userAgent,
-      device
+      device,
+      os,
+      browser
     });
 
     return NextResponse.json({ success: true });

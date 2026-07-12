@@ -8,7 +8,7 @@ import VisitorTracker from "@/components/VisitorTracker";
 import MouseGlow from "@/components/MouseGlow";
 import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 import FixedLeftSidebar from "@/components/FixedLeftSidebar";
-import FixedRightSidebar from "@/components/FixedRightSidebar";
+import AICompanionSidebar from "@/components/AICompanionSidebar";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -81,7 +81,7 @@ export default function RootLayout({
           <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
             {children}
           </main>
-          <FixedRightSidebar />
+          <AICompanionSidebar />
           <Footer />
         </div>
         <MobileNav />
