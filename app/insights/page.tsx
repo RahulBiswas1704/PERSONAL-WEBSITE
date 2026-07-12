@@ -258,26 +258,53 @@ export default async function InsightsPage() {
                       <LocalTime timestamp={v.timestamp} />
                     </td>
                     <td className="px-6 py-4 font-bold text-violet-950 dark:text-violet-50">
-                      {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
+                      <div>{v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}</div>
+                      <div className="flex flex-col gap-0.5 mt-1">
+                        {v.timezone && <span className="text-[10px] text-violet-500 dark:text-violet-400 font-mono font-normal opacity-75">{v.timezone}</span>}
+                        {v.referrer && v.referrer !== 'Direct' && (
+                          <span className="text-[10px] text-accent font-mono truncate max-w-[150px]">Ref: {v.referrer.replace(/^https?:\/\//, '')}</span>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 flex flex-wrap items-center gap-1.5">
-                      <span className={`text-[9px] uppercase font-bold px-2.5 py-1 rounded-md tracking-wider border shadow-sm ${
-                        v.device === 'mobile' 
-                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
-                          : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
-                      }`}>
-                        {v.device}
-                      </span>
-                      {getDeviceModel(v.userAgent) && (
-                        <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50 shadow-sm">
-                          {getDeviceModel(v.userAgent)}
-                        </span>
-                      )}
-                      {v.browser && v.browser !== 'Unknown' && (
-                        <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50 shadow-sm">
-                          {v.browser}
-                        </span>
-                      )}
+                    <td className="px-6 py-4">
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className={`text-[9px] uppercase font-bold px-2.5 py-1 rounded-md tracking-wider border shadow-sm ${
+                            v.device === 'mobile' 
+                              ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
+                              : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
+                          }`}>
+                            {v.device}
+                          </span>
+                          {getDeviceModel(v.userAgent) && (
+                            <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50 shadow-sm">
+                              {getDeviceModel(v.userAgent)}
+                            </span>
+                          )}
+                          {v.browser && v.browser !== 'Unknown' && (
+                            <span className="text-[9px] font-bold px-2 py-1 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50 shadow-sm">
+                              {v.browser}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1.5 opacity-80">
+                          {v.screenResolution && v.screenResolution !== 'Unknown' && (
+                            <span className="text-[9px] font-mono font-medium px-1.5 py-0.5 rounded bg-violet-50 dark:bg-violet-950 text-violet-500 dark:text-violet-400 border border-violet-100 dark:border-violet-900/50">
+                              {v.screenResolution}
+                            </span>
+                          )}
+                          {v.language && v.language !== 'Unknown' && (
+                            <span className="text-[9px] font-mono font-medium px-1.5 py-0.5 rounded bg-violet-50 dark:bg-violet-950 text-violet-500 dark:text-violet-400 border border-violet-100 dark:border-violet-900/50">
+                              {v.language}
+                            </span>
+                          )}
+                          {v.connectionType && v.connectionType !== 'Unknown' && (
+                            <span className="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-violet-50 dark:bg-violet-950 text-emerald-500 dark:text-emerald-400 border border-violet-100 dark:border-violet-900/50">
+                              {v.connectionType}
+                            </span>
+                          )}
+                        </div>
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="inline-flex items-center gap-1.5 text-xs font-bold text-violet-700 dark:text-violet-300 bg-violet-100/50 dark:bg-violet-900/20 px-2.5 py-1 rounded-lg border border-violet-200/50 dark:border-violet-800/50">
@@ -304,37 +331,58 @@ export default async function InsightsPage() {
             {data.visits.slice(0, 50).map((v, i) => {
               return (
               <div key={i} className="p-4 flex flex-col gap-3 hover:bg-violet-50/90 dark:hover:bg-violet-900/40 transition-colors">
-                <div className="flex justify-between items-center">
-                  <div className="text-violet-700 dark:text-violet-300 font-mono text-xs flex items-center gap-2">
-                    <Clock className="w-3 h-3 opacity-60" />
-                    <LocalTime timestamp={v.timestamp} mobile />
+                <div className="flex justify-between items-start gap-2">
+                  <div className="flex flex-col gap-1">
+                    <div className="text-violet-700 dark:text-violet-300 font-mono text-xs flex items-center gap-2">
+                      <Clock className="w-3 h-3 opacity-60" />
+                      <LocalTime timestamp={v.timestamp} mobile />
+                    </div>
+                    {v.referrer && v.referrer !== 'Direct' && (
+                      <span className="text-[9px] text-accent font-mono truncate max-w-[120px]">Ref: {v.referrer.replace(/^https?:\/\//, '')}</span>
+                    )}
                   </div>
-                  <div className="flex flex-wrap items-center justify-end gap-1.5">
-                    <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-md tracking-wider border ${
-                      v.device === 'mobile' 
-                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
-                        : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
-                    }`}>
-                      {v.device}
-                    </span>
-                    {getDeviceModel(v.userAgent) && (
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50">
-                        {getDeviceModel(v.userAgent)}
+                  <div className="flex flex-col gap-1.5 items-end">
+                    <div className="flex flex-wrap items-center justify-end gap-1.5">
+                      <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-md tracking-wider border ${
+                        v.device === 'mobile' 
+                          ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/50'
+                          : 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50'
+                      }`}>
+                        {v.device}
                       </span>
-                    )}
-                    {v.browser && v.browser !== 'Unknown' && (
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50">
-                        {v.browser}
-                      </span>
-                    )}
+                      {getDeviceModel(v.userAgent) && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50">
+                          {getDeviceModel(v.userAgent)}
+                        </span>
+                      )}
+                      {v.browser && v.browser !== 'Unknown' && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 border border-violet-200 dark:border-violet-800/50">
+                          {v.browser}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap items-center justify-end gap-1 opacity-80">
+                      {v.screenResolution && v.screenResolution !== 'Unknown' && (
+                        <span className="text-[8px] font-mono px-1 rounded bg-violet-50 dark:bg-violet-950 text-violet-500 border border-violet-100 dark:border-violet-900/50">{v.screenResolution}</span>
+                      )}
+                      {v.language && v.language !== 'Unknown' && (
+                        <span className="text-[8px] font-mono px-1 rounded bg-violet-50 dark:bg-violet-950 text-violet-500 border border-violet-100 dark:border-violet-900/50">{v.language}</span>
+                      )}
+                      {v.connectionType && v.connectionType !== 'Unknown' && (
+                        <span className="text-[8px] font-mono font-bold uppercase px-1 rounded bg-violet-50 dark:bg-violet-950 text-emerald-500 border border-violet-100 dark:border-violet-900/50">{v.connectionType}</span>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="font-extrabold text-violet-950 dark:text-violet-50 text-sm flex items-start justify-between gap-2">
-                  <div className="flex items-start gap-2">
-                    <Globe className="w-4 h-4 text-violet-400 dark:text-violet-600 shrink-0 mt-0.5" />
-                    {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
+                <div className="font-extrabold text-violet-950 dark:text-violet-50 text-sm flex items-start justify-between gap-2 mt-1">
+                  <div className="flex flex-col gap-0.5">
+                    <div className="flex items-start gap-2">
+                      <Globe className="w-4 h-4 text-violet-400 dark:text-violet-600 shrink-0 mt-0.5" />
+                      {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
+                    </div>
+                    {v.timezone && <span className="text-[9px] text-violet-500 dark:text-violet-400 font-mono font-normal opacity-75 ml-6">{v.timezone}</span>}
                   </div>
-                  <div className="text-xs text-violet-600 dark:text-violet-400 bg-violet-100/50 dark:bg-violet-900/30 px-2 py-0.5 rounded-md flex items-center gap-1.5 border border-violet-200/50 dark:border-violet-800/50">
+                  <div className="text-xs text-violet-600 dark:text-violet-400 bg-violet-100/50 dark:bg-violet-900/30 px-2 py-0.5 rounded-md flex items-center gap-1.5 border border-violet-200/50 dark:border-violet-800/50 shrink-0">
                     <Timer className="w-3 h-3" />
                     {getDurationText(sessionDurations[v.id])}
                   </div>

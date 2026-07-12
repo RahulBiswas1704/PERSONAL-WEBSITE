@@ -13,6 +13,11 @@ export interface VisitRecord {
   device: 'mobile' | 'desktop' | 'unknown';
   os?: string;
   browser?: string;
+  referrer?: string;
+  screenResolution?: string;
+  language?: string;
+  timezone?: string;
+  connectionType?: string;
 }
 
 export interface ClickRecord {

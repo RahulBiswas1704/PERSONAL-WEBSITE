@@ -10,7 +10,16 @@ export async function POST(req: NextRequest) {
       // Ignore empty body errors
     }
     
-    const { country: clientCountry, city: clientCity, sessionId: clientSessionId } = body as any;
+    const { 
+      country: clientCountry, 
+      city: clientCity, 
+      sessionId: clientSessionId,
+      referrer,
+      screenResolution,
+      language,
+      timezone,
+      connectionType
+    } = body as any;
 
     const userAgent = req.headers.get('user-agent') || 'Unknown';
     // Use Vercel's Edge headers for location, fallback to client-provided data, then fallback to Unknown
@@ -43,7 +52,12 @@ export async function POST(req: NextRequest) {
       userAgent,
       device,
       os,
-      browser
+      browser,
+      referrer,
+      screenResolution,
+      language,
+      timezone,
+      connectionType
     });
 
     return NextResponse.json({ success: true, sessionId });

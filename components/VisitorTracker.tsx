@@ -34,7 +34,12 @@ export default function VisitorTracker() {
         const payload = {
           country: data.country_name || 'Unknown Country',
           city: data.city || 'Unknown City',
-          sessionId
+          sessionId,
+          referrer: document.referrer || 'Direct',
+          screenResolution: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'Unknown',
+          language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          connectionType: (navigator as any).connection?.effectiveType || 'Unknown'
         };
         
         // Fire-and-forget request to log the visit
@@ -46,10 +51,19 @@ export default function VisitorTracker() {
       })
       .catch(() => {
         // If location fetch fails (e.g. adblocker), still log the visit
+        const payload = {
+          sessionId,
+          referrer: document.referrer || 'Direct',
+          screenResolution: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'Unknown',
+          language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          connectionType: (navigator as any).connection?.effectiveType || 'Unknown'
+        };
+
         fetch('/api/analytics/visit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId })
+          body: JSON.stringify(payload)
         }).catch(console.error);
       });
   }, [isInsights]);
