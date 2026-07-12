@@ -69,7 +69,7 @@ export default function GuestbookClient() {
           <button
             type="submit"
             disabled={isSubmitting || !message.trim()}
-            className="self-end px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm rounded-xl flex items-center justify-center gap-3 hover:scale-105 hover:bg-accent dark:hover:bg-accent hover:text-white dark:hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+            className="w-full sm:w-auto self-end px-8 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black font-black uppercase tracking-widest text-sm rounded-xl flex items-center justify-center gap-3 hover:scale-105 hover:bg-accent dark:hover:bg-accent hover:text-white dark:hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
           >
             Submit <Send className="w-4 h-4" />
           </button>

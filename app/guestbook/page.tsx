@@ -12,11 +12,11 @@ export default function GuestbookPage() {
       <div className="relative pt-8">
         <div className="absolute top-0 -right-10 w-40 h-40 bg-fuchsia-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s' }} />
         
-        <h1 className="text-6xl sm:text-8xl font-black tracking-tighter text-fuchsia-950 dark:text-fuchsia-50 relative z-10 transform -rotate-2 hover:rotate-1 transition-transform duration-500 w-fit">
+        <h1 className="text-5xl sm:text-8xl font-black tracking-tighter text-fuchsia-950 dark:text-fuchsia-50 relative z-10 transform -rotate-2 hover:rotate-1 transition-transform duration-500 w-fit">
           GUESTBOOK
         </h1>
         
-        <div className="absolute top-16 sm:top-20 left-48 sm:left-64 transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:-rotate-3 transition-transform duration-300">
+        <div className="absolute top-12 right-0 sm:top-20 sm:right-auto sm:left-64 transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:-rotate-3 transition-transform duration-300">
           Sign It!
         </div>
         
