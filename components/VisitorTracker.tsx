@@ -14,7 +14,8 @@ export default function VisitorTracker() {
     if (isInsights) return;
 
     // Only track once per browser session to avoid duplicate hits on navigation
-    if (tracked.current || sessionStorage.getItem('visited')) {
+    // Note: Using 'visited_v2' to force a fresh visit log for the new analytics fields
+    if (tracked.current || sessionStorage.getItem('visited_v2')) {
       // If already visited, just make sure we have a session ID and tracking setup
       if (!sessionStorage.getItem('sessionId')) {
         sessionStorage.setItem('sessionId', crypto.randomUUID());
@@ -24,7 +25,7 @@ export default function VisitorTracker() {
     
     tracked.current = true;
     const sessionId = crypto.randomUUID();
-    sessionStorage.setItem('visited', 'true');
+    sessionStorage.setItem('visited_v2', 'true');
     sessionStorage.setItem('sessionId', sessionId);
 
     // Fetch location client-side as a fallback for local development
