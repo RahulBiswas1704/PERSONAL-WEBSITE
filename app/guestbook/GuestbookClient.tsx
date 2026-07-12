@@ -56,7 +56,7 @@ export default function GuestbookClient() {
             placeholder="Who are you? (optional)"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner"
+            className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-base sm:text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner"
           />
           <textarea
             placeholder="Write something cool..."
@@ -64,7 +64,7 @@ export default function GuestbookClient() {
             onChange={(e) => setMessage(e.target.value)}
             required
             rows={3}
-            className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner resize-none"
+            className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-base sm:text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner resize-none"
           />
           <button
             type="submit"

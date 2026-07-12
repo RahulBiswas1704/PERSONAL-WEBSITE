@@ -20,7 +20,7 @@ export default function MePage() {
       <div className="relative pt-8">
         <div className="absolute top-0 -left-10 w-40 h-40 bg-accent/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
         
-        <h1 className="text-7xl sm:text-9xl font-black tracking-tighter text-foreground relative z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500 w-fit">
+        <h1 className="text-6xl sm:text-9xl font-black tracking-tighter text-foreground relative z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500 w-fit">
           ME.
         </h1>
         

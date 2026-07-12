@@ -32,7 +32,7 @@ export default function Home() {
           NAMASTE.
         </h1>
         
-        <div className="absolute top-16 sm:top-20 left-48 sm:left-72 flex items-center gap-2 transform rotate-3 bg-orange-600 dark:bg-orange-700 text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-6 transition-transform duration-300 z-20">
+        <div className="absolute top-12 sm:top-20 right-0 sm:right-auto sm:left-72 flex items-center gap-2 transform rotate-3 bg-orange-600 dark:bg-orange-700 text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-6 transition-transform duration-300 z-20">
           Hi, I&apos;m Rahul <InteractiveWave />
         </div>
         

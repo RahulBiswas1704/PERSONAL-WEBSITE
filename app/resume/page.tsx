@@ -67,7 +67,7 @@ export default function ResumePage() {
           
           <button 
             onClick={() => window.print()}
-            className="px-6 py-3 bg-indigo-950 dark:bg-indigo-50 text-white dark:text-indigo-950 transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300 text-sm font-black uppercase tracking-widest shadow-lg rounded-xl flex items-center gap-2 print:hidden group self-start md:self-auto"
+            className="w-full md:w-auto px-6 py-3 bg-indigo-950 dark:bg-indigo-50 text-white dark:text-indigo-950 transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300 text-sm font-black uppercase tracking-widest shadow-lg rounded-xl flex items-center justify-center gap-2 print:hidden group md:self-auto"
           >
             <svg className="w-5 h-5 group-hover:animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Grab PDF
@@ -164,7 +164,7 @@ export default function ResumePage() {
               <p className="text-sm font-bold text-emerald-800 dark:text-emerald-200 mb-3 uppercase tracking-wider">Adept In:</p>
               <div className="flex flex-wrap gap-2">
                 {['PC Hardware Skills', 'Microsoft Office', 'Analyzing Data', 'Business Planning & Execution', 'Managing Teams'].map((skill, i) => (
-                  <span key={skill} className={`px-4 py-2 bg-white dark:bg-black border-2 border-emerald-200 dark:border-emerald-800 rounded-xl text-xs font-bold text-emerald-950 dark:text-emerald-50 shadow-sm hover:scale-105 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-default ${i%2===0 ? '-rotate-1' : 'rotate-1'}`}>
+                  <span key={skill} className={`px-3 py-1.5 sm:px-4 sm:py-2 bg-white dark:bg-black border-2 border-emerald-200 dark:border-emerald-800 rounded-xl text-xs font-bold text-emerald-950 dark:text-emerald-50 shadow-sm hover:scale-105 hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all cursor-default ${i%2===0 ? '-rotate-1' : 'rotate-1'}`}>
                     {skill}
                   </span>
                 ))}
@@ -174,7 +174,7 @@ export default function ResumePage() {
               <p className="text-sm font-bold text-emerald-800 dark:text-emerald-200 mb-3 uppercase tracking-wider">Currently Learning:</p>
               <div className="flex flex-wrap gap-2">
                 {['AI Prompt Engineering', 'Photography', 'Video Editing', 'Graphic Designing'].map((skill, i) => (
-                  <span key={skill} className={`px-4 py-2 border-2 border-emerald-400 dark:border-emerald-600 text-emerald-800 dark:text-emerald-200 bg-emerald-200/30 dark:bg-emerald-800/30 rounded-xl text-xs font-bold hover:scale-105 hover:bg-emerald-500 hover:text-white transition-all cursor-default ${i%2===0 ? 'rotate-1' : '-rotate-1'}`}>
+                  <span key={skill} className={`px-3 py-1.5 sm:px-4 sm:py-2 border-2 border-emerald-400 dark:border-emerald-600 text-emerald-800 dark:text-emerald-200 bg-emerald-200/30 dark:bg-emerald-800/30 rounded-xl text-xs font-bold hover:scale-105 hover:bg-emerald-500 hover:text-white transition-all cursor-default ${i%2===0 ? 'rotate-1' : '-rotate-1'}`}>
                     {skill}
                   </span>
                 ))}
@@ -191,7 +191,7 @@ export default function ResumePage() {
               <p className="text-sm font-bold text-indigo-800 dark:text-indigo-200 mb-3 uppercase tracking-wider">Soft Skills</p>
               <div className="flex flex-wrap gap-2">
                 {['Team Work', 'Creative Thinking', 'Life-long Learner', 'Problem Solver', 'Communication Skills', 'Multilingual'].map((skill, i) => (
-                  <span key={skill} className={`px-4 py-2 bg-white dark:bg-black border-2 border-indigo-200 dark:border-indigo-800 rounded-xl text-xs font-bold text-indigo-950 dark:text-indigo-50 shadow-sm hover:scale-105 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-default ${i%2===0 ? 'rotate-1' : '-rotate-1'}`}>
+                  <span key={skill} className={`px-3 py-1.5 sm:px-4 sm:py-2 bg-white dark:bg-black border-2 border-indigo-200 dark:border-indigo-800 rounded-xl text-xs font-bold text-indigo-950 dark:text-indigo-50 shadow-sm hover:scale-105 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-default ${i%2===0 ? 'rotate-1' : '-rotate-1'}`}>
                     {skill}
                   </span>
                 ))}
@@ -201,7 +201,7 @@ export default function ResumePage() {
               <p className="text-sm font-bold text-indigo-800 dark:text-indigo-200 mb-3 uppercase tracking-wider">Hobbies</p>
               <div className="flex flex-wrap gap-2">
                 {['Reading', 'Tech Savvy', 'Photography'].map((hobby, i) => (
-                  <span key={hobby} className={`px-4 py-2 bg-white dark:bg-black border-2 border-indigo-200 dark:border-indigo-800 rounded-xl text-xs font-bold text-indigo-950 dark:text-indigo-50 shadow-sm hover:scale-105 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-default ${i%2===0 ? '-rotate-1' : 'rotate-1'}`}>
+                  <span key={hobby} className={`px-3 py-1.5 sm:px-4 sm:py-2 bg-white dark:bg-black border-2 border-indigo-200 dark:border-indigo-800 rounded-xl text-xs font-bold text-indigo-950 dark:text-indigo-50 shadow-sm hover:scale-105 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all cursor-default ${i%2===0 ? '-rotate-1' : 'rotate-1'}`}>
                     {hobby}
                   </span>
                 ))}
