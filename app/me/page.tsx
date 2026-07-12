@@ -24,7 +24,7 @@ export default function MePage() {
           ME.
         </h1>
         
-        <div className="absolute top-16 sm:top-24 left-24 sm:left-40 transform rotate-6 bg-foreground text-background px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-12 transition-transform duration-300">
+        <div className="relative mt-4 sm:mt-0 sm:absolute sm:top-24 sm:left-40 inline-block transform rotate-6 bg-foreground text-background px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-12 transition-transform duration-300 w-fit">
           The Story
         </div>
         

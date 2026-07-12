@@ -19,7 +19,7 @@ export default function GuestbookPage() {
           GUESTBOOK
         </h1>
         
-        <div className="absolute top-12 right-0 sm:top-20 sm:right-auto sm:left-64 transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:-rotate-3 transition-transform duration-300">
+        <div className="relative mt-4 sm:mt-0 sm:absolute sm:top-20 sm:left-64 inline-block transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:-rotate-3 transition-transform duration-300 w-fit">
           Sign It!
         </div>
         

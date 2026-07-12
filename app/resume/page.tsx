@@ -13,7 +13,7 @@ export default function ResumePage() {
             <h1 className="text-6xl sm:text-8xl font-black tracking-tighter text-indigo-950 dark:text-indigo-50 w-fit">
               HELLO.
             </h1>
-            <div className="absolute top-16 sm:top-20 left-40 sm:left-48 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl">
+            <div className="relative mt-4 sm:mt-0 sm:absolute sm:top-20 sm:left-48 inline-block bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl w-fit">
               Cover Letter
             </div>
             <p className="text-lg sm:text-xl text-indigo-800 dark:text-indigo-200 mt-8 max-w-xl font-serif italic leading-relaxed">
@@ -48,7 +48,7 @@ export default function ResumePage() {
             <h1 className="text-6xl sm:text-8xl font-black tracking-tighter text-indigo-950 dark:text-indigo-50 transform -rotate-2 hover:rotate-0 transition-transform duration-500 w-fit">
               RESUME.
             </h1>
-            <div className="absolute top-16 sm:top-20 left-48 sm:left-64 transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-12 transition-transform duration-300">
+            <div className="relative mt-4 sm:mt-0 sm:absolute sm:top-20 sm:left-64 inline-block transform rotate-6 bg-accent text-white px-4 py-1.5 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest shadow-xl hover:rotate-12 transition-transform duration-300 w-fit">
               Rahul Biswas
             </div>
             
