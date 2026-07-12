@@ -6,8 +6,10 @@ export default function Footer() {
   return (
     <footer className="w-full border-t border-border bg-background py-8 transition-colors mt-auto">
       <div className="max-w-2xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-light">
-        <div>
-          &copy; {currentYear} Rahul. Built with Next.js.
+        <div className="flex flex-col sm:flex-row items-center gap-1">
+          <span>&copy; {currentYear} Rahul.</span>
+          <span className="text-zinc-500 italic hidden sm:inline-block">Built with Next.js, caffeine, and mild panic.</span>
+          <span className="text-zinc-500 italic sm:hidden">Fueled by caffeine & Next.js.</span>
         </div>
         <div className="flex items-center gap-4">
           <a
