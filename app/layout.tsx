@@ -121,7 +121,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0">
         <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
           <Header />
           <FixedLeftSidebar />

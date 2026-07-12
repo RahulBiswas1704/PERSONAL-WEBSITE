@@ -44,7 +44,7 @@ export default function SurpriseMe() {
         </span>
         <button
           onClick={showRandomFact}
-          className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-accent text-background hover:bg-accent-hover hover:scale-105 active:scale-95 transition-all duration-150 cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-md bg-accent text-background hover:bg-accent-hover hover:scale-105 active:scale-95 transition-all duration-150 cursor-pointer touch-manipulation"
         >
           <Sparkles
             className={`w-3.5 h-3.5 ${spinning ? "animate-spin" : ""}`}

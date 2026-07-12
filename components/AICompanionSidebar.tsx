@@ -158,6 +158,8 @@ export default function AICompanionSidebar() {
   };
 
   return (
+    <>
+    {/* Desktop Version */}
     <aside className="hidden xl:flex fixed right-0 top-0 bottom-0 w-[200px] p-8 flex-col justify-center items-end pointer-events-none z-40">
       <div className="pointer-events-auto relative flex flex-col items-center gap-8 mt-12 w-full">
 
@@ -281,5 +283,49 @@ export default function AICompanionSidebar() {
 
       </div>
     </aside>
+
+    {/* Mobile Version (Small Floating Widget) */}
+    <div className="xl:hidden fixed top-20 right-4 z-[45] pointer-events-auto flex flex-col items-end gap-2">
+      {/* Mobile Quote Bubble */}
+      <div
+        className={`absolute right-full mr-3 top-0 w-40 bg-white dark:bg-neutral-900 border border-accent/50 p-2 rounded-xl rounded-tr-none shadow-lg transform origin-top-right transition-all duration-300 ${
+          showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
+        }`}
+      >
+        <p className="text-[10px] leading-tight font-mono font-bold text-neutral-800 dark:text-neutral-200">
+          {quote}
+        </p>
+        <div className="absolute top-0 -right-2 w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-accent/50 border-r-[8px] border-r-transparent" />
+      </div>
+
+      {/* Mobile Eye */}
+      <div
+        onClick={handleClick}
+        className="relative w-12 h-12 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-md flex items-center justify-center cursor-pointer active:scale-95 transition-transform overflow-hidden shrink-0 border border-black/10 dark:border-white/10"
+      >
+        {/* Eyelids */}
+        <div
+          className="absolute top-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-top border-b border-black/10 dark:border-white/5"
+          style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
+        />
+        <div
+          className="absolute bottom-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-bottom border-t border-black/10 dark:border-white/5"
+          style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
+        />
+
+        {/* Sclera & Iris */}
+        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
+          {/* Pupil */}
+          <div
+            className="w-4 h-4 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center"
+            style={{ transform: `translate(${pupilPos.x / 2.5}px, ${pupilPos.y / 2.5}px)` }}
+          >
+            <div className="w-1.5 h-1.5 bg-black rounded-full" />
+            <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-white rounded-full opacity-60" />
+          </div>
+        </div>
+      </div>
+    </div>
+    </>
   );
 }
