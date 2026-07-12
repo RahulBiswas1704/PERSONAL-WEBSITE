@@ -74,7 +74,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0">
+      <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 pb-16 sm:pb-0 overflow-x-hidden">
         <Header />
         <FixedLeftSidebar />
         <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
