@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { getAnalyticsData } from "@/lib/analyticsDb";
 import { Users, MousePointerClick, Smartphone, Monitor, Globe, Clock, Activity, ArrowUpRight } from "lucide-react";
+import { LocalTime } from "@/components/LocalTime";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -183,15 +184,11 @@ export default async function InsightsPage() {
                 </thead>
                 <tbody className="divide-y divide-violet-200/40 dark:divide-violet-800/40">
                   {data.visits.slice(0, 50).map((v, i) => {
-                    const date = new Date(v.timestamp);
-                    const formattedDate = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-                    const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                    
                     return (
                     <tr key={i} className="hover:bg-violet-50/80 dark:hover:bg-violet-900/30 transition-colors group/row">
                       <td className="px-5 py-4 whitespace-nowrap text-violet-800 dark:text-violet-200 font-mono text-xs flex items-center gap-2 group-hover/row:text-accent transition-colors">
                         <Clock className="w-3.5 h-3.5 opacity-50 group-hover/row:opacity-100" />
-                        <span>{formattedDate} <span className="opacity-50 mx-1">•</span> {formattedTime}</span>
+                        <LocalTime timestamp={v.timestamp} />
                       </td>
                       <td className="px-5 py-4 font-bold text-violet-950 dark:text-violet-50">
                         {v.city !== 'Unknown City' && v.city ? `${v.city}, ${v.country}` : v.country}
@@ -232,16 +229,12 @@ export default async function InsightsPage() {
             {/* Mobile Card View */}
             <div className="block sm:hidden overflow-y-auto flex-1 divide-y divide-violet-200/40 dark:divide-violet-800/40 relative z-10">
               {data.visits.slice(0, 50).map((v, i) => {
-                const date = new Date(v.timestamp);
-                const formattedDate = date.toLocaleDateString([], { month: 'short', day: 'numeric' });
-                const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
                 return (
                 <div key={i} className="p-4 flex flex-col gap-3 hover:bg-violet-50/80 dark:hover:bg-violet-900/30 transition-colors">
                   <div className="flex justify-between items-center">
                     <div className="text-violet-700 dark:text-violet-300 font-mono text-xs flex items-center gap-2">
                       <Clock className="w-3 h-3 opacity-60" />
-                      <span>{formattedDate} <span className="opacity-50 mx-0.5">•</span> {formattedTime}</span>
+                      <LocalTime timestamp={v.timestamp} mobile />
                     </div>
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span className={`text-[9px] uppercase font-bold px-2 py-0.5 rounded-md tracking-wider border ${

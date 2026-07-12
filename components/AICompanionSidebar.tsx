@@ -24,24 +24,24 @@ const STATIC_QUOTES = [
 
 const getPersonalizedQuotes = () => {
   if (typeof window === "undefined") return STATIC_QUOTES;
-  
+
   const quotes = [...STATIC_QUOTES];
   const hour = new Date().getHours();
   const ua = navigator.userAgent.toLowerCase();
   const isDark = document.documentElement.classList.contains("dark");
-  
+
   // Time based
   if (hour >= 23 || hour <= 4) quotes.push("It's literally the middle of the night. Go to sleep.");
   if (hour >= 5 && hour <= 9) quotes.push("You're up early just to poke me?");
   if (hour >= 12 && hour <= 14) quotes.push("Shouldn't you be eating lunch instead of clicking me?");
-  
+
   // OS based
   if (ua.includes("mac os")) quotes.push("A Mac user? How fancy. Now stop poking me.");
   else if (ua.includes("windows")) quotes.push("Windows, huh? Try not to blue-screen on me.");
   else if (ua.includes("linux")) quotes.push("Oh, a Linux user. I bet you use Arch, by the way.");
   else if (ua.includes("iphone") || ua.includes("ipad")) quotes.push("Get your fingerprints off my screen, Apple user.");
   else if (ua.includes("android")) quotes.push("Android user detected. Please don't smudge my cornea.");
-  
+
   // Theme based
   if (isDark) quotes.push("I like the dark mode too. It's much easier on my retina.");
   else quotes.push("Light mode? Are you trying to blind my only eye?");
@@ -74,10 +74,10 @@ export default function AICompanionSidebar() {
       const rect = eyeRef.current.getBoundingClientRect();
       const eyeX = rect.left + rect.width / 2;
       const eyeY = rect.top + rect.height / 2;
-      
+
       const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
       const distance = Math.min(10, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
-      
+
       setPupilPos({
         x: Math.cos(angle) * distance,
         y: Math.sin(angle) * distance,
@@ -107,7 +107,7 @@ export default function AICompanionSidebar() {
       setShowTouchMe(true);
       // Hide it after a short time
       setTimeout(() => setShowTouchMe(false), 2000);
-      
+
       // Randomize the next appearance (between 5 and 15 seconds)
       setTimeout(creepyPrompt, Math.random() * 10000 + 5000);
     };
@@ -148,7 +148,7 @@ export default function AICompanionSidebar() {
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     setQuote(randomQuote);
     setShowQuote(true);
-    
+
     // Simulate a blink when poked
     setIsBlinking(true);
     setTimeout(() => setIsBlinking(false), 150);
@@ -160,12 +160,11 @@ export default function AICompanionSidebar() {
   return (
     <aside className="hidden xl:flex fixed right-0 top-0 bottom-0 w-[120px] p-6 flex-col justify-center items-end pointer-events-none z-40">
       <div className="pointer-events-auto relative flex flex-col items-center gap-10 mt-12">
-        
+
         {/* Sarcastic Chat Bubble */}
-        <div 
-          className={`absolute right-full mr-4 top-0 w-48 bg-white dark:bg-neutral-900 border-2 border-accent/50 p-3 rounded-2xl rounded-tr-none shadow-xl transform origin-top-right transition-all duration-300 ${
-            showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
-          }`}
+        <div
+          className={`absolute right-full mr-4 top-0 w-48 bg-white dark:bg-neutral-900 border-2 border-accent/50 p-3 rounded-2xl rounded-tr-none shadow-xl transform origin-top-right transition-all duration-300 ${showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
+            }`}
         >
           <p className="text-xs font-mono font-bold text-neutral-800 dark:text-neutral-200">
             {quote}
@@ -174,10 +173,9 @@ export default function AICompanionSidebar() {
         </div>
 
         {/* Quirky Funky Spooky Touch Me Popup */}
-        <div 
-          className={`absolute right-full mr-6 top-8 pointer-events-none transition-all duration-700 ease-out ${
-            showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
-          }`}
+        <div
+          className={`absolute right-full mr-6 top-8 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
+            }`}
         >
           <div className="relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5">
             <span className="animate-pulse tracking-tighter">tOuCh... mE...</span>
@@ -186,18 +184,18 @@ export default function AICompanionSidebar() {
         </div>
 
         {/* The Eye */}
-        <div 
+        <div
           ref={eyeRef}
           onClick={handleClick}
           onMouseEnter={() => setShowTouchMe(false)}
           className="relative w-16 h-16 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden"
         >
           {/* Eyelids for realistic blink */}
-          <div 
+          <div
             className="absolute top-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-top border-b border-black/10 dark:border-white/5"
             style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
           />
-          <div 
+          <div
             className="absolute bottom-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-bottom border-t border-black/10 dark:border-white/5"
             style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
           />
@@ -205,7 +203,7 @@ export default function AICompanionSidebar() {
           {/* Sclera & Iris */}
           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
             {/* The Pupil that moves */}
-            <div 
+            <div
               className="w-5 h-5 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center shadow-lg"
               style={{ transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)` }}
             >
@@ -216,7 +214,7 @@ export default function AICompanionSidebar() {
         </div>
 
         {/* Neural EKG Monitor */}
-        <div 
+        <div
           className="flex flex-col items-center gap-1 cursor-pointer group w-full"
           onClick={() => {
             // Force an overload on click
@@ -230,7 +228,7 @@ export default function AICompanionSidebar() {
             let color = "text-accent";
             let barColor = "bg-accent";
             let shake = "";
-            
+
             if (bpm > 150) {
               status = "OVERLOAD";
               color = "text-red-500";
@@ -246,7 +244,7 @@ export default function AICompanionSidebar() {
               <div className={`flex flex-col w-full bg-black/90 dark:bg-black rounded-lg border-2 ${bpm > 150 ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'border-neutral-800 dark:border-neutral-900'} p-2 overflow-hidden relative transition-all ${shake}`}>
                 {/* CRT Scanline Overlay */}
                 <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
-                
+
                 <div className="flex items-center justify-between z-10 w-full mb-1">
                   <span className={`text-[8px] font-mono font-bold tracking-[0.2em] transition-colors ${color} flex items-center gap-1`}>
                     {bpm > 150 ? <Zap className="w-2.5 h-2.5 animate-ping" /> : <Activity className="w-2.5 h-2.5" />}
@@ -256,21 +254,21 @@ export default function AICompanionSidebar() {
                     {bpm} <span className="text-[6px] opacity-70">BPM</span>
                   </span>
                 </div>
-                
+
                 <div className="flex items-end justify-between w-full h-6 gap-[1px] z-10 mt-1">
                   {/* Dense Spectrum Analyzer Bars */}
                   {[...Array(12)].map((_, i) => {
-                    const currentActivity = activityLevel > 0 
-                      ? Math.random() * activityLevel + (activityLevel * 0.2) 
+                    const currentActivity = activityLevel > 0
+                      ? Math.random() * activityLevel + (activityLevel * 0.2)
                       : Math.sin(time / 200 + i) * 3 + 4; // idle wiggle
 
                     const height = Math.min(100, Math.max(5, currentActivity));
-                    
+
                     return (
-                      <div 
-                        key={i} 
+                      <div
+                        key={i}
                         className={`w-full rounded-sm transition-all duration-75 ${barColor}`}
-                        style={{ 
+                        style={{
                           height: `${height}%`,
                           opacity: activityLevel > 10 ? 0.8 + Math.random() * 0.2 : 0.3
                         }}
