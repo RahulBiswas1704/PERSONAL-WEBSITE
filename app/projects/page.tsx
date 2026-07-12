@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ExternalLink, FileText } from "lucide-react";
-import { Metadata } from "next";
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
@@ -46,9 +45,14 @@ const projects: Project[] = [
   },
 ];
 
+import { Metadata } from "next";
+
 export const metadata: Metadata = {
   title: "Projects",
   description: "A showcase of platforms, applications, and tools I have built.",
+  alternates: {
+    canonical: "/projects",
+  },
 };
 
 export default function ProjectsPage() {

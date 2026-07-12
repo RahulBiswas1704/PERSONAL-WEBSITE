@@ -2,6 +2,7 @@
 
 import { Disc3, Play } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface Track {
   title: string;
@@ -56,7 +57,7 @@ export default function HeavyRotation() {
             <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-neutral-200 dark:bg-neutral-800 border border-border/50">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               {track.cover ? (
-                <img src={track.cover} alt={track.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <Image src={track.cover} alt={track.title} width={48} height={48} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               ) : (
                 <Disc3 className="w-6 h-6 text-muted m-auto mt-3" />
               )}

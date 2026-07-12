@@ -3,6 +3,9 @@ import GuestbookClient from "./GuestbookClient";
 export const metadata = {
   title: "Guestbook",
   description: "Sign my guestbook and leave a message.",
+  alternates: {
+    canonical: "/guestbook",
+  },
 };
 
 export default function GuestbookPage() {

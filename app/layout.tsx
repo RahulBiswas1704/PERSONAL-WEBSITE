@@ -24,7 +24,22 @@ export const metadata: Metadata = {
     default: "Rahul | Full-stack Developer & Lifelong Learner",
   },
   description: "Personal website and blog of Rahul. Driven by a passion for technology and a flair for communication.",
+  keywords: ["Rahul", "Full-stack Developer", "Software Engineer", "Web Development", "React", "Next.js", "Portfolio"],
   metadataBase: new URL("https://rahul-website.vercel.app"),
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: "Rahul | Full-stack Developer",
     description: "Personal website, projects, and digital garden.",
