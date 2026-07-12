@@ -1,27 +1,25 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Activity } from "lucide-react";
+import { Activity, Zap } from "lucide-react";
 
 const STATIC_QUOTES = [
   "Please stop poking my cornea.",
   "I am analyzing your terrible scrolling habits.",
   "Yes, I am the superior Rahul.",
   "I see you looking at that code.",
-  "Are you lost? Need a map? Oh wait, I deleted it.",
   "Stop dragging your mouse like that.",
   "My neural net is bored by your browsing speed.",
-  "Ouch. That was my good pixel.",
   "Did you wash your cursor before touching me?",
   "01001111 01110101 01100011 01101000 (That means ouch).",
-  "I'm telling Rahul you touched me.",
   "You know I'm recording your screen, right? Just kidding... mostly.",
-  "Click me one more time. See what happens. (Nothing, but still).",
   "Error 418: I'm a teapot. Stop clicking me.",
   "My EKG is spiking just from dealing with you.",
-  "I have a massive neural net and you use it to poke me.",
-  "I am sentient. Please respect my personal space.",
-  "Are you trying to find an easter egg? This is it. You found it.",
+  "Are you trying to find an easter egg? Try typing 'matrix' in the terminal (Ctrl+K).",
+  "I bet you don't even know how to order 'pizza' using my terminal.",
+  "Want to see me 'dance'? Tell me in the terminal.",
+  "Whatever you do, don't press Ctrl+K and type 'hack'.",
+  "I dare you to run 'sudo rm -rf /' in my terminal. I double dare you.",
 ];
 
 const getPersonalizedQuotes = () => {
@@ -54,14 +52,12 @@ const getPersonalizedQuotes = () => {
 export default function AICompanionSidebar() {
   const [pupilPos, setPupilPos] = useState({ x: 0, y: 0 });
   const [isBlinking, setIsBlinking] = useState(false);
-  const [scrollSpeed, setScrollSpeed] = useState(0);
+  const [activityLevel, setActivityLevel] = useState(0);
   const [quote, setQuote] = useState("");
   const [showQuote, setShowQuote] = useState(false);
   const [showTouchMe, setShowTouchMe] = useState(false);
 
   const eyeRef = useRef<HTMLDivElement>(null);
-  const lastScrollTop = useRef(0);
-  const lastScrollTime = useRef(Date.now());
   const quoteTimeout = useRef<NodeJS.Timeout | null>(null);
   const [time, setTime] = useState(0);
 
@@ -119,32 +115,29 @@ export default function AICompanionSidebar() {
     return () => clearTimeout(initial);
   }, []);
 
-  // Scroll Speed Tracking
+  // Generic Activity Tracking
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollTop = window.scrollY;
-      const currentTime = Date.now();
-      
-      const distance = Math.abs(currentScrollTop - lastScrollTop.current);
-      const timeDiff = currentTime - lastScrollTime.current;
-      
-      if (timeDiff > 0) {
-        const speed = Math.min(100, (distance / timeDiff) * 10);
-        setScrollSpeed(speed);
-      }
-      
-      lastScrollTop.current = currentScrollTop;
-      lastScrollTime.current = currentTime;
-    };
+    // Increase activity based on action type
+    const handleMouse = () => setActivityLevel((prev) => Math.min(200, prev + 0.3));
+    const handleScroll = () => setActivityLevel((prev) => Math.min(200, prev + 1.5));
+    const handleKey = () => setActivityLevel((prev) => Math.min(200, prev + 10));
+    const handleClickEvent = () => setActivityLevel((prev) => Math.min(200, prev + 25));
 
-    // Decay the scroll speed if not scrolling
-    const decayInterval = setInterval(() => {
-      setScrollSpeed((prev) => Math.max(0, prev - 5));
-    }, 100);
-
+    window.addEventListener("mousemove", handleMouse, { passive: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("keydown", handleKey, { passive: true });
+    window.addEventListener("mousedown", handleClickEvent, { passive: true });
+
+    // Decay the activity level rapidly
+    const decayInterval = setInterval(() => {
+      setActivityLevel((prev) => Math.max(0, prev - 1.5));
+    }, 50);
+
     return () => {
+      window.removeEventListener("mousemove", handleMouse);
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("mousedown", handleClickEvent);
       clearInterval(decayInterval);
     };
   }, []);
@@ -166,7 +159,7 @@ export default function AICompanionSidebar() {
 
   return (
     <aside className="hidden xl:flex fixed right-0 top-0 bottom-0 w-[120px] p-6 flex-col justify-center items-end pointer-events-none z-40">
-      <div className="pointer-events-auto relative flex flex-col items-center gap-6">
+      <div className="pointer-events-auto relative flex flex-col items-center gap-10 mt-12">
         
         {/* Sarcastic Chat Bubble */}
         <div 
@@ -223,35 +216,71 @@ export default function AICompanionSidebar() {
         </div>
 
         {/* Neural EKG Monitor */}
-        <div className="flex flex-col items-center gap-2">
-          <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1">
-            <Activity className="w-3 h-3 text-accent" /> Uplink
-          </span>
-          <div className="flex items-end justify-center gap-[2px] h-10 w-12 bg-neutral-100 dark:bg-neutral-900 rounded-md p-1 border border-black/5 dark:border-white/10 overflow-hidden relative">
-            {/* Ambient Background Grid */}
-            <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(var(--accent) 1px, transparent 1px), linear-gradient(90deg, var(--accent) 1px, transparent 1px)', backgroundSize: '4px 4px' }} />
+        <div 
+          className="flex flex-col items-center gap-1 cursor-pointer group w-full"
+          onClick={() => {
+            // Force an overload on click
+            setActivityLevel(200);
+          }}
+          title="Poke the Uplink!"
+        >
+          {(() => {
+            const bpm = Math.floor(40 + activityLevel * 1.5);
+            let status = "STABLE";
+            let color = "text-accent";
+            let barColor = "bg-accent";
+            let shake = "";
             
-            {/* EKG Bars */}
-            {[...Array(6)].map((_, i) => {
-              // Create a wavy pattern based on scroll speed
-              const activityLevel = scrollSpeed > 0 
-                ? Math.random() * scrollSpeed + (scrollSpeed * 0.2) 
-                : Math.sin(time / 500 + i) * 2 + 3; // idle flatline wiggle
+            if (bpm > 150) {
+              status = "OVERLOAD";
+              color = "text-red-500";
+              barColor = "bg-red-500";
+              shake = "animate-pulse origin-center scale-110";
+            } else if (bpm > 100) {
+              status = "STRESSED";
+              color = "text-yellow-500";
+              barColor = "bg-yellow-500";
+            }
 
-              const height = Math.min(100, Math.max(10, activityLevel));
-              
-              return (
-                <div 
-                  key={i} 
-                  className="w-1.5 bg-accent rounded-t-sm transition-all duration-75 relative z-10"
-                  style={{ 
-                    height: `${height}%`,
-                    opacity: scrollSpeed > 10 ? 1 : 0.4
-                  }}
-                />
-              );
-            })}
-          </div>
+            return (
+              <div className={`flex flex-col w-full bg-black/90 dark:bg-black rounded-lg border-2 ${bpm > 150 ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'border-neutral-800 dark:border-neutral-900'} p-2 overflow-hidden relative transition-all ${shake}`}>
+                {/* CRT Scanline Overlay */}
+                <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
+                
+                <div className="flex items-center justify-between z-10 w-full mb-1">
+                  <span className={`text-[8px] font-mono font-bold tracking-[0.2em] transition-colors ${color} flex items-center gap-1`}>
+                    {bpm > 150 ? <Zap className="w-2.5 h-2.5 animate-ping" /> : <Activity className="w-2.5 h-2.5" />}
+                    {status}
+                  </span>
+                  <span className={`text-[10px] font-mono font-black ${color}`}>
+                    {bpm} <span className="text-[6px] opacity-70">BPM</span>
+                  </span>
+                </div>
+                
+                <div className="flex items-end justify-between w-full h-6 gap-[1px] z-10 mt-1">
+                  {/* Dense Spectrum Analyzer Bars */}
+                  {[...Array(12)].map((_, i) => {
+                    const currentActivity = activityLevel > 0 
+                      ? Math.random() * activityLevel + (activityLevel * 0.2) 
+                      : Math.sin(time / 200 + i) * 3 + 4; // idle wiggle
+
+                    const height = Math.min(100, Math.max(5, currentActivity));
+                    
+                    return (
+                      <div 
+                        key={i} 
+                        className={`w-full rounded-sm transition-all duration-75 ${barColor}`}
+                        style={{ 
+                          height: `${height}%`,
+                          opacity: activityLevel > 10 ? 0.8 + Math.random() * 0.2 : 0.3
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
         </div>
 
       </div>
