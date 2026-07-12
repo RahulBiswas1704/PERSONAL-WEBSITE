@@ -90,6 +90,97 @@ export default function AICompanionSidebar() {
   const quoteTimeout = useRef<NodeJS.Timeout | null>(null);
   const [time, setTime] = useState(0);
 
+  // Hardware APIs (Battery & Network)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let batteryObj: any = null;
+    const checkHardware = () => {
+      let snark = null;
+
+      // Check Battery
+      if (batteryObj && batteryObj.level <= 0.15 && !batteryObj.charging) {
+        snark = `Bro, charge your phone, you're at ${Math.round(batteryObj.level * 100)}%. I'm not rendering anymore animations until you find a charger.`;
+      }
+
+      // Check Network (only if we didn't already trigger battery)
+      if (!snark && 'connection' in navigator) {
+        const conn = (navigator as any).connection;
+        if (conn && (conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g')) {
+          snark = "Are you on a toaster? This connection is awful.";
+        }
+      }
+
+      if (snark) {
+        setQuote(snark);
+        setShowQuote(true);
+        setShowTouchMe(false);
+      }
+    };
+
+    if ('getBattery' in navigator) {
+      (navigator as any).getBattery().then((b: any) => {
+        batteryObj = b;
+        checkHardware();
+        b.addEventListener('levelchange', checkHardware);
+        b.addEventListener('chargingchange', checkHardware);
+      }).catch(() => {});
+    }
+
+    if ('connection' in navigator) {
+      const conn = (navigator as any).connection;
+      conn.addEventListener('change', checkHardware);
+    }
+
+    return () => {
+      if (batteryObj) {
+        batteryObj.removeEventListener('levelchange', checkHardware);
+        batteryObj.removeEventListener('chargingchange', checkHardware);
+      }
+      if ('connection' in navigator) {
+        (navigator as any).connection.removeEventListener('change', checkHardware);
+      }
+    };
+  }, []);
+
+  // Shake Detection
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    let lastShakeTime = 0;
+    const handleMotion = (e: DeviceMotionEvent) => {
+      const acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+      
+      const magnitude = Math.sqrt(
+        (acc.x || 0) ** 2 + 
+        (acc.y || 0) ** 2 + 
+        (acc.z || 0) ** 2
+      );
+      
+      // Standard gravity is ~9.8 m/s^2. A strong shake easily hits 20-30.
+      if (magnitude > 25) {
+        const now = Date.now();
+        if (now - lastShakeTime > 5000) {
+          lastShakeTime = now;
+          setQuote("Whoa, take it easy! Are you trying to give me a concussion?");
+          setShowQuote(true);
+          setShowTouchMe(false);
+          setActivityLevel(200); // spike heart rate
+          setIsBlinking(true);
+          setTimeout(() => setIsBlinking(false), 150);
+          hapticTick();
+          
+          if (quoteTimeout.current) clearTimeout(quoteTimeout.current);
+          quoteTimeout.current = setTimeout(() => setShowQuote(false), 4000);
+        }
+      }
+    };
+
+    window.addEventListener('devicemotion', handleMotion);
+    return () => window.removeEventListener('devicemotion', handleMotion);
+  }, []);
+
   // Time ticker for idle animation
   useEffect(() => {
     const interval = setInterval(() => setTime(Date.now()), 100);
