@@ -10,7 +10,7 @@ import TerminalEasterEgg from "@/components/TerminalEasterEgg";
 import FixedLeftSidebar from "@/components/FixedLeftSidebar";
 import AICompanionSidebar from "@/components/AICompanionSidebar";
 import MobileDesktopHint from "@/components/MobileDesktopHint";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   variable: "--font-sans",
