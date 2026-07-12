@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       // Ignore empty body errors
     }
     
-    const { country: clientCountry, city: clientCity } = body as any;
+    const { country: clientCountry, city: clientCity, sessionId: clientSessionId } = body as any;
 
     const userAgent = req.headers.get('user-agent') || 'Unknown';
     // Use Vercel's Edge headers for location, fallback to client-provided data, then fallback to Unknown
@@ -33,8 +33,10 @@ export async function POST(req: NextRequest) {
     else if (/Firefox|FxiOS/i.test(userAgent)) browser = "Firefox";
     else if (/Edg/i.test(userAgent)) browser = "Edge";
 
+    const sessionId = clientSessionId || crypto.randomUUID();
+
     await saveVisit({
-      id: crypto.randomUUID(),
+      id: sessionId,
       timestamp: new Date().toISOString(),
       country,
       city,
@@ -44,7 +46,7 @@ export async function POST(req: NextRequest) {
       browser
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, sessionId });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to log visit' }, { status: 500 });
   }

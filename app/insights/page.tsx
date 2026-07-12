@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import { getAnalyticsData } from "@/lib/analyticsDb";
-import { Users, MousePointerClick, Smartphone, Monitor, Globe, Clock, Activity, ArrowUpRight } from "lucide-react";
+import { getAnalyticsData, getSessionDurations } from "@/lib/analyticsDb";
+import { Users, MousePointerClick, Smartphone, Monitor, Globe, Clock, Activity, ArrowUpRight, Timer } from "lucide-react";
 import { LocalTime } from "@/components/LocalTime";
 
 export const metadata: Metadata = {
@@ -13,6 +13,7 @@ export const dynamic = "force-dynamic";
 
 export default async function InsightsPage() {
   const data = await getAnalyticsData();
+  const sessionDurations = await getSessionDurations();
   
   // Calculate totals
   const totalVisits = data.visits.length;
@@ -24,6 +25,15 @@ export default async function InsightsPage() {
 
   const mobilePercent = totalVisits > 0 ? Math.round((mobileVisits / totalVisits) * 100) : 0;
   const desktopPercent = totalVisits > 0 ? Math.round((desktopVisits / totalVisits) * 100) : 0;
+
+  // Calculate average duration
+  const durationValues = Object.values(sessionDurations);
+  const totalDuration = durationValues.reduce((sum, val) => sum + val, 0);
+  const avgDurationSeconds = durationValues.length > 0 ? Math.round(totalDuration / durationValues.length) : 0;
+  
+  const avgMinutes = Math.floor(avgDurationSeconds / 60);
+  const avgSeconds = avgDurationSeconds % 60;
+  const avgDurationText = avgMinutes > 0 ? `${avgMinutes}m ${avgSeconds}s` : `${avgSeconds}s`;
 
   // Clicks by platform
   const clicksByPlatform = data.clicks.reduce((acc, curr) => {
@@ -59,7 +69,7 @@ export default async function InsightsPage() {
       </div>
 
       {/* KPI Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
         {/* Total Visits Card */}
         <div className="relative overflow-hidden flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200/60 dark:border-violet-800/50 bg-white/60 dark:bg-black/40 backdrop-blur-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -115,6 +125,20 @@ export default async function InsightsPage() {
           <div className="flex items-end gap-2 justify-between">
             <span className="text-3xl sm:text-4xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{desktopVisits}</span>
             <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mb-1 bg-emerald-100/50 dark:bg-emerald-900/20 px-2 py-0.5 rounded">{desktopPercent}%</span>
+          </div>
+        </div>
+
+        {/* Avg Time on Site Card */}
+        <div className="relative overflow-hidden flex flex-col p-4 sm:p-5 rounded-2xl border border-violet-200/60 dark:border-violet-800/50 bg-white/60 dark:bg-black/40 backdrop-blur-xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group md:col-span-1 xl:col-span-1 col-span-2">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-violet-600 dark:text-violet-400">Avg Time</span>
+            <div className="p-2 rounded-xl bg-orange-100/50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-500 group-hover:text-white transition-colors shadow-sm">
+              <Timer className="w-4 h-4" />
+            </div>
+          </div>
+          <div className="flex items-end gap-2 justify-between">
+            <span className="text-2xl sm:text-3xl font-black text-violet-950 dark:text-violet-50 tracking-tight">{avgDurationText}</span>
           </div>
         </div>
       </div>

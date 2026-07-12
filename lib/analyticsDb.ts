@@ -1,5 +1,9 @@
 import { kv } from '@vercel/kv';
 
+export interface SessionDuration {
+  [sessionId: string]: number;
+}
+
 export interface VisitRecord {
   id: string;
   timestamp: string;
@@ -54,5 +58,23 @@ export const saveClick = async (click: ClickRecord) => {
     await kv.lpush('analytics:clicks', click);
   } catch (error) {
     console.error("KV saveClick error:", error);
+  }
+};
+
+export const updateSessionDuration = async (sessionId: string, duration: number) => {
+  try {
+    await kv.hset('analytics:durations', { [sessionId]: duration });
+  } catch (error) {
+    console.error("KV updateSessionDuration error:", error);
+  }
+};
+
+export const getSessionDurations = async (): Promise<SessionDuration> => {
+  try {
+    const durations = await kv.hgetall<SessionDuration>('analytics:durations');
+    return durations || {};
+  } catch (error) {
+    console.error("KV getSessionDurations error:", error);
+    return {};
   }
 };
