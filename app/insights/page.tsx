@@ -17,8 +17,8 @@ const getDurationText = (seconds?: number) => {
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
 };
 
-const getDeviceModel = (ua: string): string => {
-  if (!ua || ua === 'Unknown') return '';
+const getDeviceModel = (ua: string, fallbackOS: string): string => {
+  if (!ua || ua === 'Unknown') return fallbackOS !== 'Unknown' ? fallbackOS : 'Unknown Device';
   if (/iPhone/i.test(ua)) return "iPhone";
   if (/iPad/i.test(ua)) return "iPad";
   if (/Macintosh/i.test(ua)) return "Mac";
@@ -31,7 +31,10 @@ const getDeviceModel = (ua: string): string => {
     }
     return "Android";
   }
-  return "";
+  if (/Linux/i.test(ua)) return "Linux";
+  if (/CrOS/i.test(ua)) return "ChromeOS";
+  
+  return fallbackOS !== 'Unknown' ? fallbackOS : 'Unknown Device';
 };
 
 export default async function InsightsPage() {
@@ -344,9 +347,9 @@ export default async function InsightsPage() {
                   <span className="text-[10px] font-bold uppercase tracking-wider">{v.device}</span>
                 </div>
                 
-                {getDeviceModel(v.userAgent) && (
+                {getDeviceModel(v.userAgent, v.os) && (
                   <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
-                    {getDeviceModel(v.userAgent)}
+                    {getDeviceModel(v.userAgent, v.os)}
                   </span>
                 )}
                 
