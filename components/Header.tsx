@@ -18,7 +18,7 @@ export default function Header() {
               Me
             </Link>
             <Link href="/sandbox" className="text-sm font-medium hover-link">
-              Sandbox
+              Kishmish
             </Link>
             <Link href="/guestbook" className="text-sm font-medium hover-link">
               Guestbook

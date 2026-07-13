@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Code, User, MessageSquare, Beaker, Briefcase } from "lucide-react";
+import { Home, Code, User, MessageSquare, Cat, Briefcase } from "lucide-react";
 import { useEffect, useState } from "react";
 import { hapticTick } from "@/lib/haptics";
 
@@ -32,7 +32,7 @@ export default function MobileNav() {
     { href: "/projects", label: "Projects", icon: Code },
     { href: "/guestbook", label: "Guestbook", icon: MessageSquare },
     { href: "/resume", label: "Resume", icon: Briefcase },
-    { href: "/sandbox", label: "Sandbox", icon: Beaker },
+    { href: "/sandbox", label: "Kishmish", icon: Cat },
     { href: "/me", label: "Me", icon: User },
   ];
 

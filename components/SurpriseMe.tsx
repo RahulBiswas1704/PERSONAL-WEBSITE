@@ -42,7 +42,7 @@ export default function SurpriseMe() {
     <div className="border border-dashed border-border rounded-md p-5 bg-neutral-50/30 dark:bg-neutral-900/10 space-y-3 transition-colors">
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold font-mono tracking-tight text-muted">
-          Interactive Sandbox
+          Interactive Kishmish
         </span>
         <button
           onClick={showRandomFact}
