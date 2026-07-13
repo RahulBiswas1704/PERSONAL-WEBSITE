@@ -35,6 +35,7 @@ export default function LiveRoaster() {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
   const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const mutedTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -390,7 +391,10 @@ export default function LiveRoaster() {
   };
 
   const speak = (text: string, lang: Language, preloadedAudioBase64?: string) => {
-    if (!soundEnabledRef.current) return;
+    if (mutedTimeoutRef.current) {
+      clearTimeout(mutedTimeoutRef.current);
+      mutedTimeoutRef.current = null;
+    }
 
     // Cancel any currently playing audio
     if (currentAudioRef.current) {
@@ -412,7 +416,17 @@ export default function LiveRoaster() {
     // Remove the actions from the spoken text so she doesn't literally say "asterisk hiss asterisk"
     ttsText = text.replace(actionRegex, '').trim();
 
-    if (!ttsText) return; // If the message was JUST an action, don't trigger TTS
+    // If muted or just an action, simulate the speech duration instead of getting stuck
+    if (!ttsText || !soundEnabledRef.current) {
+      setIsSpeaking(true);
+      const duration = Math.max(1500, ttsText.length * 60);
+      mutedTimeoutRef.current = setTimeout(() => {
+        setIsSpeaking(false);
+        setMouthHeight(4);
+        setEmotion("idle");
+      }, duration);
+      return;
+    }
 
     // Use our Next.js backend proxy to securely fetch the Cloud TTS 
     // This completely bypasses browser CORS/NotSupportedError blocks!
