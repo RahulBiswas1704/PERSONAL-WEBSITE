@@ -15,7 +15,17 @@ export default function GuestbookClient() {
     fetch('/api/guestbook')
       .then(res => res.json())
       .then(data => {
-        setEntries(data);
+        if (Array.isArray(data)) {
+          setEntries(data);
+        } else {
+          // Vercel KV not configured locally, fallback silently to empty array
+          setEntries([]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Fetch error:", err);
+        setEntries([]);
         setLoading(false);
       });
   }, []);
