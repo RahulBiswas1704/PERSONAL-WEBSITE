@@ -167,6 +167,18 @@ export default function LiveRoaster() {
     return () => clearTimeout(initial);
   }, []);
 
+  // Dynamic Lip Sync (Fluctuates mouth height while speaking)
+  useEffect(() => {
+    if (isSpeaking) {
+      const interval = setInterval(() => {
+        setMouthHeight(Math.random() * 10 + 4); // Fluctuate between 4px and 14px
+      }, 70);
+      return () => clearInterval(interval);
+    } else {
+      setMouthHeight(4);
+    }
+  }, [isSpeaking]);
+
   // Auto-scroll chat log to bottom
   useEffect(() => {
     if (chatLogRef.current) {
@@ -504,7 +516,11 @@ export default function LiveRoaster() {
       </button>
 
       {/* The Quirky Cat Avatar (Optimized for Mobile) */}
-      <div className="relative w-64 h-64 flex items-center justify-center pt-8 cursor-pointer select-none">
+      <motion.div 
+        className="relative w-64 h-64 flex items-center justify-center pt-8 cursor-pointer select-none"
+        animate={{ y: [0, -3, 0] }}
+        transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
+      >
 
         {/* Dancing Music Notes Background (Uses pure transform) */}
         <AnimatePresence>
@@ -520,7 +536,7 @@ export default function LiveRoaster() {
           role="button"
           tabIndex={0}
           aria-label="Poke Kishmish"
-          className="relative w-48 h-40 bg-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-xl flex flex-col items-center justify-center focus:outline-none focus:ring-4 focus:ring-orange-500"
+          className="relative w-48 h-40 bg-gradient-to-br from-zinc-800 to-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4),inset_0_4px_10px_rgba(255,255,255,0.1)] flex flex-col items-center justify-center focus:outline-none focus:ring-4 focus:ring-orange-500 overflow-visible"
           animate={getHeadAnimation()}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -651,7 +667,7 @@ export default function LiveRoaster() {
             {/* Eyes */}
             <div className="flex gap-10 mb-2 relative">
               {/* Left Eye */}
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-zinc-800">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-zinc-800 shadow-[inset_0_3px_6px_rgba(0,0,0,0.3)]">
                 {emotion === "angry" && <motion.div className="absolute top-0 w-full h-4 bg-zinc-900 origin-bottom-right rotate-[20deg] z-10" />}
                 <motion.div
                   className="w-10 h-10 rounded-full flex items-center justify-center bg-white"
@@ -659,17 +675,20 @@ export default function LiveRoaster() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <motion.div
-                    className="w-5 h-7 rounded-full transition-colors duration-300 flex items-center justify-center"
+                    className="relative w-5 h-7 rounded-full transition-colors duration-300 flex items-center justify-center"
                     style={{ backgroundColor: getPupilColor() }}
                     animate={{ x: mousePos.x, y: mousePos.y }}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   >
                     <div className="w-1.5 h-4 bg-black rounded-full" />
+                    {/* Catchlight */}
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </motion.div>
                 </motion.div>
               </div>
 
               {/* Right Eye */}
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-zinc-800">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden border-2 border-zinc-800 shadow-[inset_0_3px_6px_rgba(0,0,0,0.3)]">
                 {emotion === "angry" && <motion.div className="absolute top-0 w-full h-4 bg-zinc-900 origin-bottom-left -rotate-[20deg] z-10" />}
                 <motion.div
                   className="w-10 h-10 rounded-full flex items-center justify-center bg-white"
@@ -677,15 +696,28 @@ export default function LiveRoaster() {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <motion.div
-                    className="w-5 h-7 rounded-full transition-colors duration-300 flex items-center justify-center"
+                    className="relative w-5 h-7 rounded-full transition-colors duration-300 flex items-center justify-center"
                     style={{ backgroundColor: getPupilColor() }}
                     animate={{ x: mousePos.x, y: mousePos.y }}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   >
                     <div className="w-1.5 h-4 bg-black rounded-full" />
+                    {/* Catchlight */}
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
                   </motion.div>
                 </motion.div>
               </div>
             </div>
+
+            {/* Blushes */}
+            <AnimatePresence>
+              {(emotion === "laughing" || emotion === "smirking") && (
+                <div className="absolute top-8 w-full flex justify-center gap-14 pointer-events-none z-10">
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} className="w-6 h-3 bg-pink-500 rounded-full blur-[4px]" />
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} className="w-6 h-3 bg-pink-500 rounded-full blur-[4px]" />
+                </div>
+              )}
+            </AnimatePresence>
 
             {/* Nose */}
             <div className="w-3 h-2 bg-pink-400 rounded-full mb-1" />
@@ -730,7 +762,7 @@ export default function LiveRoaster() {
 
           </div>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Scrolling Chat Log */}
       <div 
