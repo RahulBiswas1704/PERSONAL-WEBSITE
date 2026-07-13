@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Clock, MapPin, Smartphone, Monitor, Layout, Wifi, Link as LinkIcon, Timer, Activity, MessageSquare, Cpu, Battery, Zap, Droplets, Sun, Moon, ArrowDownToLine, MousePointer2, CpuIcon, MemoryStick } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Clock, MapPin, Smartphone, Monitor, Layout, Wifi, Link as LinkIcon, Timer, Activity, MessageSquare, Cpu, Battery, Zap, Droplets, Sun, Moon, ArrowDownToLine, MousePointer2, CpuIcon, MemoryStick, Search, SortDesc, Filter } from "lucide-react";
 import { LocalTime } from "@/components/LocalTime";
 
 const getDurationText = (seconds?: number) => {
@@ -34,20 +34,104 @@ const getDeviceModel = (ua: string, fallbackOS?: string): string => {
 
 export function InteractiveActivityStream({ visits, chats, sessionDurations, sessionScrollDepths }: { visits: any[], chats: any[], sessionDurations: any, sessionScrollDepths?: any }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<"recent" | "duration" | "depth">("recent");
+  const [hasChatsOnly, setHasChatsOnly] = useState(false);
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
 
   const toggleRow = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const processedVisits = useMemo(() => {
+    let result = [...visits];
+
+    // Filter by chats
+    if (hasChatsOnly) {
+      result = result.filter(v => chats.some(c => c.sessionId === v.id));
+    }
+
+    // Filter by search
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter(v => 
+        (v.country || "").toLowerCase().includes(q) ||
+        (v.city || "").toLowerCase().includes(q) ||
+        (v.os || "").toLowerCase().includes(q) ||
+        (v.deviceModel || "").toLowerCase().includes(q) ||
+        (v.browser || "").toLowerCase().includes(q)
+      );
+    }
+
+    // Sort
+    if (sortBy === "recent") {
+      result.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    } else if (sortBy === "duration") {
+      result.sort((a, b) => (sessionDurations[b.id] || 0) - (sessionDurations[a.id] || 0));
+    } else if (sortBy === "depth") {
+      result.sort((a, b) => (sessionScrollDepths?.[b.id] || 0) - (sessionScrollDepths?.[a.id] || 0));
+    }
+
+    return result;
+  }, [visits, chats, sessionDurations, sessionScrollDepths, searchQuery, sortBy, hasChatsOnly]);
+
+  const displayedVisits = processedVisits.slice(0, page * ITEMS_PER_PAGE);
+
   return (
-    <div className="flex flex-col gap-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2 pb-4">
-      {visits.length > 0 ? visits.map((v, i) => {
+    <div className="flex flex-col gap-4 max-h-[600px] overflow-y-auto custom-scrollbar pr-2 pb-4 relative">
+      
+      {/* Sticky Control Bar */}
+      <div className="sticky top-0 z-20 flex flex-col sm:flex-row gap-3 p-3 rounded-2xl bg-white/70 dark:bg-black/50 backdrop-blur-xl border border-violet-200/50 dark:border-violet-800/30 shadow-sm mb-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-violet-400" />
+          <input 
+            type="text" 
+            placeholder="Search country, OS, device..." 
+            value={searchQuery}
+            onChange={e => { setSearchQuery(e.target.value); setPage(1); }}
+            className="w-full bg-white/50 dark:bg-black/30 border border-violet-100 dark:border-violet-900/50 rounded-xl pl-9 pr-4 py-2 text-sm focus:outline-none focus:border-violet-400 dark:focus:border-violet-600 transition-colors"
+          />
+        </div>
+        <div className="flex gap-2">
+          <select 
+            value={sortBy}
+            onChange={e => { setSortBy(e.target.value as any); setPage(1); }}
+            className="bg-white/50 dark:bg-black/30 border border-violet-100 dark:border-violet-900/50 rounded-xl px-3 py-2 text-sm text-violet-900 dark:text-violet-100 focus:outline-none appearance-none cursor-pointer"
+          >
+            <option value="recent">Most Recent</option>
+            <option value="duration">Longest Session</option>
+            <option value="depth">Deepest Scroll</option>
+          </select>
+          <button 
+            onClick={() => { setHasChatsOnly(!hasChatsOnly); setPage(1); }}
+            className={`px-3 py-2 rounded-xl text-sm font-medium transition-all border flex items-center gap-1 ${hasChatsOnly ? 'bg-pink-100 dark:bg-pink-900/40 border-pink-300 dark:border-pink-700 text-pink-700 dark:text-pink-300' : 'bg-white/50 dark:bg-black/30 border-violet-100 dark:border-violet-900/50 text-muted-foreground'}`}
+            title="Show only sessions that chatted with Kishmish"
+          >
+            <MessageSquare className="w-4 h-4" />
+            <span className="hidden sm:inline">Chats</span>
+          </button>
+        </div>
+      </div>
+
+      {displayedVisits.length > 0 ? displayedVisits.map((v, i) => {
         const userChats = chats.filter(c => c.sessionId === v.id).sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
         const hasChats = userChats.length > 0;
         const isExpanded = expandedId === v.id;
 
+        const currentDate = new Date(v.timestamp).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+        const previousDate = i > 0 ? new Date(displayedVisits[i - 1].timestamp).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }) : null;
+        const showDateHeader = sortBy === "recent" && currentDate !== previousDate;
+
         return (
           <div key={i} className="flex flex-col gap-2">
+            {showDateHeader && (
+              <div className="sticky top-20 z-10 py-1.5 px-4 mt-2 mb-1 bg-violet-200/90 dark:bg-violet-900/80 backdrop-blur-md rounded-full self-start border border-violet-300 dark:border-violet-700 shadow-sm shadow-violet-500/10">
+                <span className="text-[10px] font-black uppercase tracking-widest text-violet-900 dark:text-violet-100">
+                  {currentDate}
+                </span>
+              </div>
+            )}
             <div 
               onClick={() => hasChats && toggleRow(v.id)}
               className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-3xl bg-white/80 dark:bg-black/60 border ${isExpanded ? 'border-pink-500/50 shadow-pink-500/20' : 'border-violet-100 dark:border-violet-800/50'} hover:border-violet-300 dark:hover:border-violet-600 transition-all duration-300 shadow-sm hover:shadow-md group ${hasChats ? 'cursor-pointer' : ''}`}
@@ -215,10 +299,19 @@ export function InteractiveActivityStream({ visits, chats, sessionDurations, ses
           </div>
         );
       }) : (
-        <div className="flex flex-col items-center justify-center p-12 text-violet-500 dark:text-violet-400">
-          <Activity className="w-12 h-12 mb-4 opacity-50 animate-pulse" />
-          <p className="font-medium">Waiting for incoming signals...</p>
-          <p className="text-xs opacity-70 mt-2">Make sure to visit the homepage in another tab!</p>
+        <div className="text-center p-8 text-violet-500/50 dark:text-violet-400/50 font-mono text-sm">
+          No matching sessions found.
+        </div>
+      )}
+
+      {displayedVisits.length < processedVisits.length && (
+        <div className="flex justify-center mt-4">
+          <button 
+            onClick={() => setPage(p => p + 1)}
+            className="px-6 py-2 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 text-sm font-bold hover:bg-violet-200 dark:hover:bg-violet-800/50 transition-colors"
+          >
+            Load More Sessions ({processedVisits.length - displayedVisits.length} remaining)
+          </button>
         </div>
       )}
     </div>
