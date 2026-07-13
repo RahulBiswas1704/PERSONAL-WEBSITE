@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import LiveRoaster from "@/components/sandbox/LiveRoaster";
+import LiveRoasterWrapper from "@/components/sandbox/LiveRoasterWrapper";
 
 export const metadata: Metadata = {
   title: "Kishmish's Roast Room",
@@ -27,7 +27,7 @@ export default function SandboxPage() {
       </div>
 
       <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center">
-        <LiveRoaster />
+        <LiveRoasterWrapper />
       </div>
     </div>
   );

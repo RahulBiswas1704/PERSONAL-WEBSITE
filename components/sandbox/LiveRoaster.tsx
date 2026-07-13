@@ -471,7 +471,9 @@ export default function LiveRoaster() {
           }
           hapticTick();
         }}
-        className="absolute top-0 right-4 p-2 bg-card border border-border rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all z-20"
+        className="absolute top-0 right-4 p-2 bg-card border border-border rounded-full shadow-sm hover:scale-105 active:scale-95 transition-all z-20 focus:outline-none focus:ring-2 focus:ring-accent"
+        aria-label={soundEnabled ? "Mute Kishmish sound" : "Enable Kishmish sound"}
+        title={soundEnabled ? "Mute" : "Unmute"}
       >
         {soundEnabled ? <Volume2 className="w-5 h-5 text-accent" /> : <VolumeX className="w-5 h-5 text-muted-foreground" />}
       </button>
@@ -490,10 +492,59 @@ export default function LiveRoaster() {
         </AnimatePresence>
 
         <motion.div
-          className="relative w-48 h-40 bg-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-xl flex flex-col items-center justify-center"
+          role="button"
+          tabIndex={0}
+          aria-label="Poke Kishmish"
+          className="relative w-48 h-40 bg-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-xl flex flex-col items-center justify-center focus:outline-none focus:ring-4 focus:ring-orange-500"
           animate={getHeadAnimation()}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              // Trigger same poke logic
+              hapticHeavy();
+              if (isSpeaking || isLoading) return;
+              const newCount = pokeCount + 1;
+              setPokeCount(newCount);
+              const pokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
+                "en-US": [
+                  { e: "surprised", m: "Hey! Watch the fur! I just groomed." },
+                  { e: "angry", m: "I said, watch it, meatbag." },
+                  { e: "smirking", m: "Oh, so you think poking me will make you interesting?" },
+                  { e: "bored", m: "*Sigh*... Poke all you want, you're still boring." },
+                  { e: "angry", m: "*Hiss!* Back off before I scratch your screen!" },
+                  { e: "dizzy", m: "Okay, now I'm just nauseous... Ugh." }
+                ],
+                "hi-IN": [
+                  { e: "surprised", m: "अरे! बालों से हाथ हटाओ! अभी-अभी सेट किये हैं।" },
+                  { e: "angry", m: "बोला ना, थोड़ा ध्यान से, इंसान।" },
+                  { e: "smirking", m: "ओह, तुम्हें लगता है पोक करने से तुम कूल लगोगे?" },
+                  { e: "bored", m: "*Sigh*... जितना मर्जी पोक कर लो, तुम फिर भी एकदम बोरिंग ही हो।" },
+                  { e: "angry", m: "*Hiss!* पीछे हटो वरना स्क्रीन स्क्रैच कर दूंगी!" },
+                  { e: "dizzy", m: "बस करो यार, अब मुझे चक्कर आ रहे हैं... उफ़।" }
+                ],
+                "bn-IN": [
+                  { e: "surprised", m: "আরে! আমার লোমে হাত দেবে না! এইমাত্র সেট করলাম।" },
+                  { e: "angry", m: "বললাম তো, সাবধানে।" },
+                  { e: "smirking", m: "ওহ, ভাবছো আমাকে খোঁচা দিলে খুব কুল লাগবে?" },
+                  { e: "bored", m: "*Sigh*... যতো খুশি খোঁচা দাও, তুমি এখনও সেই বোরিং-ই আছো।" },
+                  { e: "angry", m: "*Hiss!* সরো নাহলে কিন্তু স্ক্রিন স্ক্র্যাচ করে দেবো!" },
+                  { e: "dizzy", m: "ব্যাস করো, এবার আমার মাথা ঘুরছে... উফ।" }
+                ]
+              };
+              const currentReactions = pokeReactions[language] || pokeReactions["en-US"];
+              const reaction = currentReactions[(newCount - 1) % currentReactions.length];
+              setEmotion(reaction.e);
+              setChatHistory(prev => [...prev, { role: 'model', content: reaction.m }]);
+              speak(reaction.m, language);
+              fetch('/api/track', {
+                method: 'POST',
+                body: JSON.stringify({ eventType: 'poke' }),
+              }).catch(() => {});
+              if (newCount % currentReactions.length === 0) setPokeCount(0);
+            }
+          }}
           onClick={() => {
             hapticHeavy();
             if (isSpeaking || isLoading) return;
@@ -701,7 +752,9 @@ export default function LiveRoaster() {
               key={lang}
               type="button"
               onClick={() => { setLanguage(lang); hapticTick(); }}
-              className={`px-4 py-2 rounded-full text-xs font-bold font-mono transition-all ${language === lang ? 'bg-accent text-white shadow-md scale-105' : 'bg-card text-muted-foreground border border-border hover:bg-muted'}`}
+              className={`px-4 py-2 rounded-full text-xs font-bold font-mono transition-all focus:outline-none focus:ring-2 focus:ring-accent ${language === lang ? 'bg-accent text-white shadow-md scale-105' : 'bg-card text-muted-foreground border border-border hover:bg-muted'}`}
+              aria-pressed={language === lang}
+              aria-label={`Set language to ${lang === "en-US" ? "English" : lang === "hi-IN" ? "Hindi" : "Bengali"}`}
             >
               {lang === "en-US" ? "English" : lang === "hi-IN" ? "Hindi" : "Bengali"}
             </button>
@@ -717,20 +770,25 @@ export default function LiveRoaster() {
             className="w-full bg-card border-2 border-border focus:border-accent outline-none px-6 py-4 rounded-full font-mono text-sm pr-24 transition-colors"
             disabled={isLoading || isListening}
             maxLength={100}
+            aria-label="Message input for Kishmish"
           />
           <div className="absolute right-2 flex items-center gap-2">
             <button
               type="button"
               onClick={toggleListening}
               disabled={isLoading}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-muted text-muted-foreground hover:bg-zinc-200 dark:hover:bg-zinc-700'}`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-accent ${isListening ? 'bg-red-500 text-white animate-pulse' : 'bg-muted text-muted-foreground hover:bg-zinc-200 dark:hover:bg-zinc-700'}`}
+              aria-label={isListening ? "Stop listening" : "Start dictation"}
+              title="Voice Dictation"
             >
               {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
             </button>
             <button
               type="submit"
               disabled={!message.trim() || isLoading}
-              className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center disabled:opacity-50 hover:scale-105 active:scale-95 transition-all"
+              className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center disabled:opacity-50 hover:scale-105 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-background"
+              aria-label="Send message"
+              title="Send message"
             >
               {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
             </button>

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   description: "Personal website, portfolio, and digital garden of Rahul Biswas. Exploring system management, full-stack web development, and creative digital products.",
   keywords: ["Rahul Biswas", "Rahul Biswas Portfolio", "System Manager West Bengal", "Full-stack Developer", "Self-taught Developer", "Software Engineer", "Web Development", "React", "Next.js"],
-  metadataBase: new URL("https://rahul-website.vercel.app"),
+  metadataBase: new URL("https://rahul-biswas.vercel.app"),
   alternates: {
     canonical: '/',
   },
@@ -43,10 +43,18 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "Rahul Biswas | Full-stack Developer & System Manager",
+    title: "Rahul | Full-stack Developer",
     description: "Personal website, portfolio, and digital garden of Rahul Biswas.",
-    url: "https://rahul-website.vercel.app",
-    siteName: "Rahul",
+    url: "https://rahul-biswas.vercel.app",
+    siteName: "Rahul's Portfolio",
+    images: [
+      {
+        url: "https://rahul-biswas.vercel.app/api/og?title=Rahul Biswas&description=Software Engineer & Builder",
+        width: 1200,
+        height: 630,
+        alt: "Rahul Biswas Portfolio",
+      },
+    ],
     locale: "en_US",
     type: "website",
   },
@@ -55,6 +63,7 @@ export const metadata: Metadata = {
     title: "Rahul Biswas | Full-stack Developer",
     description: "Personal website, portfolio, and digital garden of Rahul Biswas.",
     creator: "@rahulbiswas1704",
+    images: ["https://rahul-biswas.vercel.app/api/og?title=Rahul Biswas&description=Software Engineer & Builder"],
   },
 };
 
