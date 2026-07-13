@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: Request) {
   try {
-    const { message, language, history } = await req.json();
+    const { message, language, history, sessionId } = await req.json();
 
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
@@ -189,6 +189,23 @@ Choose the emotion that best matches your roast.`;
         }
       } catch (e) {
         console.error("TTS Fetch failed on server", e);
+      }
+    }
+
+    // --- LOG CHAT TO KV ---
+    if (sessionId && message && parsed.reply) {
+      try {
+        await kv.lpush('analytics:chats', {
+          id: crypto.randomUUID(),
+          sessionId,
+          timestamp: new Date().toISOString(),
+          userMessage: message,
+          kishmishResponse: parsed.reply,
+          emotion: parsed.emotion,
+          language
+        });
+      } catch (e) {
+        console.error("Failed to log chat to KV:", e);
       }
     }
 

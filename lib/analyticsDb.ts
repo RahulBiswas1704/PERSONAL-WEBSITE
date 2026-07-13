@@ -43,16 +43,27 @@ export interface KishmishEventRecord {
   eventType: 'poke' | 'idle_roast';
 }
 
+export interface ChatLogRecord {
+  id: string;
+  sessionId: string;
+  timestamp: string;
+  userMessage: string;
+  kishmishResponse: string;
+  emotion: string;
+  language: string;
+}
+
 interface AnalyticsData {
   visits: VisitRecord[];
   clicks: ClickRecord[];
   roasts: RoastRecord[];
   events: KishmishEventRecord[];
+  chats: ChatLogRecord[];
 }
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
   if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
-    return { visits: [], clicks: [], roasts: [], events: [] };
+    return { visits: [], clicks: [], roasts: [], events: [], chats: [] };
   }
   try {
     // Vercel KV lists. We use lrange to get all elements (0 to -1)
@@ -61,16 +72,18 @@ export const getAnalyticsData = async (): Promise<AnalyticsData> => {
     const clicks = await kv.lrange<ClickRecord>('analytics:clicks', 0, -1);
     const roasts = await kv.lrange<RoastRecord>('analytics:roasts', 0, -1);
     const events = await kv.lrange<KishmishEventRecord>('analytics:kishmish_events', 0, -1);
+    const chats = await kv.lrange<ChatLogRecord>('analytics:chats', 0, -1);
     
     return {
       visits: visits || [],
       clicks: clicks || [],
       roasts: roasts || [],
-      events: events || []
+      events: events || [],
+      chats: chats || []
     };
   } catch (error) {
     console.error("KV fetch error (Check if KV_REST_API_URL and KV_REST_API_TOKEN are set):", error);
-    return { visits: [], clicks: [], roasts: [], events: [] };
+    return { visits: [], clicks: [], roasts: [], events: [], chats: [] };
   }
 };
 
