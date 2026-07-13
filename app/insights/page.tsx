@@ -118,6 +118,18 @@ export default async function InsightsPage() {
   }, {} as Record<string, number>);
   const topModels = Object.entries(modelsMap).sort((a, b) => b[1] - a[1]);
 
+  const avgLatency = data.roasts.length > 0 ? Math.round(data.roasts.reduce((acc, r) => acc + (r.latencyMs || 0), 0) / data.roasts.length) : 0;
+  const fastestRoast = data.roasts.length > 0 ? Math.min(...data.roasts.map(r => r.latencyMs || 9999)) : 0;
+  
+  const totalChats = data.chats.length;
+  const uniqueVictims = new Set(data.chats.map(c => c.sessionId)).size;
+  
+  const emotionsMap = data.chats.reduce((acc, c) => {
+    acc[c.emotion] = (acc[c.emotion] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const topEmotion = Object.entries(emotionsMap).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
+
   return (
     <div className="relative space-y-12 animate-fade-in-up pb-20 max-w-7xl mx-auto">
       
@@ -154,48 +166,64 @@ export default async function InsightsPage() {
           <Activity className="w-4 h-4" /> Kishmish AI Telemetry
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 relative z-10">
           
-          {/* Total Roasts */}
-          <div className="flex flex-col gap-2 p-5 rounded-2xl bg-pink-50 dark:bg-pink-950/30 border border-pink-100 dark:border-pink-900/50">
+          {/* Total Roasts & Chats */}
+          <div className="flex flex-col gap-2 p-4 rounded-2xl bg-pink-50 dark:bg-pink-950/30 border border-pink-100 dark:border-pink-900/50">
             <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Total Roasts</span>
             <span className="text-4xl font-black text-pink-950 dark:text-pink-50">{totalRoasts}</span>
+            <span className="text-[10px] font-bold text-pink-500 uppercase tracking-widest">{totalChats} Chat Logs</span>
           </div>
 
           {/* User Interactions */}
-          <div className="flex flex-col justify-center gap-3 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+          <div className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold text-pink-700 dark:text-pink-300">Pokes</span>
-              <span className="text-lg font-black text-pink-950 dark:text-pink-100">{pokeCount}</span>
+              <span className="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-widest">Pokes</span>
+              <span className="text-sm font-black text-pink-950 dark:text-pink-100">{pokeCount}</span>
             </div>
             <div className="w-full h-px bg-pink-200/50 dark:bg-pink-800/50" />
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold text-pink-700 dark:text-pink-300">Idle Triggers</span>
-              <span className="text-lg font-black text-pink-950 dark:text-pink-100">{idleRoastsCount}</span>
+              <span className="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-widest">Idle Triggers</span>
+              <span className="text-sm font-black text-pink-950 dark:text-pink-100">{idleRoastsCount}</span>
+            </div>
+            <div className="w-full h-px bg-pink-200/50 dark:bg-pink-800/50" />
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] font-bold text-pink-700 dark:text-pink-300 uppercase tracking-widest">Unique Victims</span>
+              <span className="text-sm font-black text-pink-950 dark:text-pink-100">{uniqueVictims}</span>
             </div>
           </div>
 
-          {/* Top Language */}
-          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
-            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Top Language</span>
-            <span className="text-xl font-bold text-pink-950 dark:text-pink-50">
-              {topLanguages.length > 0 ? topLanguages[0][0] : 'N/A'}
-            </span>
-            <span className="text-xs font-mono text-pink-500">
-              {topLanguages.length > 0 ? `${topLanguages[0][1]} requests` : ''}
-            </span>
+          {/* Performance (Latency) */}
+          <div className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+             <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Avg Latency</span>
+             <span className="text-2xl font-black text-pink-950 dark:text-pink-50">{avgLatency}ms</span>
+             <span className="text-[10px] font-mono text-pink-500">Fastest: {fastestRoast}ms</span>
           </div>
 
-          {/* Top Model */}
-          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
-            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Primary Model</span>
-            <span className="text-xl font-bold text-pink-950 dark:text-pink-50 truncate">
-              {topModels.length > 0 ? topModels[0][0] : 'N/A'}
-            </span>
-            <span className="text-xs font-mono text-pink-500">
-              {topModels.length > 0 ? `${topModels[0][1]} requests` : ''}
-            </span>
+          {/* Top Emotion */}
+          <div className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Dominant Mood</span>
+            <span className="text-2xl font-black text-pink-950 dark:text-pink-50 uppercase truncate">{topEmotion}</span>
+            <span className="text-[10px] font-mono text-pink-500">Most frequent output</span>
           </div>
+
+          {/* AI Model & Language */}
+          <div className="flex flex-col justify-center gap-2 p-4 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+             <div className="flex flex-col">
+               <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Primary Model</span>
+               <span className="text-sm font-bold text-pink-950 dark:text-pink-50 truncate" title={topModels.length > 0 ? topModels[0][0] : 'N/A'}>
+                 {topModels.length > 0 ? topModels[0][0].replace('gemini-', '') : 'N/A'}
+               </span>
+             </div>
+             <div className="w-full h-px bg-pink-200/50 dark:bg-pink-800/50" />
+             <div className="flex flex-col">
+               <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Top Language</span>
+               <span className="text-sm font-bold text-pink-950 dark:text-pink-50">
+                 {topLanguages.length > 0 ? topLanguages[0][0] : 'N/A'}
+               </span>
+             </div>
+          </div>
+
         </div>
       </div>
 
