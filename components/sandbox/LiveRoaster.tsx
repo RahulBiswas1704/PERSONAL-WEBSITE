@@ -30,6 +30,7 @@ export default function LiveRoaster() {
 
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -37,24 +38,36 @@ export default function LiveRoaster() {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
       if (SpeechRecognition) {
         recognitionRef.current = new SpeechRecognition();
-        recognitionRef.current.continuous = false;
+        recognitionRef.current.continuous = true; // Use continuous so it doesn't instantly cut off on short pauses
         recognitionRef.current.interimResults = true;
         
         recognitionRef.current.onresult = (event: any) => {
           let currentTranscript = "";
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
+          for (let i = 0; i < event.results.length; ++i) { // Collect all results since we are continuous
             currentTranscript += event.results[i][0].transcript;
           }
           setMessage(currentTranscript);
+
+          // Custom Silence Detection (wait 2.5s after the last word is spoken before stopping)
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          
+          silenceTimerRef.current = setTimeout(() => {
+            if (recognitionRef.current) {
+               recognitionRef.current.stop();
+            }
+          }, 1800);
         };
 
         recognitionRef.current.onerror = (event: any) => {
           console.error("Speech recognition error", event.error);
           setIsListening(false);
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
         };
 
         recognitionRef.current.onend = () => {
           setIsListening(false);
+          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
+          
           // Auto-submit almost instantly after speaking ends for snappy conversation
           setTimeout(() => {
             if (formRef.current) {
@@ -80,6 +93,7 @@ export default function LiveRoaster() {
     }
     
     if (isListening) {
+      if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current);
       recognitionRef.current.stop();
       setIsListening(false);
     } else {
