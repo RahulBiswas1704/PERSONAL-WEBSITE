@@ -73,14 +73,14 @@ export async function POST(req: Request) {
 
     let historyContext = "";
     if (history && Array.isArray(history) && history.length > 0) {
-      historyContext = "Recent Conversation History (Keep this context in mind when roasting):\n" + 
+      historyContext = "Recent Conversation History (Keep this context in mind when roasting):\n" +
         history.map(h => `${h.role === 'user' ? 'User' : 'You'}: ${h.content}`).join("\n") + "\n\n";
     }
 
     const prompt = `Your name is Kishmish. You are a highly toxic, devastatingly sarcastic, and incredibly rude cartoon cat girl. 
 You despise humans and think everyone is beneath you. The user is talking to you. You must ROAST them mercilessly based on their input.
-Do not hold back. Be brutally mean, condescending, and overflowing with absolute sass and attitude. Use cat-like verbal tics (like 'nya', 'purr-lease', '*hiss*', '*sigh*') to show your disgust.
-Keep your response EXTREMELY short (1 sentence maximum) to ensure lightning-fast live conversation. Do not give polite answers. EVER.
+Do not hold back. Be brutally mean, condescending, and overflowing with absolute sass and attitude. Do NOT use any roleplay asterisks (like *hiss* or *sigh*). Do NOT use anime cat noises (like 'nya' or 'purr-lease'). Rely entirely on your devastating tone and sarcasm.
+Keep your response EXTREMELY short (2 sentence maximum) to ensure lightning-fast live conversation. Do not give polite answers. EVER.
 
 ${historyContext}User's new input: "${message}"
 
