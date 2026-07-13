@@ -636,7 +636,7 @@ export default function LiveRoaster() {
       case "dizzy": return { rotate: [0, 5, -5, 10, -10, 0], x: [0, 5, -5, 5, -5, 0], transition: { repeat: Infinity, duration: 2, ease: "easeInOut" } };
       case "bored": return { y: [0, 3, 0], transition: { repeat: Infinity, duration: 4, ease: "easeInOut" } };
       case "idle":
-      default: return { y: [0, -3, 0], transition: { repeat: Infinity, duration: 4, ease: "easeInOut" } }; // Slower, softer idle
+      default: return persona === "flirty" ? { y: [0, -5, 0], rotate: [-2, 2, -2], transition: { repeat: Infinity, duration: 2, ease: "easeInOut" } } : { y: [0, -3, 0], transition: { repeat: Infinity, duration: 4, ease: "easeInOut" } }; // Bouncier idle for flirty
     }
   };
 
@@ -711,6 +711,7 @@ export default function LiveRoaster() {
   };
 
   const getPupilColor = () => {
+    if (persona === "flirty") return "#ec4899"; // Pink
     if (emotion === "angry") return "#ef4444"; // Red
     if (emotion === "crying") return "#3b82f6"; // Blue
     if (emotion === "dizzy") return "#eab308"; // Yellow/Swirly
@@ -724,16 +725,18 @@ export default function LiveRoaster() {
         <AnimatePresence>
           {emotion === "angry" && (
             <motion.div 
+              key="angry-overlay"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="fixed inset-0 pointer-events-none z-[9999]"
               style={{ background: "radial-gradient(circle, transparent 50%, rgba(220, 38, 38, 0.15) 100%)", boxShadow: "inset 0 0 100px rgba(220,38,38,0.3)" }}
             />
           )}
           {emotion === "crying" && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 pointer-events-none z-[9999] bg-blue-900/10" />
+            <motion.div key="crying-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 pointer-events-none z-[9999] bg-blue-900/10" />
           )}
           {emotion === "dancing" && (
             <motion.div 
+              key="dancing-overlay"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="fixed inset-0 pointer-events-none z-[9999]"
               style={{ background: "linear-gradient(45deg, rgba(255,0,0,0.05), rgba(0,255,0,0.05), rgba(0,0,255,0.05))", backgroundSize: "400% 400%" }}
@@ -742,18 +745,19 @@ export default function LiveRoaster() {
           )}
           {persona === "flirty" && (
             <motion.div 
+              key="flirty-overlay"
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden"
               style={{ background: "radial-gradient(circle, transparent 50%, rgba(236, 72, 153, 0.1) 100%)" }}
             >
               {/* Floating Hearts */}
-              {Array.from({ length: 6 }).map((_, i) => (
+              {Array.from({ length: 14 }).map((_, i) => (
                 <motion.div
                   key={i}
-                  initial={{ y: "110vh", x: `${20 + i * 15}vw`, opacity: 0, scale: Math.random() * 0.5 + 0.5 }}
+                  initial={{ y: "110vh", x: `${10 + i * 6}vw`, opacity: 0, scale: Math.random() * 0.8 + 0.5 }}
                   animate={{ y: "-10vh", opacity: [0, 1, 0] }}
-                  transition={{ repeat: Infinity, duration: 4 + Math.random() * 3, delay: Math.random() * 2, ease: "linear" }}
-                  className="absolute text-4xl text-pink-500"
+                  transition={{ repeat: Infinity, duration: 3 + Math.random() * 4, delay: Math.random() * 3, ease: "linear" }}
+                  className="absolute text-5xl text-pink-500 drop-shadow-[0_0_15px_rgba(236,72,153,0.5)]"
                 >
                   ❤️
                 </motion.div>
@@ -1034,8 +1038,9 @@ export default function LiveRoaster() {
                     transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   >
                     <div className="w-1.5 h-4 bg-black rounded-full" />
+                    {persona === "flirty" && <div className="absolute inset-0 flex items-center justify-center text-[10px] pb-[1px] leading-none z-0">❤️</div>}
                     {/* Catchlight */}
-                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)] z-10" />
                   </motion.div>
                 </motion.div>
               </div>
@@ -1055,8 +1060,9 @@ export default function LiveRoaster() {
                     transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   >
                     <div className="w-1.5 h-4 bg-black rounded-full" />
+                    {persona === "flirty" && <div className="absolute inset-0 flex items-center justify-center text-[10px] pb-[1px] leading-none z-0">❤️</div>}
                     {/* Catchlight */}
-                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)]" />
+                    <div className="absolute top-1 right-1 w-1.5 h-1.5 bg-white/90 rounded-full shadow-[0_0_2px_rgba(255,255,255,0.8)] z-10" />
                   </motion.div>
                 </motion.div>
               </div>
@@ -1064,10 +1070,10 @@ export default function LiveRoaster() {
 
             {/* Blushes */}
             <AnimatePresence>
-              {(emotion === "laughing" || emotion === "smirking") && (
-                <div className="absolute top-8 w-full flex justify-center gap-14 pointer-events-none z-10">
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} className="w-6 h-3 bg-pink-500 rounded-full blur-[4px]" />
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 0.6 }} exit={{ opacity: 0 }} className="w-6 h-3 bg-pink-500 rounded-full blur-[4px]" />
+              {(emotion === "laughing" || emotion === "smirking" || persona === "flirty") && (
+                <div key="blushes-container" className="absolute top-8 w-full flex justify-center gap-14 pointer-events-none z-10">
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: persona === "flirty" ? 0.9 : 0.6 }} exit={{ opacity: 0 }} className={`w-6 h-3 rounded-full blur-[4px] ${persona === "flirty" ? "bg-pink-400" : "bg-pink-500"}`} />
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: persona === "flirty" ? 0.9 : 0.6 }} exit={{ opacity: 0 }} className={`w-6 h-3 rounded-full blur-[4px] ${persona === "flirty" ? "bg-pink-400" : "bg-pink-500"}`} />
                 </div>
               )}
             </AnimatePresence>
