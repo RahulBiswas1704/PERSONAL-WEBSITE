@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, Volume2, VolumeX, Mic, MicOff } from "lucide-react";
 import { hapticTick, hapticPop, hapticHeavy } from "@/lib/haptics";
@@ -23,6 +24,8 @@ export default function LiveRoaster() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isBlinking, setIsBlinking] = useState(false);
   const [mouthHeight, setMouthHeight] = useState(4);
+  const [mounted, setMounted] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const chatLogRef = useRef<HTMLDivElement>(null);
@@ -143,6 +146,11 @@ export default function LiveRoaster() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // Hydration safety for portal
+  useEffect(() => {
+    setMounted(true);
   }, []);
 
   // Blinking logic
@@ -439,6 +447,7 @@ export default function LiveRoaster() {
 
   const getHeadAnimation = (): any => {
     // We add a layout transition in the JSX, but here we define the continuous/target animations
+    if (isDragging) return { scale: 1.05 }; // Lock layout animations during physical drag
     if (isLoading) return { y: [0, -2, 0], scale: [1, 0.98, 1], transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" } };
     switch (emotion) {
       case "laughing": return { y: [0, -10, 0], transition: { repeat: Infinity, duration: 0.5, ease: "easeInOut" } };
@@ -489,6 +498,19 @@ export default function LiveRoaster() {
     return { rotate: [baseRot * multiplier, (baseRot - 5) * multiplier, baseRot * multiplier], transition: { repeat: Infinity, duration: 2.5 + (isTop ? 0 : 0.5) } };
   };
 
+  const getLeftPawAnimation = (): any => {
+    if (emotion === "angry") return { x: 25, y: -20, rotate: 45, transition: { type: "spring" } };
+    if (emotion === "dancing") return { y: [-20, 10, -20], rotate: [-20, 20, -20], transition: { repeat: Infinity, duration: 0.6 } };
+    if (isSpeaking) return { y: [0, -10, 0], rotate: [0, 15, 0], transition: { repeat: Infinity, duration: 0.5 } };
+    return { y: [0, -4, 0], rotate: [0, -5, 0], transition: { repeat: Infinity, duration: 4 } };
+  };
+
+  const getRightPawAnimation = (): any => {
+    if (emotion === "angry") return { x: -25, y: -20, rotate: -45, transition: { type: "spring" } };
+    if (emotion === "dancing") return { y: [10, -20, 10], rotate: [20, -20, 20], transition: { repeat: Infinity, duration: 0.6 } };
+    return { y: [0, -3, 0], rotate: [0, 5, 0], transition: { repeat: Infinity, duration: 4.2 } };
+  };
+
   const getPupilColor = () => {
     if (emotion === "angry") return "#ef4444"; // Red
     if (emotion === "crying") return "#3b82f6"; // Blue
@@ -497,7 +519,33 @@ export default function LiveRoaster() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-8 relative z-20">
+    <>
+      {/* Environment Overlay */}
+      {mounted && createPortal(
+        <AnimatePresence>
+          {emotion === "angry" && (
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 pointer-events-none z-[9999]"
+              style={{ background: "radial-gradient(circle, transparent 50%, rgba(220, 38, 38, 0.15) 100%)", boxShadow: "inset 0 0 100px rgba(220,38,38,0.3)" }}
+            />
+          )}
+          {emotion === "crying" && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 pointer-events-none z-[9999] bg-blue-900/10" />
+          )}
+          {emotion === "dancing" && (
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 pointer-events-none z-[9999]"
+              style={{ background: "linear-gradient(45deg, rgba(255,0,0,0.05), rgba(0,255,0,0.05), rgba(0,0,255,0.05))", backgroundSize: "400% 400%" }}
+              transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+            />
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-8 relative z-20">
 
       {/* Sound Toggle */}
       <button
@@ -536,10 +584,35 @@ export default function LiveRoaster() {
           role="button"
           tabIndex={0}
           aria-label="Poke Kishmish"
-          className="relative w-48 h-40 bg-gradient-to-br from-zinc-800 to-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4),inset_0_4px_10px_rgba(255,255,255,0.1)] flex flex-col items-center justify-center focus:outline-none focus:ring-4 focus:ring-orange-500 overflow-visible"
-          animate={getHeadAnimation()}
+          className="relative w-48 h-40 bg-gradient-to-br from-zinc-800 to-zinc-900 border-4 border-zinc-700 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.4),inset_0_4px_10px_rgba(255,255,255,0.1)] flex flex-col items-center justify-center focus:outline-none focus:ring-4 focus:ring-orange-500 overflow-visible z-20"
+          animate={{
+            ...getHeadAnimation(),
+            boxShadow: isSpeaking 
+              ? `0 0 ${mouthHeight * 3}px ${mouthHeight}px rgba(249, 115, 22, 0.4), 0 20px 50px rgba(0,0,0,0.4), inset 0 4px 10px rgba(255,255,255,0.1)`
+              : `0 0 10px 0px rgba(249, 115, 22, 0), 0 20px 50px rgba(0,0,0,0.4), inset 0 4px 10px rgba(255,255,255,0.1)`
+          }}
           whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.95, cursor: "grabbing" }}
+          drag
+          dragConstraints={{ left: -50, right: 50, top: -50, bottom: 50 }}
+          dragElastic={0.3}
+          onDragStart={() => {
+            setIsDragging(true);
+            if (emotion !== "surprised") setEmotion("surprised");
+          }}
+          onDragEnd={() => {
+            setIsDragging(false);
+            setEmotion("dizzy");
+            const dropMsgMap: Record<Language, string> = {
+              "en-US": "Woah! Put me down, meatbag!",
+              "hi-IN": "अरे! मुझे नीचे रखो, इंसान!",
+              "bn-IN": "ওরে বাবা! আমাকে নামাও!"
+            };
+            const dropMsg = dropMsgMap[language] || dropMsgMap["en-US"];
+            setChatHistory(prev => [...prev, { role: 'model', content: dropMsg }]);
+            speak(dropMsg, language);
+            setTimeout(() => setEmotion("angry"), 2000);
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
@@ -760,6 +833,28 @@ export default function LiveRoaster() {
               )}
             </AnimatePresence>
 
+            {/* Left Paw */}
+            <motion.div
+              className="absolute -left-4 bottom-4 w-12 h-12 bg-zinc-900 border-4 border-zinc-700 rounded-full z-30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)] flex items-center justify-center"
+              animate={getLeftPawAnimation()}
+            >
+              <div className="flex gap-1 mb-2">
+                <div className="w-1 h-3 bg-zinc-700 rounded-full" />
+                <div className="w-1 h-3 bg-zinc-700 rounded-full" />
+              </div>
+            </motion.div>
+            
+            {/* Right Paw */}
+            <motion.div
+              className="absolute -right-4 bottom-4 w-12 h-12 bg-zinc-900 border-4 border-zinc-700 rounded-full z-30 shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)] flex items-center justify-center"
+              animate={getRightPawAnimation()}
+            >
+              <div className="flex gap-1 mb-2">
+                <div className="w-1 h-3 bg-zinc-700 rounded-full" />
+                <div className="w-1 h-3 bg-zinc-700 rounded-full" />
+              </div>
+            </motion.div>
+
           </div>
         </motion.div>
       </motion.div>
@@ -853,5 +948,6 @@ export default function LiveRoaster() {
         </div>
       </form>
     </div>
+    </>
   );
 }
