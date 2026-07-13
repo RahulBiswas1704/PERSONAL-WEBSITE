@@ -26,6 +26,7 @@ export default function LiveRoaster() {
   const [mouthHeight, setMouthHeight] = useState(4);
   const [mounted, setMounted] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const currentAudioRef = useRef<HTMLAudioElement | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const chatLogRef = useRef<HTMLDivElement>(null);
@@ -475,6 +476,7 @@ export default function LiveRoaster() {
     let scaleY = 1;
     let scaleX = 1;
     if (isBlinking) scaleY = 0.1;
+    else if (isTyping) { scaleY = 0.4; scaleX = 0.9; } // Suspicious stare down
     else if (emotion === "laughing") scaleY = 0.2;
     else if (emotion === "angry") { scaleY = 0.5; scaleX = 1.1; }
     else if (emotion === "surprised") { scaleY = 1.4; scaleX = 1.2; }
@@ -499,6 +501,7 @@ export default function LiveRoaster() {
   };
 
   const getLeftPawAnimation = (): any => {
+    if (isLoading) return { y: [0, -10, 0], rotate: [0, -10, 0], transition: { repeat: Infinity, duration: 0.3 } };
     if (emotion === "angry") return { x: 25, y: -20, rotate: 45, transition: { type: "spring" } };
     if (emotion === "dancing") return { y: [-20, 10, -20], rotate: [-20, 20, -20], transition: { repeat: Infinity, duration: 0.6 } };
     if (isSpeaking) return { y: [0, -10, 0], rotate: [0, 15, 0], transition: { repeat: Infinity, duration: 0.5 } };
@@ -506,9 +509,25 @@ export default function LiveRoaster() {
   };
 
   const getRightPawAnimation = (): any => {
+    if (isLoading) return { y: [0, -10, 0], rotate: [0, -10, 0], transition: { repeat: Infinity, duration: 0.35 } };
     if (emotion === "angry") return { x: -25, y: -20, rotate: -45, transition: { type: "spring" } };
     if (emotion === "dancing") return { y: [10, -20, 10], rotate: [20, -20, 20], transition: { repeat: Infinity, duration: 0.6 } };
     return { y: [0, -3, 0], rotate: [0, 5, 0], transition: { repeat: Infinity, duration: 4.2 } };
+  };
+
+  const getFaceParallax = () => {
+    if (isTyping) return { x: 0, y: 15 };
+    if (emotion === "dizzy") return { x: 0, y: 0 };
+    const maxOffset = 15;
+    let xOffset = 0;
+    let yOffset = 0;
+    if (typeof window !== "undefined") {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      xOffset = ((mousePos.x - centerX) / centerX) * maxOffset;
+      yOffset = ((mousePos.y - centerY) / centerY) * maxOffset;
+    }
+    return { x: xOffset, y: yOffset };
   };
 
   const getPupilColor = () => {
@@ -735,7 +754,11 @@ export default function LiveRoaster() {
           />
 
           {/* Face Container */}
-          <div className="relative w-full h-full flex flex-col items-center justify-center">
+          <motion.div 
+            className="relative w-full h-full flex flex-col items-center justify-center"
+            animate={getFaceParallax()}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          >
 
             {/* Eyes */}
             <div className="flex gap-10 mb-2 relative">
@@ -814,12 +837,12 @@ export default function LiveRoaster() {
 
               {/* Whiskers (Mustache) */}
               <div className="absolute left-[-20px] top-0 flex flex-col gap-1.5 w-6">
-                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-right" animate={getWhiskerAnimation(true, true)} />
-                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-right" animate={getWhiskerAnimation(true, false)} />
+                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-right" animate={getWhiskerAnimation(true, true)} whileHover={{ scaleY: 2.5, scaleX: 1.2, backgroundColor: "#fff" }} />
+                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-right" animate={getWhiskerAnimation(true, false)} whileHover={{ scaleY: 2.5, scaleX: 1.2, backgroundColor: "#fff" }} />
               </div>
               <div className="absolute right-[-20px] top-0 flex flex-col gap-1.5 w-6">
-                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-left" animate={getWhiskerAnimation(false, true)} />
-                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-left" animate={getWhiskerAnimation(false, false)} />
+                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-left" animate={getWhiskerAnimation(false, true)} whileHover={{ scaleY: 2.5, scaleX: 1.2, backgroundColor: "#fff" }} />
+                <motion.div className="h-0.5 w-full bg-zinc-600 rounded-full origin-left" animate={getWhiskerAnimation(false, false)} whileHover={{ scaleY: 2.5, scaleX: 1.2, backgroundColor: "#fff" }} />
               </div>
             </div>
 
@@ -832,6 +855,8 @@ export default function LiveRoaster() {
                 </div>
               )}
             </AnimatePresence>
+
+          </motion.div>
 
             {/* Left Paw */}
             <motion.div
@@ -855,7 +880,6 @@ export default function LiveRoaster() {
               </div>
             </motion.div>
 
-          </div>
         </motion.div>
       </motion.div>
 
@@ -918,6 +942,8 @@ export default function LiveRoaster() {
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            onFocus={() => setIsTyping(true)}
+            onBlur={() => setIsTyping(false)}
             placeholder="Talk to Kishmish, if you dare..."
             className="w-full bg-card border-2 border-border focus:border-accent outline-none px-6 py-4 rounded-full font-mono text-sm pr-24 transition-colors"
             disabled={isLoading || isListening}
