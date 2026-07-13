@@ -18,6 +18,8 @@ export interface VisitRecord {
   language?: string;
   timezone?: string;
   connectionType?: string;
+  path?: string;
+  deviceModel?: string;
 }
 
 export interface ClickRecord {

@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
       screenResolution,
       language,
       timezone,
-      connectionType
+      connectionType,
+      path
     } = body as any;
 
     const userAgent = req.headers.get('user-agent') || 'Unknown';
@@ -30,10 +31,34 @@ export async function POST(req: NextRequest) {
     const device = isMobile ? 'mobile' : 'desktop';
 
     let os = "Unknown";
+    let deviceModel = "Unknown";
     if (/Windows/i.test(userAgent)) os = "Windows";
-    else if (/Mac OS|Macintosh/i.test(userAgent)) os = "Mac";
-    else if (/iPhone|iPad|iPod/i.test(userAgent)) os = "iOS";
-    else if (/Android/i.test(userAgent)) os = "Android";
+    else if (/Mac OS|Macintosh/i.test(userAgent)) {
+      os = "Mac";
+      deviceModel = "Mac";
+    }
+    else if (/iPhone/i.test(userAgent)) {
+      os = "iOS";
+      deviceModel = "iPhone";
+    }
+    else if (/iPad/i.test(userAgent)) {
+      os = "iOS";
+      deviceModel = "iPad";
+    }
+    else if (/iPod/i.test(userAgent)) {
+      os = "iOS";
+      deviceModel = "iPod";
+    }
+    else if (/Android/i.test(userAgent)) {
+      os = "Android";
+      // Extract device model from Android UA string (usually like "Android 10; SM-G973F")
+      const match = userAgent.match(/Android[^;]+; ([^)]+)\)/);
+      if (match && match[1]) {
+        deviceModel = match[1].split(' Build/')[0].trim();
+      } else {
+        deviceModel = "Android Device";
+      }
+    }
     else if (/Linux/i.test(userAgent)) os = "Linux";
 
     let browser = "Unknown";
@@ -57,7 +82,9 @@ export async function POST(req: NextRequest) {
       screenResolution,
       language,
       timezone,
-      connectionType
+      connectionType,
+      path,
+      deviceModel
     });
 
     return NextResponse.json({ success: true, sessionId });

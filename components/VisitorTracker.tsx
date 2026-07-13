@@ -40,7 +40,8 @@ export default function VisitorTracker() {
           screenResolution: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'Unknown',
           language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          connectionType: (navigator as any).connection?.effectiveType || 'Unknown'
+          connectionType: (navigator as any).connection?.effectiveType || 'Unknown',
+          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown'
         };
         
         // Fire-and-forget request to log the visit
@@ -58,7 +59,8 @@ export default function VisitorTracker() {
           screenResolution: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'Unknown',
           language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-          connectionType: (navigator as any).connection?.effectiveType || 'Unknown'
+          connectionType: (navigator as any).connection?.effectiveType || 'Unknown',
+          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown'
         };
 
         fetch('/api/analytics/visit', {

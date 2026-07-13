@@ -403,6 +403,10 @@ export default async function InsightsPage() {
                     <LocalTime timestamp={v.timestamp} />
                     {v.timezone && <span className="opacity-70 px-1 border-l border-violet-300 dark:border-violet-700">{v.timezone}</span>}
                   </div>
+                  <div className="flex items-center gap-1 mt-1 text-[10px] sm:text-xs font-mono text-pink-600 dark:text-pink-400">
+                    <LinkIcon className="w-3 h-3" />
+                    <span>Landed on: {v.path || '/'}</span>
+                  </div>
                 </div>
               </div>
 
@@ -419,7 +423,7 @@ export default async function InsightsPage() {
                 </div>
                 
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-violet-50/80 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border border-violet-200/50 dark:border-violet-800/50 shadow-sm">
-                  {getDeviceModel(v.userAgent, v.os) || 'Unknown Model'}
+                  {v.deviceModel || getDeviceModel(v.userAgent, v.os) || 'Unknown Model'}
                 </span>
                 
                 {/* OS */}
