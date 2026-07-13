@@ -75,6 +75,15 @@ export async function POST(req: Request) {
     if (history && Array.isArray(history) && history.length > 0) {
       historyContext = "Recent Conversation History (Keep this context in mind when roasting):\n" +
         history.map(h => `${h.role === 'user' ? 'User' : 'You'}: ${h.content}`).join("\n") + "\n\n";
+    } else if (sessionId && sessionId !== 'anonymous') {
+      try {
+        const lastChat = await kv.get<{user: string, kishmish: string}>(`last_chat:${sessionId}`);
+        if (lastChat) {
+          historyContext = `[SYSTEM MEMORY]: The user has returned for another session. In their last visit, they said: "${lastChat.user}" and you replied: "${lastChat.kishmish}". Acknowledge they came back for more punishment.\n\n`;
+        }
+      } catch(e) {
+        console.error("KV Memory fetch error:", e);
+      }
     }
 
     const prompt = `Your name is Kishmish. You are a highly toxic, devastatingly sarcastic, and incredibly rude cartoon cat girl. 
@@ -170,6 +179,15 @@ Choose the emotion that best matches your roast.`;
         reply: replyMatch ? replyMatch[1] : "My brain just short-circuited. Try again.",
         emotion: emotionMatch ? emotionMatch[1] : "dizzy"
       };
+    }
+
+    // Save Long-Term Memory Checkpoint
+    if (sessionId && sessionId !== 'anonymous') {
+      try {
+        await kv.set(`last_chat:${sessionId}`, { user: message, kishmish: parsed.reply }, { ex: 2592000 }); // 30 days
+      } catch (e) {
+        console.error("KV Memory save error:", e);
+      }
     }
 
     // Instantly fetch the TTS audio on the server side

@@ -162,11 +162,39 @@ export default function VisitorTracker() {
     // Fallback for page refresh/close
     window.addEventListener('beforeunload', sendPing);
 
+    // Global Click Tracker
+    const handleClick = (e: MouseEvent) => {
+      if (isInsights) return; // Don't track clicks on the insights page
+      const target = e.target as HTMLElement;
+      
+      // Calculate X/Y as percentage to be responsive across devices
+      const xPercent = Math.round((e.clientX / window.innerWidth) * 100);
+      const yPercent = Math.round((e.clientY / window.innerHeight) * 100);
+
+      const payload = {
+        sessionId: sessionStorage.getItem('sessionId') || 'anonymous',
+        tagName: target.tagName,
+        text: target.innerText ? target.innerText.substring(0, 50) : undefined,
+        x: xPercent,
+        y: yPercent,
+        platform: typeof navigator !== 'undefined' && /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop'
+      };
+
+      fetch('/api/analytics/click', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    };
+
+    window.addEventListener('click', handleClick, { passive: true });
+
     return () => {
       clearInterval(interval);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', sendPing);
+      window.removeEventListener('click', handleClick);
       // Send a final ping when unmounting (e.g. navigating to /insights)
       sendPing();
     };

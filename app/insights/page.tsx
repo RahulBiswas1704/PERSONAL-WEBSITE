@@ -3,6 +3,9 @@ import { getAnalyticsData, getSessionDurations, getSessionScrollDepths } from "@
 import { Users, MousePointerClick, Smartphone, Monitor, Globe, Clock, Activity, ArrowUpRight, Timer, MapPin, Link as LinkIcon, Wifi, Layout } from "lucide-react";
 import { LocalTime } from "@/components/LocalTime";
 import { InteractiveActivityStream } from "@/components/InteractiveActivityStream";
+import AutoRefresh from "@/components/AutoRefresh";
+import LiveGlobalMap from "@/components/LiveGlobalMap";
+import LiveHeatmap from "@/components/LiveHeatmap";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -76,7 +79,8 @@ export default async function InsightsPage() {
     acc[loc] = (acc[loc] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
-  const topCountries = Object.entries(countriesMap).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const allCountries = Object.entries(countriesMap).sort((a, b) => b[1] - a[1]);
+  const topCountries = allCountries.slice(0, 5);
 
   // 3. Top Referrers
   const referrersMap = data.visits.reduce((acc, v) => {
@@ -145,6 +149,7 @@ export default async function InsightsPage() {
 
   return (
     <div className="relative space-y-12 animate-fade-in-up pb-20 max-w-7xl mx-auto">
+      <AutoRefresh intervalMs={5000} />
       
       {/* Immersive Ambient Glows */}
       <div className="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] bg-violet-600/10 dark:bg-violet-600/20 rounded-full blur-[120px] -z-10 pointer-events-none" />
@@ -336,6 +341,12 @@ export default async function InsightsPage() {
           </div>
 
         </div>
+      </div>
+
+      {/* GOD MODE VISUALIZERS */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <LiveHeatmap clicks={data.clicks} />
+        <LiveGlobalMap topCountries={allCountries} />
       </div>
 
       {/* Multi-Column Details Row */}

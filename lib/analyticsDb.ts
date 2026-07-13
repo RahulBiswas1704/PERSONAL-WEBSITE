@@ -35,6 +35,9 @@ export interface ClickRecord {
   timestamp: string;
   platform: string;
   url: string;
+  tagName?: string;
+  x?: number;
+  y?: number;
 }
 
 export interface RoastRecord {
