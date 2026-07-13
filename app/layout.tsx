@@ -13,6 +13,7 @@ import AICompanionSidebar from "@/components/AICompanionSidebar";
 import MobileDesktopHint from "@/components/MobileDesktopHint";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -86,14 +87,6 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  var theme = localStorage.getItem('theme');
-                  // Default to dark mode for new visitors
-                  if (theme === 'dark' || !theme) {
-                    document.documentElement.classList.add('dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                  }
-                  
                   var accents = ['amber', 'emerald', 'rose', 'blue', 'purple'];
                   var randomAccent = accents[Math.floor(Math.random() * accents.length)];
                   localStorage.setItem('accent', randomAccent);
@@ -153,22 +146,24 @@ export default function RootLayout({
         suppressHydrationWarning 
         className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0"
       >
-        <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
-          <PullToRefreshEgg />
-          <Header />
-          <FixedLeftSidebar />
-          <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
-            {children}
-          </main>
-          <MobileDesktopHint />
-          <AICompanionSidebar />
-          <Footer />
-        </div>
-        <MobileNav />
-        <VisitorTracker />
-        <MouseGlow />
-        <TerminalEasterEgg />
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
+            <PullToRefreshEgg />
+            <Header />
+            <FixedLeftSidebar />
+            <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
+              {children}
+            </main>
+            <MobileDesktopHint />
+            <AICompanionSidebar />
+            <Footer />
+          </div>
+          <MobileNav />
+          <VisitorTracker />
+          <MouseGlow />
+          <TerminalEasterEgg />
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -2,37 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    const initialTheme = isDark ? "dark" : "light";
-    
-    const timeoutId = setTimeout(() => {
-      setTheme(initialTheme);
-      setMounted(true);
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    if (theme === "light") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setTheme("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setTheme("light");
-    }
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   if (!mounted) {
-    return <div className="w-8 h-8" />; // Return a blank placeholder to prevent hydration mismatches
+    return <div className="w-9 h-9" />; // Placeholder to prevent hydration mismatch
   }
 
   return (
