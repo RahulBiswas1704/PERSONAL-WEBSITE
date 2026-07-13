@@ -503,7 +503,7 @@ export default function LiveRoaster() {
     try {
       // Send the last 4 messages for memory (2 user, 2 model max) to protect tokens
       const recentHistory = chatHistory.slice(-4);
-      const sessionId = sessionStorage.getItem('sessionId') || 'anonymous';
+      const sessionId = localStorage.getItem('sessionId') || 'anonymous';
       const res = await fetch("/api/roast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
