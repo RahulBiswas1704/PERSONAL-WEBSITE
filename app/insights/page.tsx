@@ -130,6 +130,19 @@ export default async function InsightsPage() {
   }, {} as Record<string, number>);
   const topEmotion = Object.entries(emotionsMap).sort((a, b) => b[1] - a[1])[0]?.[0] || 'N/A';
 
+  // Deep Diagnostics
+  const loadTimes = data.visits.map(v => v.loadTimeMs).filter(Boolean) as number[];
+  const avgLoadTime = loadTimes.length > 0 ? Math.round(loadTimes.reduce((a, b) => a + b, 0) / loadTimes.length) : 0;
+
+  const scrollDepths = Object.values(sessionScrollDepths || {}) as number[];
+  const avgScrollDepth = scrollDepths.length > 0 ? Math.round(scrollDepths.reduce((a, b) => a + b, 0) / scrollDepths.length) : 0;
+
+  const darkThemeCount = data.visits.filter(v => v.theme === 'dark').length;
+  const darkThemePercent = totalVisits > 0 ? Math.round((darkThemeCount / totalVisits) * 100) : 0;
+
+  const touchCount = data.visits.filter(v => v.isTouch === true).length;
+  const touchPercent = totalVisits > 0 ? Math.round((touchCount / totalVisits) * 100) : 0;
+
   return (
     <div className="relative space-y-12 animate-fade-in-up pb-20 max-w-7xl mx-auto">
       
@@ -278,6 +291,51 @@ export default async function InsightsPage() {
           </div>
         </div>
 
+      </div>
+
+      {/* Deep Diagnostics Row */}
+      <div className="flex flex-col p-6 rounded-3xl border border-emerald-200/60 dark:border-emerald-800/50 bg-white/60 dark:bg-black/40 backdrop-blur-xl shadow-lg relative overflow-hidden">
+        <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-emerald-500/10 dark:bg-emerald-500/20 rounded-full blur-[50px] pointer-events-none" />
+        <h2 className="text-xs uppercase tracking-widest font-black text-emerald-950 dark:text-emerald-50 mb-6 flex items-center gap-2 opacity-80 border-b border-emerald-200/50 dark:border-emerald-900/50 pb-4">
+          <Activity className="w-4 h-4" /> Deep Hardware & Environment Diagnostics
+        </h2>
+        
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
+          
+          {/* Average Load Time */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Avg Load Latency</span>
+            <span className="text-3xl font-black text-emerald-950 dark:text-emerald-50">{avgLoadTime}ms</span>
+            <span className="text-[10px] font-mono text-emerald-500">DOM Interactive Speed</span>
+          </div>
+
+          {/* Average Scroll Depth */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Avg Scroll Depth</span>
+            <span className="text-3xl font-black text-emerald-950 dark:text-emerald-50">{avgScrollDepth}%</span>
+            <div className="h-1.5 w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden mt-1">
+               <div className="h-full bg-emerald-500 dark:bg-emerald-400 rounded-full" style={{ width: `${avgScrollDepth}%` }} />
+            </div>
+          </div>
+
+          {/* Theme Preference */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Dark Mode Usage</span>
+            <span className="text-3xl font-black text-emerald-950 dark:text-emerald-50">{darkThemePercent}%</span>
+            <div className="h-1.5 w-full bg-emerald-100 dark:bg-emerald-900/30 rounded-full overflow-hidden mt-1 flex">
+               <div className="h-full bg-zinc-800 dark:bg-white" style={{ width: `${darkThemePercent}%` }} />
+               <div className="h-full bg-zinc-200 dark:bg-zinc-700" style={{ width: `${100 - darkThemePercent}%` }} />
+            </div>
+          </div>
+
+          {/* Touch vs Pointer */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400">Touchscreen Usage</span>
+            <span className="text-3xl font-black text-emerald-950 dark:text-emerald-50">{touchPercent}%</span>
+            <span className="text-[10px] font-mono text-emerald-500">Touch vs Pointer/Mouse</span>
+          </div>
+
+        </div>
       </div>
 
       {/* Multi-Column Details Row */}
