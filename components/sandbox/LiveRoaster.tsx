@@ -185,6 +185,12 @@ export default function LiveRoaster() {
           setEmotion(roast.emotion);
           setChatHistory(prev => [...prev, { role: 'model', content: roast.text }]);
           speak(roast.text, language);
+          
+          // Background tracking
+          fetch('/api/track', {
+            method: 'POST',
+            body: JSON.stringify({ eventType: 'idle_roast' }),
+          }).catch(() => {});
         }, 8000); // Roast after 8 seconds of doing nothing
       }
     };
@@ -528,6 +534,12 @@ export default function LiveRoaster() {
             setEmotion(reaction.e);
             setChatHistory(prev => [...prev, { role: 'model', content: reaction.m }]);
             speak(reaction.m, language);
+
+            // Background tracking
+            fetch('/api/track', {
+              method: 'POST',
+              body: JSON.stringify({ eventType: 'poke' }),
+            }).catch(() => {});
 
             // Reset after dizzy
             if (newCount % currentReactions.length === 0) {

@@ -98,6 +98,24 @@ export default async function InsightsPage() {
   }, {} as Record<string, number>);
   const topResolutions = Object.entries(resolutionsMap).sort((a, b) => b[1] - a[1]).slice(0, 4);
 
+  // Kishmish AI Stats
+  const totalRoasts = data.roasts.length;
+  const pokeCount = data.events.filter(e => e.eventType === 'poke').length;
+  const idleRoastsCount = data.events.filter(e => e.eventType === 'idle_roast').length;
+
+  const languagesMap = data.roasts.reduce((acc, r) => {
+    const lang = r.language === 'en-US' ? 'English' : r.language === 'hi-IN' ? 'Hindi' : 'Bengali';
+    acc[lang] = (acc[lang] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const topLanguages = Object.entries(languagesMap).sort((a, b) => b[1] - a[1]);
+
+  const modelsMap = data.roasts.reduce((acc, r) => {
+    acc[r.modelUsed] = (acc[r.modelUsed] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  const topModels = Object.entries(modelsMap).sort((a, b) => b[1] - a[1]);
+
   return (
     <div className="relative space-y-12 animate-fade-in-up pb-20 max-w-7xl mx-auto">
       
@@ -124,6 +142,58 @@ export default async function InsightsPage() {
             <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
           </span>
           <span className="text-emerald-700 dark:text-emerald-400 text-xs font-black uppercase tracking-widest">Live Connection</span>
+        </div>
+      </div>
+
+      {/* Kishmish AI Insights */}
+      <div className="flex flex-col p-6 rounded-3xl border border-pink-200/60 dark:border-pink-800/50 bg-white/60 dark:bg-black/40 backdrop-blur-xl shadow-lg relative overflow-hidden">
+        <div className="absolute top-[-50px] right-[-50px] w-48 h-48 bg-pink-500/10 dark:bg-pink-500/20 rounded-full blur-[50px] pointer-events-none" />
+        <h2 className="text-xs uppercase tracking-widest font-black text-pink-950 dark:text-pink-50 mb-6 flex items-center gap-2 opacity-80 border-b border-pink-200/50 dark:border-pink-900/50 pb-4">
+          <Activity className="w-4 h-4" /> Kishmish AI Telemetry
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+          
+          {/* Total Roasts */}
+          <div className="flex flex-col gap-2 p-5 rounded-2xl bg-pink-50 dark:bg-pink-950/30 border border-pink-100 dark:border-pink-900/50">
+            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Total Roasts</span>
+            <span className="text-4xl font-black text-pink-950 dark:text-pink-50">{totalRoasts}</span>
+          </div>
+
+          {/* User Interactions */}
+          <div className="flex flex-col justify-center gap-3 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-bold text-pink-700 dark:text-pink-300">Pokes</span>
+              <span className="text-lg font-black text-pink-950 dark:text-pink-100">{pokeCount}</span>
+            </div>
+            <div className="w-full h-px bg-pink-200/50 dark:bg-pink-800/50" />
+            <div className="flex justify-between items-center">
+              <span className="text-xs font-bold text-pink-700 dark:text-pink-300">Idle Triggers</span>
+              <span className="text-lg font-black text-pink-950 dark:text-pink-100">{idleRoastsCount}</span>
+            </div>
+          </div>
+
+          {/* Top Language */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Top Language</span>
+            <span className="text-xl font-bold text-pink-950 dark:text-pink-50">
+              {topLanguages.length > 0 ? topLanguages[0][0] : 'N/A'}
+            </span>
+            <span className="text-xs font-mono text-pink-500">
+              {topLanguages.length > 0 ? `${topLanguages[0][1]} requests` : ''}
+            </span>
+          </div>
+
+          {/* Top Model */}
+          <div className="flex flex-col justify-center gap-2 p-5 rounded-2xl bg-pink-50/50 dark:bg-pink-950/20 border border-pink-100/50 dark:border-pink-900/30">
+            <span className="text-[10px] font-black uppercase tracking-widest text-pink-600 dark:text-pink-400">Primary Model</span>
+            <span className="text-xl font-bold text-pink-950 dark:text-pink-50 truncate">
+              {topModels.length > 0 ? topModels[0][0] : 'N/A'}
+            </span>
+            <span className="text-xs font-mono text-pink-500">
+              {topModels.length > 0 ? `${topModels[0][1]} requests` : ''}
+            </span>
+          </div>
         </div>
       </div>
 

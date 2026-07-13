@@ -27,29 +27,53 @@ export interface ClickRecord {
   url: string;
 }
 
+export interface RoastRecord {
+  id: string;
+  timestamp: string;
+  language: string;
+  modelUsed: string;
+  latencyMs: number;
+}
+
+export interface KishmishEventRecord {
+  id: string;
+  timestamp: string;
+  eventType: 'poke' | 'idle_roast';
+}
+
 interface AnalyticsData {
   visits: VisitRecord[];
   clicks: ClickRecord[];
+  roasts: RoastRecord[];
+  events: KishmishEventRecord[];
 }
 
 export const getAnalyticsData = async (): Promise<AnalyticsData> => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    return { visits: [], clicks: [], roasts: [], events: [] };
+  }
   try {
     // Vercel KV lists. We use lrange to get all elements (0 to -1)
     // The data comes back sorted from newest (index 0) to oldest because we use lpush
     const visits = await kv.lrange<VisitRecord>('analytics:visits', 0, -1);
     const clicks = await kv.lrange<ClickRecord>('analytics:clicks', 0, -1);
+    const roasts = await kv.lrange<RoastRecord>('analytics:roasts', 0, -1);
+    const events = await kv.lrange<KishmishEventRecord>('analytics:kishmish_events', 0, -1);
     
     return {
       visits: visits || [],
-      clicks: clicks || []
+      clicks: clicks || [],
+      roasts: roasts || [],
+      events: events || []
     };
   } catch (error) {
     console.error("KV fetch error (Check if KV_REST_API_URL and KV_REST_API_TOKEN are set):", error);
-    return { visits: [], clicks: [] };
+    return { visits: [], clicks: [], roasts: [], events: [] };
   }
 };
 
 export const saveVisit = async (visit: VisitRecord) => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
   try {
     // Push new visits to the head of the list
     await kv.lpush('analytics:visits', visit);
@@ -59,6 +83,7 @@ export const saveVisit = async (visit: VisitRecord) => {
 };
 
 export const saveClick = async (click: ClickRecord) => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
   try {
     await kv.lpush('analytics:clicks', click);
   } catch (error) {
@@ -67,6 +92,7 @@ export const saveClick = async (click: ClickRecord) => {
 };
 
 export const updateSessionDuration = async (sessionId: string, duration: number) => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
   try {
     await kv.hset('analytics:durations', { [sessionId]: duration });
   } catch (error) {
@@ -75,6 +101,7 @@ export const updateSessionDuration = async (sessionId: string, duration: number)
 };
 
 export const getSessionDurations = async (): Promise<SessionDuration> => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return {};
   try {
     const durations = await kv.hgetall<SessionDuration>('analytics:durations');
     return durations || {};

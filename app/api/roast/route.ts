@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { kv } from '@vercel/kv';
 
 // Simple in-memory rate limiter (resets on server restart/cold-start)
 // Tracks IP -> { count, resetTime }
@@ -106,6 +107,7 @@ Choose the emotion that best matches your roast.`;
     let responseText = "";
     let generationSuccess = false;
     let lastError = null;
+    const startTime = Date.now();
 
     // Try each model in sequence until one succeeds
     for (const modelName of fallbackModels) {
@@ -118,8 +120,21 @@ Choose the emotion that best matches your roast.`;
         const result = await model.generateContent(prompt);
         responseText = result.response.text();
         generationSuccess = true;
+        const latencyMs = Date.now() - startTime;
 
-        console.log(`[AI SUCCESS] Used model: ${modelName}`);
+        try {
+          await kv.lpush('analytics:roasts', {
+            id: crypto.randomUUID(),
+            timestamp: new Date().toISOString(),
+            language,
+            modelUsed: modelName,
+            latencyMs,
+          });
+        } catch (e) {
+          console.error("KV Analytics Error:", e);
+        }
+
+        console.log(`[AI SUCCESS] Used model: ${modelName} in ${latencyMs}ms`);
         break; // Exit the fallback loop on success
       } catch (error: any) {
         lastError = error;
