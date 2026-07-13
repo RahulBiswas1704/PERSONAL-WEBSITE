@@ -43,9 +43,20 @@ export default function LiveRoaster() {
         
         recognitionRef.current.onresult = (event: any) => {
           let currentTranscript = "";
-          for (let i = 0; i < event.results.length; ++i) { // Collect all results since we are continuous
-            currentTranscript += event.results[i][0].transcript;
+          
+          const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+          
+          if (isMobile) {
+            // Mobile engines (Android/iOS) return the cumulative full sentence 
+            // in the last result index. Iterating over them causes severe duplication.
+            currentTranscript = event.results[event.results.length - 1][0].transcript;
+          } else {
+            // Desktop engines return fragmented deltas. We must concatenate them.
+            for (let i = 0; i < event.results.length; ++i) {
+              currentTranscript += event.results[i][0].transcript;
+            }
           }
+          
           setMessage(currentTranscript);
 
           // Custom Silence Detection (wait 2.5s after the last word is spoken before stopping)
