@@ -108,28 +108,43 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Rahul Biswas",
-              "url": "https://rahul-website.vercel.app",
-              "jobTitle": ["System Manager", "Full-Stack Developer"],
-              "worksFor": [
+              "@graph": [
                 {
-                  "@type": "Organization",
-                  "name": "ZK Construction"
+                  "@type": "Person",
+                  "@id": "https://rahul-biswas.vercel.app/#person",
+                  "name": "Rahul Biswas",
+                  "url": "https://rahul-biswas.vercel.app",
+                  "jobTitle": ["System Manager", "Full-Stack Developer"],
+                  "worksFor": [
+                    {
+                      "@type": "Organization",
+                      "name": "ZK Construction"
+                    }
+                  ],
+                  "alumniOf": "Krishnanagar Jawaharlal Nehru National Youth Computer Centre",
+                  "sameAs": [
+                    "https://github.com/RahulBiswas1704",
+                    "https://twitter.com/rahulbiswas1704",
+                    "https://www.linkedin.com/in/rahulbiswas1704"
+                  ],
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Krishnanagar",
+                    "addressRegion": "West Bengal",
+                    "addressCountry": "India"
+                  }
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://rahul-biswas.vercel.app/#website",
+                  "url": "https://rahul-biswas.vercel.app",
+                  "name": "Rahul Biswas Portfolio",
+                  "description": "Personal website, portfolio, and digital garden of Rahul Biswas.",
+                  "publisher": {
+                    "@id": "https://rahul-biswas.vercel.app/#person"
+                  }
                 }
-              ],
-              "alumniOf": "Krishnanagar Jawaharlal Nehru National Youth Computer Centre",
-              "sameAs": [
-                "https://github.com/RahulBiswas1704",
-                "https://twitter.com/rahulbiswas1704",
-                "https://www.linkedin.com/in/rahulbiswas1704"
-              ],
-              "address": {
-                "@type": "PostalAddress",
-                "addressLocality": "Krishnanagar",
-                "addressRegion": "West Bengal",
-                "addressCountry": "India"
-              }
+              ]
             })
           }}
         />

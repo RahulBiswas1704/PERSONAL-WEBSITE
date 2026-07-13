@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/insights'],
     },
-    sitemap: 'https://rahul-website.vercel.app/sitemap.xml',
+    sitemap: 'https://rahul-biswas.vercel.app/sitemap.xml',
   };
 }
