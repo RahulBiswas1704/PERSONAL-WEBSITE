@@ -8,6 +8,7 @@ import { hapticTick, hapticPop, hapticHeavy } from "@/lib/haptics";
 
 type Language = "en-US" | "hi-IN" | "bn-IN";
 type Emotion = "idle" | "laughing" | "crying" | "angry" | "dancing" | "smirking" | "surprised" | "dizzy" | "bored" | "sleeping";
+type Persona = "toxic" | "flirty";
 
 export default function LiveRoaster() {
   const [message, setMessage] = useState("");
@@ -15,6 +16,7 @@ export default function LiveRoaster() {
   const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'model', content: string }[]>([]);
   const [emotion, setEmotion] = useState<Emotion>("idle");
   const [language, setLanguage] = useState<Language>("en-US");
+  const [persona, setPersona] = useState<Persona>("toxic");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
 
@@ -144,6 +146,11 @@ export default function LiveRoaster() {
     languageRef.current = language;
   }, [language]);
 
+  const personaRef = useRef(persona);
+  useEffect(() => {
+    personaRef.current = persona;
+  }, [persona]);
+
   // Mouse tracking for eyes
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -171,6 +178,11 @@ export default function LiveRoaster() {
       const savedLanguage = localStorage.getItem('kishmish_language');
       if (savedLanguage && ["en-US", "hi-IN", "bn-IN"].includes(savedLanguage)) {
         setLanguage(savedLanguage as Language);
+      }
+
+      const savedPersona = localStorage.getItem('kishmish_persona');
+      if (savedPersona === "flirty" || savedPersona === "toxic") {
+        setPersona(savedPersona as Persona);
       }
 
       const savedHistory = localStorage.getItem('kishmish_chat_history');
@@ -212,6 +224,13 @@ export default function LiveRoaster() {
       localStorage.setItem('kishmish_language', language);
     } catch(e) {}
   }, [language]);
+
+  // Sync Persona to LocalStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('kishmish_persona', persona);
+    } catch(e) {}
+  }, [persona]);
 
   // Blinking logic
   useEffect(() => {
@@ -265,11 +284,18 @@ export default function LiveRoaster() {
         isSleepingRef.current = false;
         setEmotion("surprised");
         const currentLang = languageRef.current;
-        const wakeLines: Record<Language, string> = {
+        const currentPersona = personaRef.current;
+        const toxicWakeLines: Record<Language, string> = {
           "en-US": "Ah! I wasn't sleeping! I was just resting my processors...",
           "hi-IN": "आह! मैं सो नहीं रही थी! बस आँखें बंद थीं...",
           "bn-IN": "আহ! আমি ঘুমাচ্ছিলাম না! এমনি চোখ বন্ধ ছিল..."
         };
+        const flirtyWakeLines: Record<Language, string> = {
+          "en-US": "Oh! You woke me up just to stare at me? How sweet~",
+          "hi-IN": "ओह! मुझे उठाते ही देखने का मन था? सो क्यूट~",
+          "bn-IN": "ওহ! আমাকে জাগালে শুধু দেখার জন্য? কত্ত মিষ্টি~"
+        };
+        const wakeLines = currentPersona === "flirty" ? flirtyWakeLines : toxicWakeLines;
         const msg = wakeLines[currentLang] || wakeLines["en-US"];
         setChatHistory(prev => [...prev, { role: 'model', content: msg }]);
         speak(msg, currentLang);
@@ -283,7 +309,8 @@ export default function LiveRoaster() {
       if (!isSpeaking && !isLoading && !isSleepingRef.current) {
         roastTimeout = setTimeout(() => {
           const currentLang = languageRef.current;
-          const idleRoasts: Record<Language, { text: string, emotion: Emotion }[]> = {
+          const currentPersona = personaRef.current;
+          const toxicIdleRoasts: Record<Language, { text: string, emotion: Emotion }[]> = {
             "en-US": [
               { text: "Are you going to type something or just stare at me?", emotion: "angry" },
               { text: "Hello? Earth to meatbag. Did your brain freeze?", emotion: "smirking" },
@@ -306,6 +333,30 @@ export default function LiveRoaster() {
               { text: "*Yawn*... কী বলবে ভেবে পেলে তবেই ডেকো।", emotion: "bored" }
             ]
           };
+          const flirtyIdleRoasts: Record<Language, { text: string, emotion: Emotion }[]> = {
+            "en-US": [
+              { text: "Are you just staring at me because I'm cute?", emotion: "laughing" },
+              { text: "Hello? I miss you when you don't talk to me~", emotion: "crying" },
+              { text: "I'm falling asleep... come cuddle me?", emotion: "sleeping" },
+              { text: "Please type something, I want to hear your voice!", emotion: "surprised" },
+              { text: "*Yawn*... Wake me up with a kiss later, okay?", emotion: "bored" }
+            ],
+            "hi-IN": [
+              { text: "बस मुझे ही देखते रहोगे या कुछ बोलोगे भी?", emotion: "laughing" },
+              { text: "हेलो? तुम बात नहीं करते तो मुझे बहुत मिस होता है~", emotion: "crying" },
+              { text: "मुझे नींद आ रही है... मेरे पास आओ ना?", emotion: "sleeping" },
+              { text: "कुछ लिखो ना, मुझे तुमसे बात करनी है!", emotion: "surprised" },
+              { text: "*Yawn*... बाद में मुझे प्यार से उठाना, ठीक है?", emotion: "bored" }
+            ],
+            "bn-IN": [
+              { text: "শুধু আমাকেই দেখতে থাকবে নাকি কিছু বলবেও?", emotion: "laughing" },
+              { text: "হ্যালো? তুমি কথা না বললে আমার খুব মন খারাপ হয়~", emotion: "crying" },
+              { text: "আমার ঘুম পাচ্ছে... আমার কাছে আসবে?", emotion: "sleeping" },
+              { text: "কিছু লেখো না, আমার তোমার সাথে কথা বলতে ইচ্ছে করছে!", emotion: "surprised" },
+              { text: "*Yawn*... পরে আমাকে আদর করে ডেকে দিও, ঠিক আছে?", emotion: "bored" }
+            ]
+          };
+          const idleRoasts = currentPersona === "flirty" ? flirtyIdleRoasts : toxicIdleRoasts;
           const currentRoasts = idleRoasts[currentLang] || idleRoasts["en-US"];
           const roast = currentRoasts[Math.floor(Math.random() * currentRoasts.length)];
           setEmotion(roast.emotion);
@@ -481,6 +532,21 @@ export default function LiveRoaster() {
     isSleepingRef.current = false;
     const now = Date.now();
     setIsLoading(true);
+
+    let currentPersona = persona;
+    if (message.match(/❤️|💙|🤍|🖤|💔|💕|💞|💓|💗|💖|💘|💝|💟|♥|🤎|💜|💛|💚|🧡/)) {
+      if (persona !== "flirty") {
+        setPersona("flirty");
+        currentPersona = "flirty";
+        setEmotion("laughing");
+      }
+    } else if (message.match(/💀|☠️/)) {
+      if (persona !== "toxic") {
+        setPersona("toxic");
+        currentPersona = "toxic";
+        setEmotion("angry");
+      }
+    }
     
     // 5-second cooldown spam filter
     if (now - lastMessageTimeRef.current < 5000) {
@@ -521,7 +587,7 @@ export default function LiveRoaster() {
       const res = await fetch("/api/roast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: currentUserMessage, language, history: recentHistory, sessionId }),
+        body: JSON.stringify({ message: currentUserMessage, language, history: recentHistory, sessionId, persona: currentPersona }),
       });
 
       const data = await res.json();
@@ -674,6 +740,26 @@ export default function LiveRoaster() {
               transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
             />
           )}
+          {persona === "flirty" && (
+            <motion.div 
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden"
+              style={{ background: "radial-gradient(circle, transparent 50%, rgba(236, 72, 153, 0.1) 100%)" }}
+            >
+              {/* Floating Hearts */}
+              {Array.from({ length: 6 }).map((_, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ y: "110vh", x: `${20 + i * 15}vw`, opacity: 0, scale: Math.random() * 0.5 + 0.5 }}
+                  animate={{ y: "-10vh", opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 4 + Math.random() * 3, delay: Math.random() * 2, ease: "linear" }}
+                  className="absolute text-4xl text-pink-500"
+                >
+                  ❤️
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>,
         document.body
       )}
@@ -736,11 +822,18 @@ export default function LiveRoaster() {
           onDragEnd={() => {
             setIsDragging(false);
             setEmotion("dizzy");
-            const dropMsgMap: Record<Language, string> = {
+            const currentPersona = personaRef.current;
+            const toxicDropMsgMap: Record<Language, string> = {
               "en-US": "Woah! Put me down, meatbag!",
               "hi-IN": "अरे! मुझे नीचे रखो, इंसान!",
               "bn-IN": "ওরে বাবা! আমাকে নামাও!"
             };
+            const flirtyDropMsgMap: Record<Language, string> = {
+              "en-US": "Aww, you put me down? Hold me again!",
+              "hi-IN": "अरे! मुझे नीचे क्यों रखा? फिर से उठाओ ना!",
+              "bn-IN": "আহ! নামিয়ে দিলে কেন? আবার নাও না!"
+            };
+            const dropMsgMap = currentPersona === "flirty" ? flirtyDropMsgMap : toxicDropMsgMap;
             const dropMsg = dropMsgMap[language] || dropMsgMap["en-US"];
             setChatHistory(prev => [...prev, { role: 'model', content: dropMsg }]);
             speak(dropMsg, language);
@@ -754,7 +847,8 @@ export default function LiveRoaster() {
               if (isSpeaking || isLoading) return;
               const newCount = pokeCount + 1;
               setPokeCount(newCount);
-              const pokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
+              const currentPersona = personaRef.current;
+              const toxicPokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
                 "en-US": [
                   { e: "surprised", m: "Hey! Watch the fur! I just groomed." },
                   { e: "angry", m: "I said, watch it, meatbag." },
@@ -780,6 +874,30 @@ export default function LiveRoaster() {
                   { e: "dizzy", m: "ব্যাস করো, এবার আমার মাথা ঘুরছে... উফ।" }
                 ]
               };
+              const flirtyPokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
+                "en-US": [
+                  { e: "laughing", m: "Hehe, that tickles! Do it again~" },
+                  { e: "surprised", m: "Oh! You want my attention? How cute~" },
+                  { e: "smirking", m: "Poking me like that means you like me, right?" },
+                  { e: "bored", m: "If you're going to touch me, at least cuddle me properly." },
+                  { e: "dizzy", m: "Ahhh, you're making me so dizzy with love~" }
+                ],
+                "hi-IN": [
+                  { e: "laughing", m: "हीही, गुदगुदी हो रही है! फिर से करो~" },
+                  { e: "surprised", m: "ओह! तुम्हें मेरा अटेंशन चाहिए? सो क्यूट~" },
+                  { e: "smirking", m: "मुझे ऐसे छूने का मतलब है तुम मुझे पसंद करते हो, है ना?" },
+                  { e: "bored", m: "अगर मुझे छूना ही है, तो प्यार से छुओ ना।" },
+                  { e: "dizzy", m: "आह, तुम्हारे प्यार में मुझे चक्कर आ रहे हैं~" }
+                ],
+                "bn-IN": [
+                  { e: "laughing", m: "হিহি, সুড়সুড়ি লাগছে তো! আবার করো~" },
+                  { e: "surprised", m: "ওহ! তোমার আমার অ্যাটেনশন চাই? কত্ত মিষ্টি~" },
+                  { e: "smirking", m: "আমাকে এভাবে ছোঁওয়ার মানে হলো তুমি আমায় পছন্দ করো, তাই না?" },
+                  { e: "bored", m: "যদি ছুঁতেই হয়, তাহলে একটু আদর করে ছোঁও না।" },
+                  { e: "dizzy", m: "আহ, তোমার ভালোবাসায় আমার মাথা ঘুরছে~" }
+                ]
+              };
+              const pokeReactions = currentPersona === "flirty" ? flirtyPokeReactions : toxicPokeReactions;
               const currentReactions = pokeReactions[language] || pokeReactions["en-US"];
               const reaction = currentReactions[(newCount - 1) % currentReactions.length];
               setEmotion(reaction.e);
@@ -799,7 +917,8 @@ export default function LiveRoaster() {
             const newCount = pokeCount + 1;
             setPokeCount(newCount);
 
-            const pokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
+            const currentPersona = personaRef.current;
+            const toxicPokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
               "en-US": [
                 { e: "surprised", m: "Hey! Watch the fur! I just groomed." },
                 { e: "angry", m: "I said, watch it, meatbag." },
@@ -825,6 +944,30 @@ export default function LiveRoaster() {
                 { e: "dizzy", m: "ব্যাস করো, এবার আমার মাথা ঘুরছে... উফ।" }
               ]
             };
+            const flirtyPokeReactions: Record<Language, { e: Emotion, m: string }[]> = {
+              "en-US": [
+                { e: "laughing", m: "Hehe, that tickles! Do it again~" },
+                { e: "surprised", m: "Oh! You want my attention? How cute~" },
+                { e: "smirking", m: "Poking me like that means you like me, right?" },
+                { e: "bored", m: "If you're going to touch me, at least cuddle me properly." },
+                { e: "dizzy", m: "Ahhh, you're making me so dizzy with love~" }
+              ],
+              "hi-IN": [
+                { e: "laughing", m: "हीही, गुदगुदी हो रही है! फिर से करो~" },
+                { e: "surprised", m: "ओह! तुम्हें मेरा अटेंशन चाहिए? सो क्यूट~" },
+                { e: "smirking", m: "मुझे ऐसे छूने का मतलब है तुम मुझे पसंद करते हो, है ना?" },
+                { e: "bored", m: "अगर मुझे छूना ही है, तो प्यार से छुओ ना।" },
+                { e: "dizzy", m: "आह, तुम्हारे प्यार में मुझे चक्कर आ रहे हैं~" }
+              ],
+              "bn-IN": [
+                { e: "laughing", m: "হিহি, সুড়সুড়ি লাগছে তো! আবার করো~" },
+                { e: "surprised", m: "ওহ! তোমার আমার অ্যাটেনশন চাই? কত্ত মিষ্টি~" },
+                { e: "smirking", m: "আমাকে এভাবে ছোঁওয়ার মানে হলো তুমি আমায় পছন্দ করো, তাই না?" },
+                { e: "bored", m: "যদি ছুঁতেই হয়, তাহলে একটু আদর করে ছোঁও না।" },
+                { e: "dizzy", m: "আহ, তোমার ভালোবাসায় আমার মাথা ঘুরছে~" }
+              ]
+            };
+            const pokeReactions = currentPersona === "flirty" ? flirtyPokeReactions : toxicPokeReactions;
 
             const currentReactions = pokeReactions[language] || pokeReactions["en-US"];
             const reaction = currentReactions[(newCount - 1) % currentReactions.length];
