@@ -31,8 +31,9 @@ export default function VisitorTracker() {
     // Fetch location client-side as a fallback for local development
     fetch('https://ipapi.co/json/')
       .then(res => res.json())
-      .then(data => {
-        const payload = {
+      .catch(() => ({}))
+      .then(async (data) => {
+        const payload: any = {
           country: data.country_name || 'Unknown Country',
           city: data.city || 'Unknown City',
           sessionId,
@@ -50,15 +51,29 @@ export default function VisitorTracker() {
           utmSource: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_source') || undefined : undefined,
           utmCampaign: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_campaign') || undefined : undefined
         };
+
+        // Attempt to bypass Android User-Agent "K" masking using User-Agent Client Hints API
+        if (typeof navigator !== 'undefined' && (navigator as any).userAgentData) {
+          try {
+            const uaData = await (navigator as any).userAgentData.getHighEntropyValues(['model']);
+            if (uaData.model) {
+              payload.deviceModel = uaData.model;
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
         
         if (typeof navigator !== 'undefined' && (navigator as any).getBattery) {
-          (navigator as any).getBattery().then((b: any) => {
-            (payload as any).battery = `${Math.round(b.level * 100)}% ${b.charging ? '(Charging)' : ''}`;
-            sendPayload(payload);
-          }).catch(() => sendPayload(payload));
-        } else {
-          sendPayload(payload);
+          try {
+            const b = await (navigator as any).getBattery();
+            payload.battery = `${Math.round(b.level * 100)}% ${b.charging ? '(Charging)' : ''}`;
+          } catch (e) {
+            // ignore
+          }
         }
+        
+        sendPayload(payload);
 
         function sendPayload(finalPayload: any) {
           fetch('/api/analytics/visit', {

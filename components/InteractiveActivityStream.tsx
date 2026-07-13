@@ -19,7 +19,15 @@ const getDeviceModel = (ua: string, fallbackOS?: string): string => {
   if (/Macintosh/i.test(ua)) return "Mac";
   if (/Android/i.test(ua)) {
     const match = ua.match(/Android[^;]+; ([^)]+)\)/);
-    return match && match[1] ? match[1].split(' Build/')[0].trim() : "Android Device";
+    if (match && match[1]) {
+      let model = match[1].split(' Build/')[0].trim();
+      // Google Chrome for Android reduces the User-Agent on modern devices to just "K" or "K)" to prevent fingerprinting
+      if (model === "K" || model === "K)" || model === "wv" || model.startsWith("K ")) {
+        return "Android Device";
+      }
+      return model;
+    }
+    return "Android Device";
   }
   return os !== 'Unknown' ? os : 'Unknown Device';
 };

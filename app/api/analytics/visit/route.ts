@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
       timezone,
       connectionType,
       path,
+      deviceModel: clientDeviceModel,
       cpuCores,
       ramGb,
       battery,
@@ -39,7 +40,7 @@ export async function POST(req: NextRequest) {
     const device = isMobile ? 'mobile' : 'desktop';
 
     let os = "Unknown";
-    let deviceModel = "Unknown";
+    let deviceModel = clientDeviceModel || "Unknown";
     if (/Windows/i.test(userAgent)) os = "Windows";
     else if (/Mac OS|Macintosh/i.test(userAgent)) {
       os = "Mac";
@@ -62,9 +63,14 @@ export async function POST(req: NextRequest) {
       // Extract device model from Android UA string (usually like "Android 10; SM-G973F")
       const match = userAgent.match(/Android[^;]+; ([^)]+)\)/);
       if (match && match[1]) {
-        deviceModel = match[1].split(' Build/')[0].trim();
+        let uaParsedModel = match[1].split(' Build/')[0].trim();
+        if (uaParsedModel !== "K" && uaParsedModel !== "K)" && !uaParsedModel.startsWith("K ") && uaParsedModel !== "wv") {
+          deviceModel = deviceModel !== "Unknown" ? deviceModel : uaParsedModel;
+        } else {
+          deviceModel = deviceModel !== "Unknown" ? deviceModel : "Android Device";
+        }
       } else {
-        deviceModel = "Android Device";
+        deviceModel = deviceModel !== "Unknown" ? deviceModel : "Android Device";
       }
     }
     else if (/Linux/i.test(userAgent)) os = "Linux";
