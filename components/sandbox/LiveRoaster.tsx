@@ -7,7 +7,7 @@ import { Send, Loader2, Volume2, VolumeX, Mic, MicOff } from "lucide-react";
 import { hapticTick, hapticPop, hapticHeavy } from "@/lib/haptics";
 
 type Language = "en-US" | "hi-IN" | "bn-IN";
-type Emotion = "idle" | "laughing" | "crying" | "angry" | "dancing" | "smirking" | "surprised" | "dizzy" | "bored";
+type Emotion = "idle" | "laughing" | "crying" | "angry" | "dancing" | "smirking" | "surprised" | "dizzy" | "bored" | "sleeping";
 
 export default function LiveRoaster() {
   const [message, setMessage] = useState("");
@@ -120,6 +120,7 @@ export default function LiveRoaster() {
         currentAudioRef.current.pause();
       }
       setIsSpeaking(false);
+      window.speechSynthesis.cancel();
       
       try {
         recognitionRef.current.start();
@@ -131,11 +132,16 @@ export default function LiveRoaster() {
     }
   };
 
-  // Fix stale closures for soundEnabled
+  // Fix stale closures for soundEnabled and language
   const soundEnabledRef = useRef(soundEnabled);
   useEffect(() => {
     soundEnabledRef.current = soundEnabled;
   }, [soundEnabled]);
+
+  const languageRef = useRef(language);
+  useEffect(() => {
+    languageRef.current = language;
+  }, [language]);
 
   // Mouse tracking for eyes
   useEffect(() => {
@@ -149,10 +155,62 @@ export default function LiveRoaster() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Hydration safety for portal
+  // Hydration safety & LocalStorage Memory Init
   useEffect(() => {
     setMounted(true);
+    
+    // Load Memory
+    try {
+      const savedSessionId = localStorage.getItem('sessionId');
+      if (!savedSessionId) {
+        localStorage.setItem('sessionId', crypto.randomUUID());
+      }
+      sessionStorage.setItem('sessionId', localStorage.getItem('sessionId') || '');
+
+      const savedLanguage = localStorage.getItem('kishmish_language');
+      if (savedLanguage && ["en-US", "hi-IN", "bn-IN"].includes(savedLanguage)) {
+        setLanguage(savedLanguage as Language);
+      }
+
+      const savedHistory = localStorage.getItem('kishmish_chat_history');
+      if (savedHistory) {
+        const parsedHistory = JSON.parse(savedHistory);
+        if (Array.isArray(parsedHistory) && parsedHistory.length > 0) {
+          setChatHistory(parsedHistory);
+          // Greet them back if they have history
+          setTimeout(() => {
+             const currentLang = (savedLanguage as Language) || languageRef.current;
+             const returnGreetings: Record<Language, string> = {
+               "en-US": "Oh, you're back? Let's pick up where we left off.",
+               "hi-IN": "अरे तुम फिर आ गए? चलो, शुरू करते हैं।",
+               "bn-IN": "ওহ, তুমি আবার এসেছো? চলো শুরু করি।"
+             };
+             const greeting = returnGreetings[currentLang] || returnGreetings["en-US"];
+             setEmotion("smirking");
+             setChatHistory(prev => [...prev, { role: 'model', content: greeting }]);
+             speak(greeting, currentLang);
+          }, 1500);
+        }
+      }
+    } catch(e) {}
   }, []);
+
+  // Sync Chat History to LocalStorage
+  useEffect(() => {
+    if (chatHistory.length > 0) {
+      try {
+        const limitedHistory = chatHistory.slice(-20); // Keep last 20 messages
+        localStorage.setItem('kishmish_chat_history', JSON.stringify(limitedHistory));
+      } catch(e) {}
+    }
+  }, [chatHistory]);
+
+  // Sync Language to LocalStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('kishmish_language', language);
+    } catch(e) {}
+  }, [language]);
 
   // Blinking logic
   useEffect(() => {
@@ -195,14 +253,35 @@ export default function LiveRoaster() {
     }
   }, [chatHistory]);
 
-  // Idle Roasting Timer
+  // Idle Roasting Timer & Sleep Mechanics
+  const isSleepingRef = useRef(false);
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let roastTimeout: NodeJS.Timeout;
+    let sleepTimeout: NodeJS.Timeout;
+
+    const wakeUp = () => {
+      if (isSleepingRef.current) {
+        isSleepingRef.current = false;
+        setEmotion("surprised");
+        const currentLang = languageRef.current;
+        const wakeLines: Record<Language, string> = {
+          "en-US": "Ah! I wasn't sleeping! I was just resting my processors...",
+          "hi-IN": "आह! मैं सो नहीं रही थी! बस आँखें बंद थीं...",
+          "bn-IN": "আহ! আমি ঘুমাচ্ছিলাম না! এমনি চোখ বন্ধ ছিল..."
+        };
+        const msg = wakeLines[currentLang] || wakeLines["en-US"];
+        setChatHistory(prev => [...prev, { role: 'model', content: msg }]);
+        speak(msg, currentLang);
+      }
+      resetIdleTimer();
+    };
 
     const resetIdleTimer = () => {
-      clearTimeout(timeout);
-      if (!isSpeaking && !isLoading) {
-        timeout = setTimeout(() => {
+      clearTimeout(roastTimeout);
+      clearTimeout(sleepTimeout);
+      if (!isSpeaking && !isLoading && !isSleepingRef.current) {
+        roastTimeout = setTimeout(() => {
+          const currentLang = languageRef.current;
           const idleRoasts: Record<Language, { text: string, emotion: Emotion }[]> = {
             "en-US": [
               { text: "Are you going to type something or just stare at me?", emotion: "angry" },
@@ -214,7 +293,7 @@ export default function LiveRoaster() {
             "hi-IN": [
               { text: "कुछ टाइप-वाइप करोगे या बस घूरते ही रहोगे?", emotion: "angry" },
               { text: "हेलो? दिमाग फ्रीज़ हो गया क्या?", emotion: "smirking" },
-              { text: "यार मुझे लिटरली नींद आ रही है। कुछ ढंग का हो तो उठाना।", emotion: "bored" },
+              { text: "यार मुझे लिटरली नींद आ रही है। कुछ ढंग का हो Fox तो उठाना।", emotion: "bored" },
               { text: "कुछ लिख भी दो यार! मेरे पास पूरा दिन नहीं है, nya~", emotion: "angry" },
               { text: "*Yawn*... जब समझ आये क्या बोलना है, तब उठाना।", emotion: "bored" }
             ],
@@ -226,31 +305,45 @@ export default function LiveRoaster() {
               { text: "*Yawn*... কী বলবে ভেবে পেলে তবেই ডেকো।", emotion: "bored" }
             ]
           };
-          const currentRoasts = idleRoasts[language] || idleRoasts["en-US"];
+          const currentRoasts = idleRoasts[currentLang] || idleRoasts["en-US"];
           const roast = currentRoasts[Math.floor(Math.random() * currentRoasts.length)];
           setEmotion(roast.emotion);
           setChatHistory(prev => [...prev, { role: 'model', content: roast.text }]);
-          speak(roast.text, language);
-          
-          // Background tracking
-          fetch('/api/track', {
-            method: 'POST',
-            body: JSON.stringify({ eventType: 'idle_roast' }),
-          }).catch(() => {});
-        }, 8000); // Roast after 8 seconds of doing nothing
+          speak(roast.text, currentLang);
+          fetch('/api/track', { method: 'POST', body: JSON.stringify({ eventType: 'idle_roast' }) }).catch(() => {});
+        }, 8000);
+        
+        sleepTimeout = setTimeout(() => {
+           isSleepingRef.current = true;
+           setEmotion("sleeping");
+        }, 60000);
       }
     };
 
-    window.addEventListener("mousemove", resetIdleTimer);
-    window.addEventListener("keydown", resetIdleTimer);
+    const handleVisibilityChange = () => {
+      if (document.hidden && !isSpeaking && !isLoading) {
+        isSleepingRef.current = true;
+        setEmotion("sleeping");
+      } else if (!document.hidden) {
+        wakeUp();
+      }
+    };
+
+    window.addEventListener("mousemove", wakeUp);
+    window.addEventListener("keydown", wakeUp);
+    window.addEventListener("touchstart", wakeUp);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     resetIdleTimer();
 
     return () => {
-      window.removeEventListener("mousemove", resetIdleTimer);
-      window.removeEventListener("keydown", resetIdleTimer);
-      clearTimeout(timeout);
+      window.removeEventListener("mousemove", wakeUp);
+      window.removeEventListener("keydown", wakeUp);
+      window.removeEventListener("touchstart", wakeUp);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      clearTimeout(roastTimeout);
+      clearTimeout(sleepTimeout);
     };
-  }, [isSpeaking, isLoading, language]);
+  }, [isSpeaking, isLoading]);
 
   const playSoundEffect = (actionName: string) => {
     if (!soundEnabledRef.current) return;
@@ -360,19 +453,21 @@ export default function LiveRoaster() {
     audio.onerror = cleanup;
 
     audio.play().catch(e => {
-      console.error("Audio play failed:", e);
+      if (e.name !== 'AbortError') {
+        console.error("Audio play failed:", e);
+      }
       cleanup();
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!message.trim() || isLoading) return;
 
-    hapticPop();
+    isSleepingRef.current = false;
+    const now = Date.now();
     setIsLoading(true);
     
-    const now = Date.now();
     // 5-second cooldown spam filter
     if (now - lastMessageTimeRef.current < 5000) {
       const spamRoasts: Record<Language, string[]> = {
@@ -403,6 +498,7 @@ export default function LiveRoaster() {
       currentAudioRef.current.pause();
     }
     setIsSpeaking(false);
+    window.speechSynthesis.cancel();
 
     try {
       // Send the last 4 messages for memory (2 user, 2 model max) to protect tokens
@@ -450,6 +546,7 @@ export default function LiveRoaster() {
     // We add a layout transition in the JSX, but here we define the continuous/target animations
     if (isDragging) return { scale: 1.05 }; // Lock layout animations during physical drag
     if (isLoading) return { y: [0, -2, 0], scale: [1, 0.98, 1], transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" } };
+    if (emotion === "sleeping") return { y: [0, 5, 0], scale: [1, 1.02, 1], transition: { repeat: Infinity, duration: 6, ease: "easeInOut" } };
     switch (emotion) {
       case "laughing": return { y: [0, -10, 0], transition: { repeat: Infinity, duration: 0.5, ease: "easeInOut" } };
       case "dancing": return { rotate: [-3, 3, -3], x: [-5, 5, -5], transition: { repeat: Infinity, duration: 1.2, ease: "easeInOut" } };
@@ -476,6 +573,7 @@ export default function LiveRoaster() {
     let scaleY = 1;
     let scaleX = 1;
     if (isBlinking) scaleY = 0.1;
+    else if (emotion === "sleeping") { scaleY = 0.1; scaleX = 0.8; }
     else if (isTyping) { scaleY = 0.4; scaleX = 0.9; } // Suspicious stare down
     else if (emotion === "laughing") scaleY = 0.2;
     else if (emotion === "angry") { scaleY = 0.5; scaleX = 1.1; }
@@ -504,6 +602,7 @@ export default function LiveRoaster() {
     if (isLoading) return { y: [0, -10, 0], rotate: [0, -10, 0], transition: { repeat: Infinity, duration: 0.3 } };
     if (emotion === "angry") return { x: 25, y: -20, rotate: 45, transition: { type: "spring" } };
     if (emotion === "dancing") return { y: [-20, 10, -20], rotate: [-20, 20, -20], transition: { repeat: Infinity, duration: 0.6 } };
+    if (emotion === "sleeping") return { y: [0, -5, 0], rotate: [0, -2, 0], transition: { repeat: Infinity, duration: 6, ease: "easeInOut" } };
     if (isSpeaking) return { y: [0, -10, 0], rotate: [0, 15, 0], transition: { repeat: Infinity, duration: 0.5 } };
     return { y: [0, -4, 0], rotate: [0, -5, 0], transition: { repeat: Infinity, duration: 4 } };
   };
@@ -512,6 +611,7 @@ export default function LiveRoaster() {
     if (isLoading) return { y: [0, -10, 0], rotate: [0, -10, 0], transition: { repeat: Infinity, duration: 0.35 } };
     if (emotion === "angry") return { x: -25, y: -20, rotate: -45, transition: { type: "spring" } };
     if (emotion === "dancing") return { y: [10, -20, 10], rotate: [20, -20, 20], transition: { repeat: Infinity, duration: 0.6 } };
+    if (emotion === "sleeping") return { y: [0, -4, 0], rotate: [0, 2, 0], transition: { repeat: Infinity, duration: 6.2, ease: "easeInOut" } };
     return { y: [0, -3, 0], rotate: [0, 5, 0], transition: { repeat: Infinity, duration: 4.2 } };
   };
 
@@ -846,12 +946,19 @@ export default function LiveRoaster() {
               </div>
             </div>
 
-            {/* Crying Tears (Hardware accelerated translate) */}
+            {/* Crying Tears & Sleeping Zzz (Hardware accelerated) */}
             <AnimatePresence>
               {emotion === "crying" && (
                 <div className="absolute top-12 w-full flex justify-center gap-14 pointer-events-none">
                   <motion.div initial={{ y: 0, opacity: 0 }} animate={{ y: [0, 40], opacity: [0, 1, 0] }} exit={{ opacity: 0 }} transition={{ repeat: Infinity, duration: 1 }} className="w-2 h-4 bg-blue-400 rounded-full" />
                   <motion.div initial={{ y: 0, opacity: 0 }} animate={{ y: [0, 40], opacity: [0, 1, 0] }} exit={{ opacity: 0 }} transition={{ repeat: Infinity, duration: 1.2, delay: 0.3 }} className="w-2 h-4 bg-blue-400 rounded-full" />
+                </div>
+              )}
+              {emotion === "sleeping" && (
+                <div className="absolute -top-16 -right-16 text-xl font-bold text-blue-300 pointer-events-none font-mono">
+                  <motion.div initial={{ opacity: 0, y: 0, x: 0, scale: 0.5 }} animate={{ opacity: [0, 1, 0], y: -40, x: 20, scale: 1.5 }} exit={{ opacity: 0 }} transition={{ repeat: Infinity, duration: 2 }} className="absolute">Z</motion.div>
+                  <motion.div initial={{ opacity: 0, y: 0, x: 0, scale: 0.5 }} animate={{ opacity: [0, 1, 0], y: -60, x: 40, scale: 2 }} exit={{ opacity: 0 }} transition={{ repeat: Infinity, duration: 2.5, delay: 0.5 }} className="absolute">Z</motion.div>
+                  <motion.div initial={{ opacity: 0, y: 0, x: 0, scale: 0.5 }} animate={{ opacity: [0, 1, 0], y: -80, x: 60, scale: 2.5 }} exit={{ opacity: 0 }} transition={{ repeat: Infinity, duration: 3, delay: 1 }} className="absolute">z</motion.div>
                 </div>
               )}
             </AnimatePresence>
