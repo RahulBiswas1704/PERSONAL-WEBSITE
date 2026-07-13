@@ -19,7 +19,15 @@ export async function POST(req: NextRequest) {
       language,
       timezone,
       connectionType,
-      path
+      path,
+      cpuCores,
+      ramGb,
+      battery,
+      isTouch,
+      theme,
+      loadTimeMs,
+      utmSource,
+      utmCampaign
     } = body as any;
 
     const userAgent = req.headers.get('user-agent') || 'Unknown';
@@ -84,7 +92,15 @@ export async function POST(req: NextRequest) {
       timezone,
       connectionType,
       path,
-      deviceModel
+      deviceModel,
+      cpuCores,
+      ramGb,
+      battery,
+      isTouch,
+      theme,
+      loadTimeMs,
+      utmSource,
+      utmCampaign
     });
 
     return NextResponse.json({ success: true, sessionId });

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getAnalyticsData, getSessionDurations } from "@/lib/analyticsDb";
+import { getAnalyticsData, getSessionDurations, getSessionScrollDepths } from "@/lib/analyticsDb";
 import { Users, MousePointerClick, Smartphone, Monitor, Globe, Clock, Activity, ArrowUpRight, Timer, MapPin, Link as LinkIcon, Wifi, Layout } from "lucide-react";
 import { LocalTime } from "@/components/LocalTime";
 import { InteractiveActivityStream } from "@/components/InteractiveActivityStream";
@@ -42,6 +42,7 @@ const getDeviceModel = (ua: string, fallbackOS?: string): string => {
 export default async function InsightsPage() {
   const data = await getAnalyticsData();
   const sessionDurations = await getSessionDurations();
+  const sessionScrollDepths = await getSessionScrollDepths();
   
   // Totals
   const totalVisits = data.visits.length;
@@ -386,7 +387,7 @@ export default async function InsightsPage() {
           </div>
         </div>
         
-        <InteractiveActivityStream visits={data.visits} chats={data.chats} sessionDurations={sessionDurations} />
+        <InteractiveActivityStream visits={data.visits} chats={data.chats} sessionDurations={sessionDurations} sessionScrollDepths={sessionScrollDepths} />
       </div>
 
     </div>

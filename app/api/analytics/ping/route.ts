@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { updateSessionDuration } from '@/lib/analyticsDb';
+import { updateSessionDuration, updateSessionScrollDepth } from '@/lib/analyticsDb';
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,13 +22,16 @@ export async function POST(req: NextRequest) {
       }
     }
     
-    const { sessionId, duration } = body;
+    const { sessionId, duration, maxScrollDepth } = body;
 
     if (!sessionId || typeof duration !== 'number') {
       return NextResponse.json({ error: 'Missing or invalid fields' }, { status: 400 });
     }
 
     await updateSessionDuration(sessionId, duration);
+    if (typeof maxScrollDepth === 'number') {
+      await updateSessionScrollDepth(sessionId, maxScrollDepth);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

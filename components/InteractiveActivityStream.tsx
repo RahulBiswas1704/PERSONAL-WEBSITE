@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Clock, MapPin, Smartphone, Monitor, Layout, Wifi, Link as LinkIcon, Timer, Activity, MessageSquare } from "lucide-react";
+import { Clock, MapPin, Smartphone, Monitor, Layout, Wifi, Link as LinkIcon, Timer, Activity, MessageSquare, Cpu, Battery, Zap, Droplets, Sun, Moon, ArrowDownToLine, MousePointer2, CpuIcon, MemoryStick } from "lucide-react";
 import { LocalTime } from "@/components/LocalTime";
 
 const getDurationText = (seconds?: number) => {
@@ -24,7 +24,7 @@ const getDeviceModel = (ua: string, fallbackOS?: string): string => {
   return os !== 'Unknown' ? os : 'Unknown Device';
 };
 
-export function InteractiveActivityStream({ visits, chats, sessionDurations }: { visits: any[], chats: any[], sessionDurations: any }) {
+export function InteractiveActivityStream({ visits, chats, sessionDurations, sessionScrollDepths }: { visits: any[], chats: any[], sessionDurations: any, sessionScrollDepths?: any }) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const toggleRow = (id: string) => {
@@ -113,16 +113,63 @@ export function InteractiveActivityStream({ visits, chats, sessionDurations }: {
                     <LinkIcon className="w-3 h-3 shrink-0" /> {v.referrer.replace(/^https?:\/\//, '')}
                   </span>
                 )}
+
+                {/* Deep Diagnostics Row */}
+                <div className="w-full h-0"></div>
+                <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                  {v.cpuCores && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 flex items-center gap-1" title="CPU Cores">
+                      <CpuIcon className="w-2.5 h-2.5" /> {v.cpuCores} Cores
+                    </span>
+                  )}
+                  {v.ramGb && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 flex items-center gap-1" title="Device Memory">
+                      <MemoryStick className="w-2.5 h-2.5" /> {v.ramGb}GB RAM
+                    </span>
+                  )}
+                  {v.battery && (
+                    <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded ${v.battery.includes('Charging') ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400' : 'bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400'} flex items-center gap-1`} title="Battery Status">
+                      <Battery className="w-2.5 h-2.5" /> {v.battery}
+                    </span>
+                  )}
+                  {v.loadTimeMs && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 flex items-center gap-1" title="Page Load Latency">
+                      <Zap className="w-2.5 h-2.5" /> {v.loadTimeMs}ms
+                    </span>
+                  )}
+                  {v.theme && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 flex items-center gap-1" title="OS Theme Preference">
+                      {v.theme === 'dark' ? <Moon className="w-2.5 h-2.5" /> : <Sun className="w-2.5 h-2.5" />} {v.theme}
+                    </span>
+                  )}
+                  {v.isTouch !== undefined && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-400 flex items-center gap-1">
+                      {v.isTouch ? <Droplets className="w-2.5 h-2.5" /> : <MousePointer2 className="w-2.5 h-2.5" />}
+                      {v.isTouch ? 'Touch' : 'Pointer'}
+                    </span>
+                  )}
+                  {(v.utmSource || v.utmCampaign) && (
+                    <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center gap-1 border border-blue-200/50 dark:border-blue-800/50">
+                      UTM: {v.utmSource || 'direct'} / {v.utmCampaign || 'none'}
+                    </span>
+                  )}
+                </div>
               </div>
 
-              {/* Right: Time Spent */}
-              <div className="flex items-center justify-end sm:min-w-[120px]">
+              {/* Right: Time Spent & Scroll */}
+              <div className="flex flex-col items-end gap-2 sm:min-w-[120px]">
                 <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200/50 dark:border-orange-900/50 shadow-inner group-hover:bg-orange-100 dark:group-hover:bg-orange-900/50 transition-colors">
                   <Timer className="w-4 h-4 text-orange-500" />
                   <span className="text-sm font-black text-orange-700 dark:text-orange-400 tracking-tight">
                     {getDurationText(sessionDurations[v.id])}
                   </span>
                 </div>
+                {sessionScrollDepths && sessionScrollDepths[v.id] !== undefined && (
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-xl bg-violet-50/50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 border border-violet-100 dark:border-violet-800/30">
+                    <ArrowDownToLine className="w-3 h-3 opacity-70" />
+                    <span className="text-[10px] font-bold">Scrolled {sessionScrollDepths[v.id]}%</span>
+                  </div>
+                )}
               </div>
             </div>
 

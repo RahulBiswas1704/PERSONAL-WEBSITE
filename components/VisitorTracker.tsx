@@ -41,15 +41,32 @@ export default function VisitorTracker() {
           language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           connectionType: (navigator as any).connection?.effectiveType || 'Unknown',
-          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown'
+          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown',
+          cpuCores: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency : undefined,
+          ramGb: typeof navigator !== 'undefined' ? (navigator as any).deviceMemory : undefined,
+          isTouch: typeof window !== 'undefined' ? ('ontouchstart' in window || navigator.maxTouchPoints > 0) : undefined,
+          theme: typeof window !== 'undefined' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : undefined,
+          loadTimeMs: typeof performance !== 'undefined' ? Math.round(performance.now()) : undefined,
+          utmSource: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_source') || undefined : undefined,
+          utmCampaign: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_campaign') || undefined : undefined
         };
         
-        // Fire-and-forget request to log the visit
-        fetch('/api/analytics/visit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(console.error);
+        if (typeof navigator !== 'undefined' && (navigator as any).getBattery) {
+          (navigator as any).getBattery().then((b: any) => {
+            (payload as any).battery = `${Math.round(b.level * 100)}% ${b.charging ? '(Charging)' : ''}`;
+            sendPayload(payload);
+          }).catch(() => sendPayload(payload));
+        } else {
+          sendPayload(payload);
+        }
+
+        function sendPayload(finalPayload: any) {
+          fetch('/api/analytics/visit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(finalPayload)
+          }).catch(console.error);
+        }
       })
       .catch(() => {
         // If location fetch fails (e.g. adblocker), still log the visit
@@ -60,7 +77,14 @@ export default function VisitorTracker() {
           language: typeof navigator !== 'undefined' ? navigator.language : 'Unknown',
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           connectionType: (navigator as any).connection?.effectiveType || 'Unknown',
-          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown'
+          path: typeof window !== 'undefined' ? window.location.pathname : 'Unknown',
+          cpuCores: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency : undefined,
+          ramGb: typeof navigator !== 'undefined' ? (navigator as any).deviceMemory : undefined,
+          isTouch: typeof window !== 'undefined' ? ('ontouchstart' in window || navigator.maxTouchPoints > 0) : undefined,
+          theme: typeof window !== 'undefined' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : undefined,
+          loadTimeMs: typeof performance !== 'undefined' ? Math.round(performance.now()) : undefined,
+          utmSource: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_source') || undefined : undefined,
+          utmCampaign: typeof URLSearchParams !== 'undefined' ? new URLSearchParams(window.location.search).get('utm_campaign') || undefined : undefined
         };
 
         fetch('/api/analytics/visit', {
@@ -71,11 +95,29 @@ export default function VisitorTracker() {
       });
   }, [isInsights]);
 
-  // Time on site tracking
+  // Time on site & Scroll depth tracking
   useEffect(() => {
     if (isInsights) return;
 
     sessionStartTime.current = Date.now();
+    let maxScroll = 0;
+
+    const handleScroll = () => {
+      if (typeof window === 'undefined') return;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight <= 0) {
+        maxScroll = 100;
+        return;
+      }
+      const scrollPercent = Math.min(100, Math.max(0, Math.round((window.scrollY / docHeight) * 100)));
+      if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+      }
+    };
+
+    // Calculate initial scroll
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     const sendPing = () => {
       if (!sessionStartTime.current) return;
@@ -87,7 +129,7 @@ export default function VisitorTracker() {
       // Only ping if they've been here at least a few seconds
       if (durationInSeconds < 2) return;
 
-      const payload = JSON.stringify({ sessionId, duration: durationInSeconds });
+      const payload = JSON.stringify({ sessionId, duration: durationInSeconds, maxScrollDepth: maxScroll });
       
       // Use sendBeacon for reliable delivery when page is unloading
       if (navigator.sendBeacon) {
@@ -122,6 +164,7 @@ export default function VisitorTracker() {
 
     return () => {
       clearInterval(interval);
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', sendPing);
       // Send a final ping when unmounting (e.g. navigating to /insights)

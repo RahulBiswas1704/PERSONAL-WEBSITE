@@ -20,6 +20,14 @@ export interface VisitRecord {
   connectionType?: string;
   path?: string;
   deviceModel?: string;
+  cpuCores?: number;
+  ramGb?: number;
+  battery?: string;
+  isTouch?: boolean;
+  theme?: 'dark' | 'light';
+  loadTimeMs?: number;
+  utmSource?: string;
+  utmCampaign?: string;
 }
 
 export interface ClickRecord {
@@ -122,6 +130,30 @@ export const getSessionDurations = async (): Promise<SessionDuration> => {
     return durations || {};
   } catch (error) {
     console.error("KV getSessionDurations error:", error);
+    return {};
+  }
+};
+
+export const updateSessionScrollDepth = async (sessionId: string, scrollDepth: number) => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
+  try {
+    // Only update if the new depth is greater than the existing one, or if it doesn't exist
+    const existing = await kv.hget<number>('analytics:scrolldepths', sessionId);
+    if (!existing || scrollDepth > existing) {
+      await kv.hset('analytics:scrolldepths', { [sessionId]: scrollDepth });
+    }
+  } catch (error) {
+    console.error("KV updateSessionScrollDepth error:", error);
+  }
+};
+
+export const getSessionScrollDepths = async (): Promise<Record<string, number>> => {
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return {};
+  try {
+    const depths = await kv.hgetall<Record<string, number>>('analytics:scrolldepths');
+    return depths || {};
+  } catch (error) {
+    console.error("KV getSessionScrollDepths error:", error);
     return {};
   }
 };
