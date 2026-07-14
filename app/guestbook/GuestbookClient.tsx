@@ -7,6 +7,7 @@ import type { GuestbookEntry } from "../api/guestbook/route";
 export default function GuestbookClient() {
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
   const [name, setName] = useState("");
+  const [contactInfo, setContactInfo] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -39,12 +40,13 @@ export default function GuestbookClient() {
       const res = await fetch('/api/guestbook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, message }),
+        body: JSON.stringify({ name, contactInfo, message }),
       });
       const newEntry = await res.json();
       if (!newEntry.error) {
         setEntries([newEntry, ...entries]);
         setMessage("");
+        setContactInfo("");
       }
     } catch (error) {
       console.error(error);
@@ -66,6 +68,13 @@ export default function GuestbookClient() {
             placeholder="Who are you? (optional)"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-base sm:text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner"
+          />
+          <input
+            type="text"
+            placeholder="Email or Insta Handle (Private)"
+            value={contactInfo}
+            onChange={(e) => setContactInfo(e.target.value)}
             className="px-4 py-3 bg-white dark:bg-black border-2 border-neutral-300 dark:border-border/50 rounded-xl font-mono text-base sm:text-sm text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-accent focus:ring-4 focus:ring-accent/10 transition-all shadow-inner"
           />
           <textarea
@@ -137,6 +146,14 @@ export default function GuestbookClient() {
                       </span>
                     </div>
                     <p className="text-sm sm:text-base opacity-80 break-words leading-relaxed font-medium">{entry.message}</p>
+                    
+                    {entry.adminReply && (
+                      <div className="mt-4 p-3 bg-white/40 dark:bg-black/30 rounded-lg border-l-4 border-accent shadow-inner relative">
+                        <div className="absolute -left-1.5 top-3 w-3 h-3 bg-accent rounded-full"></div>
+                        <span className="text-xs font-bold font-mono text-accent uppercase tracking-widest block mb-1">Rahul Replied:</span>
+                        <p className="text-sm opacity-90 break-words leading-relaxed font-serif italic">"{entry.adminReply}"</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
