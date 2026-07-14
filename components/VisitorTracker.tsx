@@ -114,7 +114,12 @@ export default function VisitorTracker() {
   useEffect(() => {
     if (isInsights) return;
 
-    sessionStartTime.current = Date.now();
+    let storedStartTime = sessionStorage.getItem('sessionStartTime');
+    if (!storedStartTime) {
+      storedStartTime = Date.now().toString();
+      sessionStorage.setItem('sessionStartTime', storedStartTime);
+    }
+    sessionStartTime.current = parseInt(storedStartTime, 10);
     let maxScroll = 0;
 
     const handleScroll = () => {

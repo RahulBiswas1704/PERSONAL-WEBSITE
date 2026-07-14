@@ -120,7 +120,10 @@ export const saveClick = async (click: ClickRecord) => {
 export const updateSessionDuration = async (sessionId: string, duration: number) => {
   if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
   try {
-    await kv.hset('analytics:durations', { [sessionId]: duration });
+    const existing = await kv.hget<number>('analytics:durations', sessionId);
+    if (!existing || duration > existing) {
+      await kv.hset('analytics:durations', { [sessionId]: duration });
+    }
   } catch (error) {
     console.error("KV updateSessionDuration error:", error);
   }
