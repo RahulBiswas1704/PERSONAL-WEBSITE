@@ -66,7 +66,18 @@ export default function ResumePage() {
           </div>
           
           <button 
-            onClick={() => window.print()}
+            onClick={() => {
+              const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+              const isInstagram = (ua.indexOf('Instagram') > -1);
+              const isFacebook = (ua.indexOf('FBAN') > -1) || (ua.indexOf('FBAV') > -1);
+              const isInAppBrowser = isInstagram || isFacebook || /Snapchat|LinkedIn/i.test(ua);
+              
+              if (isInAppBrowser) {
+                alert("It looks like you are using an in-app browser (like Instagram or Facebook), which blocks PDF downloads.\n\nPlease tap the menu (three dots) in the top right and select 'Open in system browser', 'Open in Chrome', or 'Open in Safari' to download the resume.");
+              } else {
+                window.print();
+              }
+            }}
             className="w-full md:w-auto px-6 py-3 bg-indigo-950 dark:bg-indigo-50 text-white dark:text-indigo-950 transform rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-300 text-sm font-black uppercase tracking-widest shadow-lg rounded-xl flex items-center justify-center gap-2 print:hidden group md:self-auto"
           >
             <svg className="w-5 h-5 group-hover:animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
