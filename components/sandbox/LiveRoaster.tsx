@@ -841,7 +841,6 @@ export default function LiveRoaster() {
             const dropMsg = dropMsgMap[language] || dropMsgMap["en-US"];
             setChatHistory(prev => [...prev, { role: 'model', content: dropMsg }]);
             speak(dropMsg, language);
-            setTimeout(() => setEmotion("angry"), 2000);
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
