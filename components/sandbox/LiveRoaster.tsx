@@ -169,11 +169,10 @@ export default function LiveRoaster() {
     
     // Load Memory
     try {
-      const savedSessionId = localStorage.getItem('sessionId');
-      if (!savedSessionId) {
-        localStorage.setItem('sessionId', crypto.randomUUID());
+      const savedUserId = localStorage.getItem('kishmish_userId');
+      if (!savedUserId) {
+        localStorage.setItem('kishmish_userId', crypto.randomUUID());
       }
-      sessionStorage.setItem('sessionId', localStorage.getItem('sessionId') || '');
 
       const savedLanguage = localStorage.getItem('kishmish_language');
       if (savedLanguage && ["en-US", "hi-IN", "bn-IN"].includes(savedLanguage)) {
@@ -583,11 +582,12 @@ export default function LiveRoaster() {
     try {
       // Send the last 4 messages for memory (2 user, 2 model max) to protect tokens
       const recentHistory = chatHistory.slice(-4);
-      const sessionId = localStorage.getItem('sessionId') || 'anonymous';
+      const sessionId = sessionStorage.getItem('sessionId') || 'anonymous';
+      const userId = localStorage.getItem('kishmish_userId') || sessionId;
       const res = await fetch("/api/roast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: currentUserMessage, language, history: recentHistory, sessionId, persona: currentPersona }),
+        body: JSON.stringify({ message: currentUserMessage, language, history: recentHistory, sessionId, userId, persona: currentPersona }),
       });
 
       const data = await res.json();

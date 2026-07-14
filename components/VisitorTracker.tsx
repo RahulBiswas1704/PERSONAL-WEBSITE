@@ -151,20 +151,13 @@ export default function VisitorTracker() {
 
       const payload = JSON.stringify({ sessionId, duration: durationInSeconds, maxScrollDepth: maxScroll });
       
-      // Use sendBeacon for reliable delivery when page is unloading
-      if (navigator.sendBeacon) {
-        // Blob with text/plain is used because sendBeacon with application/json can be restricted by CORS
-        const blob = new Blob([payload], { type: 'text/plain' });
-        navigator.sendBeacon('/api/analytics/ping', blob);
-      } else {
-        // Fallback for older browsers
-        fetch('/api/analytics/ping', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload,
-          keepalive: true
-        }).catch(() => {});
-      }
+      // Use fetch with keepalive which is the modern standard and more reliable than sendBeacon across mobile browsers
+      fetch('/api/analytics/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: payload,
+        keepalive: true
+      }).catch(() => {});
     };
 
     // Send a heartbeat every 15 seconds (useful if visibilitychange doesn't fire on mobile kill)
@@ -210,13 +203,12 @@ export default function VisitorTracker() {
     window.addEventListener('click', handleClick, { passive: true });
 
     return () => {
+      sendPing(); // Ensure we send the accumulated time before unmounting/navigating
       clearInterval(interval);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('beforeunload', sendPing);
       window.removeEventListener('click', handleClick);
-      // Send a final ping when unmounting (e.g. navigating to /insights)
-      sendPing();
     };
   }, [isInsights]);
 

@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: Request) {
   try {
-    const { message, language, history, sessionId, persona } = await req.json();
+    const { message, language, history, sessionId, userId, persona } = await req.json();
 
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
@@ -75,9 +75,9 @@ export async function POST(req: Request) {
     if (history && Array.isArray(history) && history.length > 0) {
       historyContext = "Recent Conversation History (Keep this context in mind when roasting):\n" +
         history.map(h => `${h.role === 'user' ? 'User' : 'You'}: ${h.content}`).join("\n") + "\n\n";
-    } else if (sessionId && sessionId !== 'anonymous') {
+    } else if (userId && userId !== 'anonymous') {
       try {
-        const lastChat = await kv.get<{user: string, kishmish: string}>(`last_chat:${sessionId}`);
+        const lastChat = await kv.get<{user: string, kishmish: string}>(`last_chat:${userId}`);
         if (lastChat) {
           historyContext = `[SYSTEM MEMORY]: The user has returned for another session. In their last visit, they said: "${lastChat.user}" and you replied: "${lastChat.kishmish}". Acknowledge they came back for more punishment.\n\n`;
         }
@@ -191,9 +191,9 @@ Choose the emotion that best matches your roast.`;
     }
 
     // Save Long-Term Memory Checkpoint
-    if (sessionId && sessionId !== 'anonymous') {
+    if (userId && userId !== 'anonymous') {
       try {
-        await kv.set(`last_chat:${sessionId}`, { user: message, kishmish: parsed.reply }, { ex: 2592000 }); // 30 days
+        await kv.set(`last_chat:${userId}`, { user: message, kishmish: parsed.reply }, { ex: 2592000 }); // 30 days
       } catch (e) {
         console.error("KV Memory save error:", e);
       }
