@@ -11,7 +11,7 @@ export default function ProjectsThemeRouter({ projects }: { projects: any[] }) {
   const { theme } = useStructuralTheme();
 
   if (theme === 'pixel') {
-    return <PixelProjects />;
+    return <PixelProjects projects={projects} />;
   }
 
   if (theme === 'minimal') {
