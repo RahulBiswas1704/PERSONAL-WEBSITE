@@ -73,7 +73,7 @@ export default function PixelProjects({ projects }: { projects: any[] }) {
                     )}
                     {project.github && (
                       <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-[10px] uppercase border-2 border-transparent hover:border-black dark:hover:border-white px-3 py-2 transition-colors flex items-center gap-2">
-                        <Github className="w-4 h-4" /> Source
+                        <GithubIcon className="w-4 h-4" /> Source
                       </a>
                     )}
                   </div>
