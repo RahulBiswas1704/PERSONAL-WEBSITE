@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Loader2, Volume2, VolumeX, Mic, MicOff } from "lucide-react";
+import { Send, Loader2, Volume2, VolumeX, Mic, MicOff, Share2 } from "lucide-react";
 import { hapticTick, hapticPop, hapticHeavy } from "@/lib/haptics";
 
 type Language = "en-US" | "hi-IN" | "bn-IN";
@@ -1173,7 +1173,31 @@ export default function LiveRoaster() {
                   : 'bg-zinc-800 text-white border border-accent/30 self-start rounded-bl-sm'
               }`}
             >
-              {chat.content}
+              <div className="flex justify-between items-start gap-3">
+                <span className="flex-1">{chat.content}</span>
+                {chat.role === 'model' && (
+                  <button
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: "Kishmish's Roast",
+                          text: `Kishmish just roasted me: "${chat.content}" 😂\n\nGet roasted at:`,
+                          url: "https://rahul-biswas.vercel.app/sandbox",
+                        }).catch(console.error);
+                      } else {
+                        // Fallback to copying to clipboard
+                        navigator.clipboard.writeText(`Kishmish just roasted me: "${chat.content}" 😂\n\nGet roasted at: https://rahul-biswas.vercel.app/sandbox`);
+                        alert("Roast copied to clipboard!");
+                      }
+                    }}
+                    className="p-1.5 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-colors shrink-0 opacity-50 hover:opacity-100"
+                    title="Share this roast"
+                    aria-label="Share this roast"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </motion.div>
           ))
         )}

@@ -8,9 +8,16 @@ export const metadata: Metadata = {
   description: "Learn more about Rahul Biswas: a self-taught full-stack developer, System Manager, and curious learner based in West Bengal.",
   openGraph: {
     title: "About Rahul Biswas",
-    description: "The story of a curious dropout, self-taught dev, and lifelong learner.",
-    url: "https://rahul-website.vercel.app/me",
-  }
+    description: "Diving into the mind of Rahul Biswas. This portfolio is built differently. 🧠✨",
+    url: "https://rahul-biswas.vercel.app/me",
+    images: [{ url: "https://rahul-biswas.vercel.app/api/og?title=About Me&description=The story of a curious dropout, self-taught dev, and lifelong learner." }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Rahul Biswas",
+    description: "Diving into the mind of Rahul Biswas. This portfolio is built differently. 🧠✨",
+    images: ["https://rahul-biswas.vercel.app/api/og?title=About Me&description=The story of a curious dropout, self-taught dev, and lifelong learner."],
+  },
 };
 
 export default function MePage() {

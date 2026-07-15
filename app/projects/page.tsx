@@ -7,9 +7,16 @@ export const metadata: Metadata = {
   description: "Explore the portfolio and projects built by Rahul Biswas, including full-stack applications, open-source tools, and design concepts.",
   openGraph: {
     title: "Rahul Biswas | Projects",
-    description: "Explore the portfolio and projects built by Rahul Biswas.",
-    url: "https://rahul-website.vercel.app/projects",
-  }
+    description: "Warning: Highly aesthetic projects ahead. Check out Rahul Biswas's portfolio! 🚀💻",
+    url: "https://rahul-biswas.vercel.app/projects",
+    images: [{ url: "https://rahul-biswas.vercel.app/api/og?title=Projects&description=A chaotic collection of SaaS platforms, tools, and late-night coding experiments." }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rahul Biswas | Projects",
+    description: "Warning: Highly aesthetic projects ahead. Check out Rahul Biswas's portfolio! 🚀💻",
+    images: ["https://rahul-biswas.vercel.app/api/og?title=Projects&description=A chaotic collection of SaaS platforms, tools, and late-night coding experiments."],
+  },
 };
 
 function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
