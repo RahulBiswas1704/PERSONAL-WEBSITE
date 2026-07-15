@@ -2,22 +2,33 @@ import { Metadata } from "next";
 import LiveRoasterWrapper from "@/components/sandbox/LiveRoasterWrapper";
 import ShareRoastButton from "@/components/sandbox/ShareRoastButton";
 
-export const metadata: Metadata = {
-  title: "Kishmish's Roast Room",
-  description: "Live AI Roaster.",
-  openGraph: {
-    title: "Kishmish's Roast Room",
-    description: "Get roasted by Kishmish, an unhinged AI, on Rahul Biswas's site! 🐈‍⬛🔥",
-    url: "https://rahul-biswas.vercel.app/sandbox",
-    images: [{ url: "https://rahul-biswas.vercel.app/api/og?title=Kishmish's Roast Room&description=Beware of Cat." }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kishmish's Roast Room",
-    description: "Get roasted by Kishmish, an unhinged AI, on Rahul Biswas's site! 🐈‍⬛🔥",
-    images: ["https://rahul-biswas.vercel.app/api/og?title=Kishmish's Roast Room&description=Beware of Cat."],
-  },
+type Props = {
+  searchParams: { roast?: string };
 };
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const roast = searchParams.roast;
+  const ogTitle = "Kishmish's Roast Room";
+  const ogDescription = roast || "Get roasted by Kishmish, an unhinged AI, on Rahul Biswas's site! 🐈‍⬛🔥";
+  const ogUrl = `https://rahul-biswas.vercel.app/api/og?title=${encodeURIComponent(ogTitle)}&description=${encodeURIComponent(ogDescription)}`;
+
+  return {
+    title: "Kishmish's Roast Room",
+    description: "Live AI Roaster.",
+    openGraph: {
+      title: "Kishmish's Roast Room",
+      description: ogDescription,
+      url: "https://rahul-biswas.vercel.app/sandbox",
+      images: [{ url: ogUrl }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Kishmish's Roast Room",
+      description: ogDescription,
+      images: [ogUrl],
+    },
+  };
+}
 
 export default function SandboxPage() {
   return (

@@ -11,6 +11,31 @@ export async function GET(req: NextRequest) {
     const title = searchParams.get('title') || 'Rahul Biswas';
     const description = searchParams.get('description') || 'Software Engineer & Builder';
 
+    // Fetch fonts for multi-language support (Hindi & Bengali)
+    // We fetch these asynchronously so they don't block the initial parsing, but they are needed for rendering
+    const [devanagariFont, bengaliFont] = await Promise.all([
+      fetch('https://raw.githubusercontent.com/googlefonts/noto-fonts/main/hinted/ttf/NotoSansDevanagari/NotoSansDevanagari-Bold.ttf').then(res => res.arrayBuffer()).catch(() => null),
+      fetch('https://raw.githubusercontent.com/googlefonts/noto-fonts/main/hinted/ttf/NotoSansBengali/NotoSansBengali-Bold.ttf').then(res => res.arrayBuffer()).catch(() => null),
+    ]);
+
+    const fonts = [];
+    if (devanagariFont) {
+      fonts.push({
+        name: 'Noto Sans Devanagari',
+        data: devanagariFont,
+        weight: 700,
+        style: 'normal',
+      });
+    }
+    if (bengaliFont) {
+      fonts.push({
+        name: 'Noto Sans Bengali',
+        data: bengaliFont,
+        weight: 700,
+        style: 'normal',
+      });
+    }
+
     return new ImageResponse(
       (
         <div
@@ -85,6 +110,7 @@ export async function GET(req: NextRequest) {
                 fontSize: 32,
                 color: '#a3a3a3', // neutral-400
                 fontWeight: 500,
+                fontFamily: '"Inter", "Noto Sans Devanagari", "Noto Sans Bengali", sans-serif',
               }}
             >
               {description}
@@ -95,6 +121,7 @@ export async function GET(req: NextRequest) {
       {
         width: 1200,
         height: 630,
+        fonts: fonts as any,
       }
     );
   } catch (e: any) {

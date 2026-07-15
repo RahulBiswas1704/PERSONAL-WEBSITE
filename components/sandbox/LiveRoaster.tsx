@@ -1178,16 +1178,25 @@ export default function LiveRoaster() {
                 {chat.role === 'model' && (
                   <button
                     onClick={() => {
+                      const shareUrls: Record<string, string> = {
+                        "en-US": "Kishmish just roasted me:",
+                        "hi-IN": "किशमिश ने मेरी बेइज्जती कर दी:",
+                        "bn-IN": "কিশমিশ আমায় রোস্ট করে দিলো:"
+                      };
+                      const prefix = shareUrls[language] || shareUrls["en-US"];
+                      const encodedRoast = encodeURIComponent(chat.content.substring(0, 150)); // Limit length for URL
+                      const shareLink = `https://rahul-biswas.vercel.app/sandbox?roast=${encodedRoast}`;
+                      
+                      const storyText = `🐈‍⬛ ${prefix}\n"${chat.content}"\n\nGet roasted here 👇\n${shareLink}`;
+                      
                       if (navigator.share) {
                         navigator.share({
                           title: "Kishmish's Roast",
-                          text: `Kishmish just roasted me: "${chat.content}" 😂\n\nGet roasted at:`,
-                          url: "https://rahul-biswas.vercel.app/sandbox",
+                          text: storyText,
                         }).catch(console.error);
                       } else {
-                        // Fallback to copying to clipboard
-                        navigator.clipboard.writeText(`Kishmish just roasted me: "${chat.content}" 😂\n\nGet roasted at: https://rahul-biswas.vercel.app/sandbox`);
-                        alert("Roast copied to clipboard!");
+                        navigator.clipboard.writeText(storyText);
+                        alert("Roast copied to clipboard! Perfect for pasting into an Instagram Story or chat.");
                       }
                     }}
                     className="p-1.5 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-colors shrink-0 opacity-50 hover:opacity-100"
