@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Activity, Zap } from "lucide-react";
 import { hapticTick } from "@/lib/haptics";
+import { useStructuralTheme } from "@/contexts/StructuralThemeContext";
 
 const STATIC_QUOTES = [
   "Please stop poking my cornea.",
@@ -79,6 +80,7 @@ const getPersonalizedQuotes = () => {
 };
 
 export default function AICompanionSidebar() {
+  const { theme } = useStructuralTheme();
   const [pupilPos, setPupilPos] = useState({ x: 0, y: 0 });
   const [isBlinking, setIsBlinking] = useState(false);
   const [activityLevel, setActivityLevel] = useState(0);
@@ -277,6 +279,96 @@ export default function AICompanionSidebar() {
     quoteTimeout.current = setTimeout(() => setShowQuote(false), 4000);
   };
 
+  const getEyeContainerClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "relative w-32 h-32 bg-black brutal-shadow flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 border-4 border-black rounded-none";
+      case "retro":
+        return "relative w-32 h-32 bg-black shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 border-2 border-green-500 rounded-none";
+      case "minimal":
+        return "relative w-32 h-32 bg-transparent border-2 border-black/10 dark:border-white/10 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0";
+      case "pixel":
+        return "relative w-32 h-32 bg-[#e0f8d0] dark:bg-[#0f380f] border-4 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 rounded-none";
+      default:
+        return "relative w-32 h-32 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0";
+    }
+  };
+
+  const getEyelidClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "bg-black border-4 border-white text-white z-10 transition-transform duration-100 ease-in-out";
+      case "retro":
+        return "bg-green-900 border-2 border-green-500 z-10 transition-transform duration-100 ease-in-out";
+      case "minimal":
+        return "bg-white dark:bg-black border border-black/10 dark:border-white/10 z-10 transition-transform duration-100 ease-in-out";
+      case "pixel":
+        return "bg-black dark:bg-white z-10 transition-transform duration-100 ease-in-out";
+      default:
+        return "bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out border-black/10 dark:border-white/5";
+    }
+  };
+
+  const getScleraClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "w-20 h-20 bg-[#f4f4f0] border-4 border-black flex items-center justify-center overflow-hidden relative z-0 rounded-none";
+      case "retro":
+        return "w-20 h-20 bg-green-950 border border-green-500 flex items-center justify-center overflow-hidden relative z-0 rounded-none";
+      case "minimal":
+        return "w-20 h-20 bg-transparent border border-black/20 dark:border-white/20 rounded-full flex items-center justify-center overflow-hidden relative z-0";
+      case "pixel":
+        return "w-20 h-20 bg-[#9bbc0f] border-4 border-black dark:border-white flex items-center justify-center overflow-hidden relative z-0 rounded-none";
+      default:
+        return "w-20 h-20 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0";
+    }
+  };
+
+  const getPupilClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "w-8 h-8 bg-black transition-transform duration-75 flex items-center justify-center rounded-none border-2 border-[#f4f4f0]";
+      case "retro":
+        return "w-8 h-8 bg-green-500 transition-transform duration-75 flex items-center justify-center rounded-none";
+      case "minimal":
+        return "w-6 h-6 bg-black dark:bg-white rounded-full transition-transform duration-75 flex items-center justify-center";
+      case "pixel":
+        return "w-8 h-8 bg-black dark:bg-[#0f380f] transition-transform duration-75 flex items-center justify-center rounded-none border-2 border-black dark:border-white";
+      default:
+        return "w-8 h-8 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center shadow-lg";
+    }
+  };
+
+  const getChatBubbleClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "bg-[#f4f4f0] border-4 border-black text-black brutal-shadow font-mono font-bold uppercase rounded-none";
+      case "retro":
+        return "bg-black border border-green-500 text-green-500 font-mono font-bold uppercase rounded-none shadow-[0_0_10px_rgba(34,197,94,0.3)]";
+      case "minimal":
+        return "bg-transparent border border-black/20 dark:border-white/20 text-foreground font-sans font-light rounded-none";
+      case "pixel":
+        return "bg-[#e0f8d0] dark:bg-[#0f380f] border-4 border-black dark:border-white text-[#0f380f] dark:text-[#9bbc0f] shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] font-pixel text-[10px] rounded-none";
+      default:
+        return "bg-white dark:bg-neutral-900 border-2 border-accent/50 rounded-2xl rounded-tr-none shadow-xl";
+    }
+  };
+
+  const getEKGClass = (bpm: number) => {
+    switch (theme) {
+      case "brutal":
+        return `flex flex-col w-full bg-[#f4f4f0] border-4 border-black p-2 overflow-hidden relative transition-all brutal-shadow ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+      case "retro":
+        return `flex flex-col w-full bg-black border border-green-500 p-2 overflow-hidden relative transition-all shadow-[0_0_10px_rgba(34,197,94,0.2)] ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+      case "minimal":
+        return `flex flex-col w-full bg-transparent border border-black/10 dark:border-white/10 p-2 overflow-hidden relative transition-all rounded-none ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+      case "pixel":
+        return `flex flex-col w-full bg-[#8bac0f] dark:bg-[#306230] border-4 border-black dark:border-white p-2 overflow-hidden relative transition-all shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] rounded-none ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+      default:
+        return `flex flex-col w-full bg-black/90 dark:bg-black rounded-lg border-2 ${bpm > 150 ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'border-neutral-800 dark:border-neutral-900'} p-2 overflow-hidden relative transition-all ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+    }
+  };
+
   return (
     <>
     {/* Desktop Version */}
@@ -285,13 +377,15 @@ export default function AICompanionSidebar() {
 
         {/* Sarcastic Chat Bubble */}
         <div
-          className={`absolute right-full mr-4 top-0 w-48 bg-white dark:bg-neutral-900 border-2 border-accent/50 p-3 rounded-2xl rounded-tr-none shadow-xl transform origin-top-right transition-all duration-300 ${showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
+          className={`absolute right-full mr-4 top-0 w-48 p-3 transform origin-top-right transition-all duration-300 ${getChatBubbleClass()} ${showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
             }`}
         >
-          <p className="text-xs font-mono font-bold text-neutral-800 dark:text-neutral-200">
+          <p className={theme === "modern" ? "text-xs font-mono font-bold text-neutral-800 dark:text-neutral-200" : "text-xs leading-tight"}>
             {quote}
           </p>
-          <div className="absolute top-0 -right-2 w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-accent/50 border-r-[10px] border-r-transparent" />
+          {theme === "modern" && (
+            <div className="absolute top-0 -right-2 w-0 h-0 border-l-[10px] border-l-transparent border-t-[10px] border-t-accent/50 border-r-[10px] border-r-transparent" />
+          )}
         </div>
 
         {/* Quirky Funky Spooky Touch Me Popup */}
@@ -299,7 +393,7 @@ export default function AICompanionSidebar() {
           className={`absolute right-full mr-6 top-8 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
             }`}
         >
-          <div className="relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5">
+          <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5" : `relative px-3 py-1.5 border-2 border-dashed flex items-center gap-1.5 font-bold font-mono ${theme === "retro" ? "border-green-500 text-green-500 bg-black" : theme === "brutal" ? "border-black bg-black text-white brutal-shadow uppercase" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
             <span className="animate-pulse tracking-tighter">tOuCh... mE...</span>
             <span className="text-sm">👁️</span>
           </div>
@@ -310,27 +404,31 @@ export default function AICompanionSidebar() {
           ref={eyeRef}
           onClick={handleClick}
           onMouseEnter={() => setShowTouchMe(false)}
-          className="relative w-32 h-32 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0"
+          className={getEyeContainerClass()}
         >
           {/* Eyelids for realistic blink */}
           <div
-            className="absolute top-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-top border-b border-black/10 dark:border-white/5"
+            className={`absolute top-0 left-0 right-0 h-1/2 origin-top ${theme === "modern" ? "border-b" : "border-b-2"} ${getEyelidClass()}`}
             style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
           />
           <div
-            className="absolute bottom-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-bottom border-t border-black/10 dark:border-white/5"
+            className={`absolute bottom-0 left-0 right-0 h-1/2 origin-bottom ${theme === "modern" ? "border-t" : "border-t-2"} ${getEyelidClass()}`}
             style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
           />
 
           {/* Sclera & Iris */}
-          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
+          <div className={getScleraClass()}>
             {/* The Pupil that moves */}
             <div
-              className="w-8 h-8 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center shadow-lg"
+              className={getPupilClass()}
               style={{ transform: `translate(${pupilPos.x}px, ${pupilPos.y}px)` }}
             >
-              <div className="w-3 h-3 bg-black rounded-full" />
-              <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-white rounded-full opacity-60" />
+              {theme === "modern" && (
+                <>
+                  <div className="w-3 h-3 bg-black rounded-full" />
+                  <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-white rounded-full opacity-60" />
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -347,32 +445,36 @@ export default function AICompanionSidebar() {
           {(() => {
             const bpm = Math.floor(40 + activityLevel * 1.5);
             let status = "STABLE";
-            let color = "text-accent";
-            let barColor = "bg-accent";
-            let shake = "";
+            let color = theme === "retro" ? "text-green-500" : theme === "pixel" ? "text-[#0f380f] dark:text-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "text-foreground" : "text-accent";
+            let barColor = theme === "retro" ? "bg-green-500" : theme === "pixel" ? "bg-[#0f380f] dark:bg-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "bg-foreground" : "bg-accent";
 
             if (bpm > 150) {
               status = "OVERLOAD";
-              color = "text-red-500";
-              barColor = "bg-red-500";
-              shake = "animate-pulse origin-center scale-110";
+              if (theme === "modern") {
+                color = "text-red-500";
+                barColor = "bg-red-500";
+              }
             } else if (bpm > 100) {
               status = "STRESSED";
-              color = "text-yellow-500";
-              barColor = "bg-yellow-500";
+              if (theme === "modern") {
+                color = "text-yellow-500";
+                barColor = "bg-yellow-500";
+              }
             }
 
             return (
-              <div className={`flex flex-col w-full bg-black/90 dark:bg-black rounded-lg border-2 ${bpm > 150 ? 'border-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 'border-neutral-800 dark:border-neutral-900'} p-2 overflow-hidden relative transition-all ${shake}`}>
+              <div className={getEKGClass(bpm)}>
                 {/* CRT Scanline Overlay */}
-                <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
+                {(theme === "modern" || theme === "retro" || theme === "brutal" || theme === "pixel") && (
+                  <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
+                )}
 
                 <div className="flex items-center justify-between z-10 w-full mb-1">
-                  <span className={`text-[10px] font-mono font-bold tracking-[0.2em] transition-colors ${color} flex items-center gap-1.5`}>
+                  <span className={`text-[10px] ${theme === "pixel" ? "font-pixel" : "font-mono font-bold tracking-[0.2em]"} transition-colors ${theme === "brutal" ? "text-black" : color} flex items-center gap-1.5`}>
                     {bpm > 150 ? <Zap className="w-3 h-3 animate-ping" /> : <Activity className="w-3 h-3" />}
                     {status}
                   </span>
-                  <span className={`text-[9px] font-mono font-bold ${color} transition-colors`}>{bpm}</span>
+                  <span className={`text-[9px] ${theme === "pixel" ? "font-pixel" : "font-mono font-bold"} transition-colors ${theme === "brutal" ? "text-black" : color}`}>{bpm}</span>
                 </div>
 
                 <div className="flex items-end justify-between w-full h-8 gap-[2px] z-10 mt-1">
@@ -387,10 +489,10 @@ export default function AICompanionSidebar() {
                     return (
                       <div
                         key={i}
-                        className={`w-full rounded-sm transition-all duration-75 ${barColor}`}
+                        className={`w-full rounded-sm transition-all duration-75 ${theme === "brutal" ? "bg-black" : barColor}`}
                         style={{
                           height: `${height}%`,
-                          opacity: activityLevel > 10 ? 0.8 + Math.random() * 0.2 : 0.3
+                          opacity: activityLevel > 10 ? 0.8 + Math.random() * 0.2 : (theme === "retro" ? 0.5 : 0.3)
                         }}
                       />
                     );
@@ -408,14 +510,16 @@ export default function AICompanionSidebar() {
     <div className="xl:hidden fixed top-20 right-4 z-[45] pointer-events-auto flex flex-col items-end gap-2">
       {/* Mobile Quote Bubble */}
       <div
-        className={`absolute right-full mr-3 top-0 w-40 bg-white dark:bg-neutral-900 border border-accent/50 p-2 rounded-xl rounded-tr-none shadow-lg transform origin-top-right transition-all duration-300 ${
+        className={`absolute right-full mr-3 top-0 w-40 p-2 transform origin-top-right transition-all duration-300 ${getChatBubbleClass()} ${
           showQuote ? 'scale-100 opacity-100' : 'scale-50 opacity-0 pointer-events-none'
         }`}
       >
-        <p className="text-[10px] leading-tight font-mono font-bold text-neutral-800 dark:text-neutral-200">
+        <p className={theme === "modern" ? "text-[10px] leading-tight font-mono font-bold text-neutral-800 dark:text-neutral-200" : "text-[10px] leading-tight"}>
           {quote}
         </p>
-        <div className="absolute top-0 -right-2 w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-accent/50 border-r-[8px] border-r-transparent" />
+        {theme === "modern" && (
+          <div className="absolute top-0 -right-2 w-0 h-0 border-l-[8px] border-l-transparent border-t-[8px] border-t-accent/50 border-r-[8px] border-r-transparent" />
+        )}
       </div>
 
       {/* Mobile Poke Me Popup */}
@@ -423,7 +527,7 @@ export default function AICompanionSidebar() {
         className={`absolute right-full mr-4 top-2 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
           }`}
       >
-        <div className="relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1">
+        <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1" : `relative px-2 py-1 border border-dashed flex items-center gap-1 font-bold font-mono ${theme === "retro" ? "border-green-500 text-green-500 bg-black" : theme === "brutal" ? "border-black bg-black text-white uppercase brutal-shadow" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
           <span className="animate-pulse tracking-tighter text-[10px]">pOkE mE...</span>
           <span className="text-[10px]">👁️</span>
         </div>
@@ -432,27 +536,31 @@ export default function AICompanionSidebar() {
       {/* Mobile Eye */}
       <div
         onClick={handleClick}
-        className="relative w-12 h-12 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-md flex items-center justify-center cursor-pointer active:scale-95 transition-transform overflow-hidden shrink-0 border border-black/10 dark:border-white/10"
+        className={theme === "modern" ? "relative w-12 h-12 rounded-full bg-neutral-200 dark:bg-neutral-800 shadow-md flex items-center justify-center cursor-pointer active:scale-95 transition-transform overflow-hidden shrink-0 border border-black/10 dark:border-white/10" : getEyeContainerClass().replace("w-32 h-32", "w-12 h-12").replace("hover:scale-105", "active:scale-95")}
       >
         {/* Eyelids */}
         <div
-          className="absolute top-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-top border-b border-black/10 dark:border-white/5"
+          className={`absolute top-0 left-0 right-0 h-1/2 origin-top ${theme === "modern" ? "border-b" : "border-b-[1px]"} ${getEyelidClass()}`}
           style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
         />
         <div
-          className="absolute bottom-0 left-0 right-0 h-1/2 bg-neutral-300 dark:bg-neutral-700 z-10 transition-transform duration-100 ease-in-out origin-bottom border-t border-black/10 dark:border-white/5"
+          className={`absolute bottom-0 left-0 right-0 h-1/2 origin-bottom ${theme === "modern" ? "border-t" : "border-t-[1px]"} ${getEyelidClass()}`}
           style={{ transform: isBlinking ? 'scaleY(1)' : 'scaleY(0)' }}
         />
 
         {/* Sclera & Iris */}
-        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0">
+        <div className={theme === "modern" ? "w-8 h-8 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner relative z-0" : getScleraClass().replace("w-20 h-20", "w-8 h-8")}>
           {/* Pupil */}
           <div
-            className="w-4 h-4 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center"
+            className={theme === "modern" ? "w-4 h-4 bg-accent rounded-full transition-transform duration-75 flex items-center justify-center" : getPupilClass().replace("w-8 h-8", "w-4 h-4").replace("w-6 h-6", "w-3 h-3")}
             style={{ transform: `translate(${pupilPos.x / 2.5}px, ${pupilPos.y / 2.5}px)` }}
           >
-            <div className="w-1.5 h-1.5 bg-black rounded-full" />
-            <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-white rounded-full opacity-60" />
+            {theme === "modern" && (
+              <>
+                <div className="w-1.5 h-1.5 bg-black rounded-full" />
+                <div className="absolute top-0.5 right-0.5 w-1 h-1 bg-white rounded-full opacity-60" />
+              </>
+            )}
           </div>
         </div>
       </div>

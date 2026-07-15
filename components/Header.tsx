@@ -6,44 +6,93 @@ import ThemeToggle from "./ThemeToggle";
 import AccentPicker from "./AccentPicker";
 import ShareModal from "./ShareModal";
 import { Share } from "lucide-react";
+import StructuralThemeSelector from "./StructuralThemeSelector";
+import { useStructuralTheme } from "@/contexts/StructuralThemeContext";
 
 export default function Header() {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const { theme } = useStructuralTheme();
+
+  const getHeaderClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "w-full border-b-4 border-black bg-[#f4f4f0] sticky top-0 z-50 brutal-shadow";
+      case "retro":
+        return "w-full border-b-2 border-green-500 bg-black sticky top-0 z-50 shadow-[0_0_15px_rgba(34,197,94,0.2)]";
+      case "minimal":
+        return "w-full border-b border-black/10 dark:border-white/10 bg-background/90 backdrop-blur-md sticky top-0 z-50";
+      case "pixel":
+        return "w-full border-b-4 border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] sticky top-0 z-50 font-pixel";
+      default:
+        return "w-full border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50 transition-colors";
+    }
+  };
+
+  const getLogoClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "font-black text-xl uppercase tracking-tighter text-black bg-white px-2 py-1 border-2 border-black";
+      case "retro":
+        return "font-bold text-xl uppercase text-green-500 tracking-widest";
+      case "minimal":
+        return "font-light text-base tracking-widest uppercase";
+      case "pixel":
+        return "text-xs md:text-sm text-[#0f380f] dark:text-[#9bbc0f] hover:scale-110 transition-transform inline-block";
+      default:
+        return "font-bold text-sm sm:text-base hover:text-accent transition-colors duration-150";
+    }
+  };
+
+  const getNavClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "text-xs font-black uppercase tracking-widest border-2 border-transparent hover:border-black hover:bg-black hover:text-white px-2 py-1 transition-colors";
+      case "retro":
+        return "text-xs font-bold uppercase tracking-widest text-green-500 hover:bg-green-500 hover:text-black px-2 py-1 transition-colors";
+      case "minimal":
+        return "text-xs font-light tracking-widest uppercase hover:opacity-50 transition-opacity";
+      case "pixel":
+        return "text-[10px] md:text-xs text-[#306230] dark:text-[#8bac0f] hover:text-[#0f380f] dark:hover:text-[#9bbc0f] hover:-translate-y-1 transition-transform";
+      default:
+        return "text-sm font-medium hover-link";
+    }
+  };
 
   return (
-    <header className="w-full border-b border-border bg-background/80 backdrop-blur-sm sticky top-0 z-50 transition-colors">
+    <header className={getHeaderClass()}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="font-bold text-sm sm:text-base hover:text-accent transition-colors duration-150">
-          Rahul
+        <Link href="/" className={getLogoClass()}>
+          {theme === "retro" ? "RB_SYS" : theme === "pixel" ? "RAHUL_RPG" : "Rahul"}
         </Link>
         <div className="flex items-center gap-3 sm:gap-5">
-          <nav className="hidden sm:flex items-center gap-5">
-            <Link href="/projects" className="text-sm font-medium hover-link">
+          <nav className="hidden sm:flex items-center gap-2 sm:gap-4">
+            <Link href="/projects" className={getNavClass()}>
               Projects
             </Link>
-            <Link href="/me" className="text-sm font-medium hover-link">
+            <Link href="/me" className={getNavClass()}>
               Me
             </Link>
-            <Link href="/sandbox" className="text-sm font-medium hover-link">
+            <Link href="/sandbox" className={getNavClass()}>
               Kishmish
             </Link>
-            <Link href="/guestbook" className="text-sm font-medium hover-link">
+            <Link href="/guestbook" className={getNavClass()}>
               Guestbook
             </Link>
-            <Link href="/resume" className="text-sm font-medium hover-link">
+            <Link href="/resume" className={getNavClass()}>
               Resume
             </Link>
           </nav>
-          <div className="flex items-center gap-1 sm:gap-2 sm:border-l sm:border-border sm:pl-4">
+          <div className={`flex items-center gap-1 sm:gap-2 ${theme === "brutal" ? "border-l-4 border-black pl-4" : theme === "retro" ? "border-l-2 border-green-500 pl-4" : theme === "pixel" ? "border-l-4 border-black dark:border-white pl-4" : theme === "minimal" ? "border-l border-black/10 dark:border-white/10 pl-4" : "sm:border-l sm:border-border sm:pl-4"}`}>
             <button 
               onClick={() => setIsShareModalOpen(true)}
-              className="p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              className={theme === "brutal" ? "p-2 border-2 border-transparent hover:border-black hover:bg-black hover:text-white transition-colors text-black" : theme === "retro" ? "p-2 text-green-500 hover:bg-green-500 hover:text-black transition-colors" : theme === "pixel" ? "p-2 text-[#0f380f] dark:text-[#9bbc0f] hover:scale-110 transition-transform" : "p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"}
               aria-label="Share this page"
             >
               <Share className="w-4 h-4" />
             </button>
-            <AccentPicker />
-            <ThemeToggle />
+            <StructuralThemeSelector />
+            {theme === "modern" && <AccentPicker />}
+            {theme !== "retro" && theme !== "brutal" && theme !== "pixel" && <ThemeToggle />}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Press_Start_2P } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -14,9 +14,18 @@ import MobileDesktopHint from "@/components/MobileDesktopHint";
 import { Analytics } from "@vercel/analytics/react";
 import Script from "next/script";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { StructuralThemeProvider } from "@/contexts/StructuralThemeContext";
+import { cookies } from "next/headers";
 
 const inter = Inter({
   variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const pressStart2P = Press_Start_2P({
+  weight: "400",
+  variable: "--font-pixel",
   subsets: ["latin"],
   display: "swap",
 });
@@ -68,21 +77,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const themeCookie = cookieStore.get('structural-theme');
+  const initialTheme = (themeCookie?.value as "modern" | "minimal" | "retro" | "brutal" | "pixel") || "modern";
+
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full antialiased overflow-x-hidden print:overflow-visible print:h-auto`}
+      className={`${inter.variable} ${pressStart2P.variable} h-full antialiased overflow-x-hidden print:overflow-visible print:h-auto`}
       suppressHydrationWarning
     >
       <head>
-        <Script
+        <script
           id="theme-script"
-          strategy="beforeInteractive"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -146,24 +159,26 @@ export default function RootLayout({
         suppressHydrationWarning 
         className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-150 overflow-x-hidden print:overflow-visible print:min-h-0 print:pb-0"
       >
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
-            <PullToRefreshEgg />
-            <Header />
-            <FixedLeftSidebar />
-            <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
-              {children}
-            </main>
-            <MobileDesktopHint />
-            <AICompanionSidebar />
-            <Footer />
-          </div>
-          <MobileNav />
-          <VisitorTracker />
-          <MouseGlow />
-          <TerminalEasterEgg />
-          <Analytics />
-        </ThemeProvider>
+        <StructuralThemeProvider initialTheme={initialTheme}>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <div className="flex flex-col min-h-screen w-full overflow-x-hidden relative print:overflow-visible print:min-h-0">
+              <PullToRefreshEgg />
+              <Header />
+              <FixedLeftSidebar />
+              <main className="max-w-3xl mx-auto px-6 py-12 flex-1 w-full relative z-10">
+                {children}
+              </main>
+              <MobileDesktopHint />
+              <AICompanionSidebar />
+              <Footer />
+            </div>
+            <MobileNav />
+            <VisitorTracker />
+            <MouseGlow />
+            <TerminalEasterEgg />
+            <Analytics />
+          </ThemeProvider>
+        </StructuralThemeProvider>
       </body>
     </html>
   );

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Loader2, Volume2, VolumeX, Mic, MicOff, Share2 } from "lucide-react";
 import { hapticTick, hapticPop, hapticHeavy } from "@/lib/haptics";
+import { useStructuralTheme } from "@/contexts/StructuralThemeContext";
 
 type Language = "en-US" | "hi-IN" | "bn-IN";
 type Emotion = "idle" | "laughing" | "crying" | "angry" | "dancing" | "smirking" | "surprised" | "dizzy" | "bored" | "sleeping";
@@ -19,6 +20,65 @@ export default function LiveRoaster() {
   const [persona, setPersona] = useState<Persona>("toxic");
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+
+  const { theme } = useStructuralTheme();
+
+  const getChatContainerClasses = () => {
+    switch (theme) {
+      case 'brutal': return 'bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] rounded-none font-mono uppercase';
+      case 'retro': return 'bg-black border-2 border-dashed border-green-500 rounded-none font-mono';
+      case 'pixel': return 'bg-neutral-900 border-4 border-neutral-600 shadow-[4px_4px_0_0_#000] rounded-none font-pixel text-xs';
+      case 'minimal': return 'bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl border border-indigo-100 dark:border-indigo-900/30 shadow-xl rounded-3xl';
+      default: return 'bg-card/80 backdrop-blur-md border-2 border-border/50 rounded-2xl shadow-inner';
+    }
+  };
+
+  const getChatBubbleClasses = (isUser: boolean) => {
+    if (theme === 'brutal') {
+      return isUser 
+        ? 'bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white rounded-none uppercase' 
+        : 'bg-[#ff90e8] text-black border-2 border-black rounded-none uppercase';
+    }
+    if (theme === 'retro') {
+      return isUser
+        ? 'bg-green-900 text-green-100 border border-green-500 rounded-none'
+        : 'bg-black text-green-500 border border-green-500 rounded-none';
+    }
+    if (theme === 'pixel') {
+      return isUser
+        ? 'bg-blue-600 text-white border-2 border-black rounded-none'
+        : 'bg-neutral-800 text-white border-2 border-neutral-500 rounded-none';
+    }
+    if (theme === 'minimal') {
+      return isUser
+        ? 'bg-indigo-600 text-white rounded-2xl rounded-br-sm'
+        : 'bg-white dark:bg-zinc-800 text-foreground border border-indigo-100 dark:border-indigo-900/30 rounded-2xl rounded-bl-sm shadow-sm';
+    }
+    // modern (default)
+    return isUser 
+      ? 'bg-blue-600 text-white self-end rounded-2xl rounded-br-sm shadow-sm' 
+      : 'bg-zinc-800 text-white border border-accent/30 self-start rounded-2xl rounded-bl-sm shadow-sm';
+  };
+
+  const getInputContainerClasses = () => {
+    switch (theme) {
+      case 'brutal': return 'bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rounded-none';
+      case 'retro': return 'bg-black border-2 border-green-500 rounded-none';
+      case 'pixel': return 'bg-neutral-800 border-4 border-neutral-600 shadow-[4px_4px_0_0_#000] rounded-none';
+      case 'minimal': return 'bg-white dark:bg-zinc-900 border border-indigo-100 dark:border-indigo-900/30 shadow-md rounded-full';
+      default: return 'shadow-lg rounded-full';
+    }
+  };
+
+  const getInputFieldClasses = () => {
+    switch (theme) {
+      case 'brutal': return 'w-full bg-transparent outline-none px-6 py-4 font-mono uppercase text-black dark:text-white placeholder-zinc-500 pr-24';
+      case 'retro': return 'w-full bg-black text-green-500 outline-none px-6 py-4 font-mono placeholder-green-800 pr-24';
+      case 'pixel': return 'w-full bg-transparent outline-none px-6 py-4 font-pixel text-xs text-white placeholder-neutral-500 pr-24';
+      case 'minimal': return 'w-full bg-transparent outline-none px-6 py-4 font-sans text-sm pr-24 transition-colors';
+      default: return 'w-full bg-card border-2 border-border focus:border-accent outline-none px-6 py-4 rounded-full font-mono text-sm pr-24 transition-colors';
+    }
+  };
 
   const [pokeCount, setPokeCount] = useState(0);
   const [isTailFlicking, setIsTailFlicking] = useState(false);
@@ -1155,7 +1215,7 @@ export default function LiveRoaster() {
       {/* Scrolling Chat Log */}
       <div 
         ref={chatLogRef}
-        className="w-full max-h-48 overflow-y-auto flex flex-col gap-3 p-4 bg-card/80 backdrop-blur-md border-2 border-border/50 rounded-2xl shadow-inner scroll-smooth"
+        className={`w-full max-h-48 overflow-y-auto flex flex-col gap-3 p-4 scroll-smooth ${getChatContainerClasses()}`}
       >
         {chatHistory.length === 0 ? (
           <p className="text-center text-muted-foreground font-mono text-sm my-auto opacity-50">
@@ -1167,11 +1227,7 @@ export default function LiveRoaster() {
               key={idx}
               initial={{ opacity: 0, scale: 0.9, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              className={`max-w-[85%] p-3 rounded-2xl text-sm md:text-base font-mono shadow-sm ${
-                chat.role === 'user' 
-                  ? 'bg-blue-600 text-white self-end rounded-br-sm' 
-                  : 'bg-zinc-800 text-white border border-accent/30 self-start rounded-bl-sm'
-              }`}
+              className={`max-w-[85%] p-3 text-sm md:text-base font-mono ${getChatBubbleClasses(chat.role === 'user')} ${chat.role === 'user' ? 'self-end' : 'self-start'}`}
             >
               <div className="flex justify-between items-start gap-3">
                 <span className="flex-1">{chat.content}</span>
@@ -1239,7 +1295,7 @@ export default function LiveRoaster() {
           ))}
         </div>
 
-        <div className="relative flex items-center w-full shadow-lg rounded-full">
+        <div className={`relative flex items-center w-full ${getInputContainerClasses()}`}>
           <input
             type="text"
             value={message}
@@ -1247,7 +1303,7 @@ export default function LiveRoaster() {
             onFocus={() => setIsTyping(true)}
             onBlur={() => setIsTyping(false)}
             placeholder="Talk to Kishmish, if you dare..."
-            className="w-full bg-card border-2 border-border focus:border-accent outline-none px-6 py-4 rounded-full font-mono text-sm pr-24 transition-colors"
+            className={getInputFieldClasses()}
             disabled={isLoading || isListening}
             maxLength={100}
             aria-label="Message input for Kishmish"

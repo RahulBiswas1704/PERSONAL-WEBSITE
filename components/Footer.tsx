@@ -1,43 +1,107 @@
+"use client";
+
 import Link from "next/link";
+import { useStructuralTheme } from "@/contexts/StructuralThemeContext";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { theme } = useStructuralTheme();
+
+  const getFooterClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "w-full border-t-8 border-black bg-[#f4f4f0] py-8 mt-auto";
+      case "retro":
+        return "w-full border-t-2 border-green-500 bg-black py-8 mt-auto shadow-[0_0_15px_rgba(34,197,94,0.2)]";
+      case "minimal":
+        return "w-full border-t border-black/10 dark:border-white/10 bg-transparent py-8 mt-auto";
+      case "pixel":
+        return "w-full border-t-4 border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] py-8 mt-auto font-pixel";
+      default:
+        return "w-full border-t border-border bg-background py-8 transition-colors mt-auto";
+    }
+  };
+
+  const getTextClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "text-xs font-black uppercase text-black tracking-widest";
+      case "retro":
+        return "text-xs font-bold uppercase text-green-500 tracking-widest";
+      case "minimal":
+        return "text-xs font-light text-foreground uppercase tracking-widest";
+      case "pixel":
+        return "text-[10px] text-[#0f380f] dark:text-[#9bbc0f] uppercase";
+      default:
+        return "text-xs text-muted-light";
+    }
+  };
+
+  const getSubtextClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "font-bold uppercase text-black bg-white px-2 py-1 border-2 border-black";
+      case "retro":
+        return "font-bold uppercase text-green-500/70";
+      case "minimal":
+        return "font-light opacity-50 uppercase";
+      case "pixel":
+        return "text-[#306230] dark:text-[#8bac0f] mt-2 sm:mt-0";
+      default:
+        return "text-zinc-500 italic";
+    }
+  };
+
+  const getLinkClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "hover:bg-black hover:text-white px-2 py-1 border-2 border-transparent hover:border-black transition-colors";
+      case "retro":
+        return "hover:bg-green-500 hover:text-black px-2 py-1 transition-colors";
+      case "minimal":
+        return "text-neutral-500 hover:text-black dark:hover:text-white transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:bg-black dark:after:bg-white after:transition-transform after:duration-300";
+      case "pixel":
+        return "hover:-translate-y-1 hover:text-black dark:hover:text-white transition-transform inline-block";
+      default:
+        return "hover-link";
+    }
+  };
 
   return (
-    <footer className="w-full border-t border-border bg-background py-8 transition-colors mt-auto">
-      <div className="max-w-2xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-light">
-        <div className="flex flex-col sm:flex-row items-center gap-1">
-          <span>&copy; {currentYear} Rahul.</span>
-          <span className="text-zinc-500 italic hidden sm:inline-block">Built with Next.js, caffeine, and mild panic.</span>
-          <span className="text-zinc-500 italic sm:hidden">Fueled by caffeine & Next.js.</span>
+    <footer className={getFooterClass()}>
+      <div className={`max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 ${getTextClass()}`}>
+        <div className="flex flex-col sm:flex-row items-center gap-2">
+          <span className={theme === "brutal" ? "bg-black text-white px-2 py-1" : ""}>&copy; {currentYear} Rahul.</span>
+          <span className={`${getSubtextClass()} hidden sm:inline-block`}>Built with Next.js, caffeine, and mild panic.</span>
+          <span className={`${getSubtextClass()} sm:hidden`}>Fueled by caffeine & Next.js.</span>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 flex-wrap sm:flex-nowrap justify-center shrink-0 whitespace-nowrap">
           <a
             href="https://github.com/RahulBiswas1704"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover-link"
+            className={getLinkClass()}
           >
             GitHub
           </a>
-          <span className="text-border">/</span>
+          <span className={theme === "retro" ? "text-green-500" : theme === "minimal" ? "opacity-30" : "text-border"}>/</span>
           <a
             href="https://www.linkedin.com/in/rahul-biswas1704/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover-link"
+            className={getLinkClass()}
           >
             LinkedIn
           </a>
-          <span className="text-border">/</span>
+          <span className={theme === "retro" ? "text-green-500" : theme === "minimal" ? "opacity-30" : "text-border"}>/</span>
           <a
             href="mailto:rahul.biswas1704@gmail.com"
-            className="hover-link"
+            className={getLinkClass()}
           >
             Email
           </a>
-          <span className="text-border">/</span>
-          <Link href="/uses" className="hover-link">
+          <span className={theme === "retro" ? "text-green-500" : theme === "minimal" ? "opacity-30" : "text-border"}>/</span>
+          <Link href="/uses" className={getLinkClass()}>
             Uses
           </Link>
         </div>

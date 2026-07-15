@@ -5,11 +5,13 @@ import { usePathname } from "next/navigation";
 import { Home, Code, User, MessageSquare, Cat, Briefcase } from "lucide-react";
 import { useEffect, useState } from "react";
 import { hapticTick } from "@/lib/haptics";
+import { useStructuralTheme } from "@/contexts/StructuralThemeContext";
 
 export default function MobileNav() {
   const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const { theme } = useStructuralTheme();
 
   // Hide dock when scrolling down, show when scrolling up
   useEffect(() => {
@@ -36,13 +38,53 @@ export default function MobileNav() {
     { href: "/me", label: "Me", icon: User },
   ];
 
+  const getContainerClass = () => {
+    switch (theme) {
+      case "brutal":
+        return "flex items-center gap-1 p-2 bg-[#f4f4f0] border-4 border-black brutal-shadow rounded-none";
+      case "retro":
+        return "flex items-center gap-1 p-2 bg-black border-2 border-green-500 rounded-none shadow-[0_0_15px_rgba(34,197,94,0.3)]";
+      case "minimal":
+        return "flex items-center gap-3 p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm";
+      case "pixel":
+        return "flex items-center gap-1 p-2 bg-[#e0f8d0] dark:bg-[#0f380f] border-4 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] rounded-none";
+      default:
+        return "flex items-center gap-1 p-2 rounded-full bg-background/80 dark:bg-black/60 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]";
+    }
+  };
+
+  const getLinkClass = (isActive: boolean) => {
+    switch (theme) {
+      case "brutal":
+        return isActive 
+          ? "bg-black text-white px-4 py-2 gap-2 border-2 border-black" 
+          : "w-10 h-10 text-black border-2 border-transparent hover:border-black hover:bg-black hover:text-white";
+      case "retro":
+        return isActive 
+          ? "bg-green-500 text-black px-4 py-2 gap-2" 
+          : "w-10 h-10 text-green-500/50 hover:text-green-500 hover:bg-green-500/20";
+      case "minimal":
+        return isActive 
+          ? "text-black dark:text-white px-4 py-2 gap-2 bg-neutral-100 dark:bg-neutral-900 rounded-xl" 
+          : "w-10 h-10 text-neutral-400 hover:text-black dark:hover:text-white rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900/50 transition-colors";
+      case "pixel":
+        return isActive 
+          ? "bg-[#0f380f] text-[#9bbc0f] dark:bg-[#9bbc0f] dark:text-[#0f380f] px-4 py-2 gap-2 border-2 border-black dark:border-white font-pixel" 
+          : "w-10 h-10 text-[#306230] dark:text-[#8bac0f] border-2 border-transparent hover:border-black dark:hover:border-white hover:-translate-y-1 transition-transform";
+      default:
+        return isActive 
+          ? "bg-accent text-white px-4 py-2 rounded-full gap-2" 
+          : "w-10 h-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800";
+    }
+  };
+
   return (
     <nav 
       className={`sm:hidden fixed left-1/2 -translate-x-1/2 z-[60] transition-all duration-300 ease-in-out ${
         isVisible ? "bottom-6 opacity-100" : "-bottom-20 opacity-0"
       }`}
     >
-      <div className="flex items-center gap-1 p-2 rounded-full bg-background/80 dark:bg-black/60 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
+      <div className={getContainerClass()}>
         {links.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || (href !== "/" && pathname?.startsWith(href));
           
@@ -54,15 +96,13 @@ export default function MobileNav() {
                 if (!isActive) hapticTick();
               }}
               className={`relative flex items-center justify-center transition-all duration-300 ease-out overflow-hidden ${
-                isActive 
-                  ? "bg-accent text-white px-4 py-2 rounded-full gap-2" 
-                  : "w-10 h-10 rounded-full text-muted-foreground hover:text-foreground hover:bg-neutral-100 dark:hover:bg-neutral-800"
-              }`}
+                theme === "brutal" || theme === "retro" ? "" : "rounded-full"
+              } ${getLinkClass(isActive)}`}
             >
               <Icon className={`shrink-0 transition-transform duration-300 ${isActive ? 'w-4 h-4' : 'w-5 h-5'}`} />
               
               {isActive && (
-                <span className="text-xs font-bold whitespace-nowrap animate-fade-in">
+                <span className={`whitespace-nowrap animate-fade-in ${theme === "brutal" || theme === "retro" ? "text-xs font-black uppercase tracking-widest" : theme === "pixel" ? "text-[10px] font-pixel" : "text-xs font-bold"}`}>
                   {label}
                 </span>
               )}
