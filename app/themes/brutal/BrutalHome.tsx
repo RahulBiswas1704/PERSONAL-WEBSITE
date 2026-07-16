@@ -15,14 +15,6 @@ export default function BrutalHome({ posts }: { posts: any[] }) {
       
       {/* Global CSS for the graph paper background */}
       <style dangerouslySetInnerHTML={{__html: `
-        body {
-          background-color: #f4f4f0 !important;
-          background-image: 
-            linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px) !important;
-          background-size: 24px 24px !important;
-          color: black !important;
-        }
         /* Brutal shadow utility */
         .brutal-shadow {
           box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);

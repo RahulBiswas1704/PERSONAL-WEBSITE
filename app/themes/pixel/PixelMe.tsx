@@ -1,89 +1,37 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { User, Code, Heart, Award } from "lucide-react";
-
 export default function PixelMe() {
   return (
-    <div className="min-h-screen bg-[#e0f8d0] dark:bg-[#0f380f] font-pixel text-[#0f380f] dark:text-[#9bbc0f] p-4 sm:p-8 relative selection:bg-[#8bac0f] selection:text-[#0f380f]">
-      {/* Grid overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'linear-gradient(#0f380f 1px, transparent 1px), linear-gradient(90deg, #0f380f 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      
-      <div className="max-w-4xl mx-auto relative z-10 pt-16">
+    <div className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
         
-        <header className="mb-12 border-4 border-black dark:border-white bg-[#8bac0f] dark:bg-[#306230] p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)]">
-          <h1 className="text-3xl md:text-5xl uppercase mb-4 flex items-center gap-4">
-            <span className="text-4xl">👤</span> Character Stats
+        <header className="mb-24 border-b-2 border-black dark:border-white pb-8">
+          <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-8 break-all sm:break-normal">
+            About<br/>Me
           </h1>
-          <p className="text-xs md:text-sm uppercase leading-relaxed max-w-2xl border-t-4 border-black dark:border-white pt-4">
-            Player profile, attributes, and background lore.
+          <p className="text-xl md:text-3xl font-bold max-w-2xl uppercase">
+            Curious dropout. Self-taught dev. Lifelong learner.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 border-b-2 border-black dark:border-white pb-24">
+          <div className="md:col-span-5 text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85]">
+            <p className="mb-8">I BUILD</p>
+            <p className="mb-8 italic">STUFF</p>
+            <p className="mb-8">THAT</p>
+            <p className="mb-8 italic">WORKS.</p>
+          </div>
           
-          <div className="border-4 border-black dark:border-white bg-transparent p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)]">
-            <h2 className="text-xl uppercase mb-6 border-b-2 border-black dark:border-white pb-2 flex items-center gap-2">
-              <User className="w-5 h-5" /> Base Attributes
-            </h2>
-            <div className="space-y-4 text-xs uppercase">
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span>Logic (Development)</span>
-                  <span>Lvl. 42</span>
-                </div>
-                <div className="w-full h-3 bg-black/10 dark:bg-white/10 border-2 border-black dark:border-white p-0.5">
-                  <div className="h-full bg-black dark:bg-white w-[85%]" />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span>Creativity (Design)</span>
-                  <span>Lvl. 38</span>
-                </div>
-                <div className="w-full h-3 bg-black/10 dark:bg-white/10 border-2 border-black dark:border-white p-0.5">
-                  <div className="h-full bg-black dark:bg-white w-[75%]" />
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span>Endurance (Coffee)</span>
-                  <span>Lvl. 99</span>
-                </div>
-                <div className="w-full h-3 bg-black/10 dark:bg-white/10 border-2 border-black dark:border-white p-0.5">
-                  <div className="h-full bg-black dark:bg-white w-full animate-pulse" />
-                </div>
-              </div>
-            </div>
+          <div className="md:col-span-7 flex flex-col justify-end text-xl md:text-2xl font-bold uppercase leading-snug space-y-8">
+            <p>
+              <span className="text-4xl md:text-6xl float-left mr-4 mt-2 font-black leading-none">H</span>
+              ey! I'm Rahul. Born in 2003 and raised in Krishnanagar, West Bengal, I have a habit of diving headfirst into whatever interests me.
+            </p>
+            <p>
+              My journey hasn't been a straight line—from dropping out of engineering, to working as a System and Project Manager, to chasing the dream of being a Seafarer, and ultimately teaching myself to build full-stack web applications.
+            </p>
+            <p>
+              Whether it's managing unexpected challenges in a corporate project or architecting new digital products from scratch, I thrive on continuous growth.
+            </p>
           </div>
-
-          <div className="border-4 border-black dark:border-white bg-[#8bac0f] dark:bg-[#306230] p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)]">
-            <h2 className="text-xl uppercase mb-6 border-b-2 border-black dark:border-white pb-2 flex items-center gap-2">
-              <Code className="w-5 h-5" /> Active Skills
-            </h2>
-            <ul className="space-y-3 text-xs uppercase leading-relaxed list-disc list-inside">
-              <li>TypeScript / JavaScript (Master)</li>
-              <li>React / Next.js (Expert)</li>
-              <li>Tailwind CSS (Adept)</li>
-              <li>Node.js / Express (Journeyman)</li>
-              <li>UI/UX Design (Scholar)</li>
-            </ul>
-          </div>
-
-        </div>
-
-        <div className="border-4 border-black dark:border-white bg-transparent p-6 md:p-10 shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)]">
-           <h2 className="text-xl uppercase mb-6 border-b-2 border-black dark:border-white pb-2 flex items-center gap-2">
-              <Heart className="w-5 h-5" /> Lore / Backstory
-            </h2>
-            <div className="text-xs md:text-sm uppercase leading-loose space-y-6">
-              <p>
-                Greetings, traveler. I am a frontend developer who loves turning complex problems into elegant, user-friendly solutions. My journey began with a simple "Hello World", and since then, I've been on a continuous quest to level up my skills.
-              </p>
-              <p>
-                When I'm not writing code or debugging mysterious errors, you can find me exploring new technologies, contributing to open-source, or analyzing the latest design trends. I believe in writing code that is not only functional but also maintainable and accessible.
-              </p>
-            </div>
         </div>
 
       </div>

@@ -1,60 +1,45 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { Monitor, Cpu, Keyboard, Mouse, Laptop, Headphones } from "lucide-react";
-import { uses as usesData } from "@/app/uses/usesData";
-
 export default function PixelUses({ uses }: { uses: any[] }) {
-  const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Monitor": return <Monitor className="w-6 h-6" />;
-      case "Cpu": return <Cpu className="w-6 h-6" />;
-      case "Keyboard": return <Keyboard className="w-6 h-6" />;
-      case "Mouse": return <Mouse className="w-6 h-6" />;
-      case "Laptop": return <Laptop className="w-6 h-6" />;
-      case "Headphones": return <Headphones className="w-6 h-6" />;
-      default: return <Cpu className="w-6 h-6" />;
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#e0f8d0] dark:bg-[#0f380f] font-pixel text-[#0f380f] dark:text-[#9bbc0f] p-4 sm:p-8 relative selection:bg-[#8bac0f] selection:text-[#0f380f]">
-      {/* Grid overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'linear-gradient(#0f380f 1px, transparent 1px), linear-gradient(90deg, #0f380f 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      
-      <div className="max-w-4xl mx-auto relative z-10 pt-16">
+    <div className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
         
-        <header className="mb-12 border-4 border-black dark:border-white bg-[#8bac0f] dark:bg-[#306230] p-6 shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)]">
-          <h1 className="text-3xl md:text-5xl uppercase mb-4 flex items-center gap-4">
-            <span className="text-4xl">🎒</span> Inventory
-          </h1>
-          <p className="text-xs md:text-sm uppercase leading-relaxed max-w-2xl border-t-4 border-black dark:border-white pt-4">
-            Equipped items, hardware stats, and software artifacts currently in use.
-          </p>
+        <header className="mb-24 flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-black dark:border-white pb-8 gap-8">
+          <div>
+            <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-8 break-all sm:break-normal">
+              USES
+            </h1>
+            <p className="text-xl md:text-3xl font-bold max-w-2xl uppercase">
+              The Gear.
+            </p>
+          </div>
         </header>
 
-        <div className="space-y-12">
+        <div className="space-y-32">
           {uses.map((category, idx) => (
-            <section key={idx}>
-              <h2 className="text-xl uppercase mb-8 flex items-center gap-4 border-b-4 border-black dark:border-white pb-2">
-                <span className="bg-black dark:bg-white text-white dark:text-black p-2"><category.icon className="w-6 h-6" /></span> {category.category}
-              </h2>
+            <section key={idx} className="grid grid-cols-1 md:grid-cols-12 gap-16">
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-4 border-l-4 border-black dark:border-white ml-6">
+              <div className="md:col-span-4">
+                <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-tighter sticky top-24">
+                  {category.category}
+                </h2>
+              </div>
+              
+              <div className="md:col-span-8 space-y-12 border-t-2 border-black dark:border-white pt-8">
                 {category.items.map((item: any, itemIdx: number) => (
-                  <div key={itemIdx} className="relative group">
-                    <div className="absolute w-4 h-4 bg-black dark:bg-white -left-[30px] top-4 border-2 border-[#e0f8d0] dark:border-[#0f380f]" />
-                    <div className="border-4 border-black dark:border-white bg-transparent p-4 shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:-translate-y-1 hover:bg-[#8bac0f] dark:hover:bg-[#306230] transition-all">
-                      <h3 className="text-sm uppercase font-bold mb-2">{item.name}</h3>
-                      <p className="text-[10px] uppercase opacity-80 leading-relaxed">{item.desc}</p>
-                    </div>
+                  <div key={itemIdx} className="group">
+                    <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-4 group-hover:italic transition-all">
+                      {item.name}
+                    </h3>
+                    <p className="text-lg md:text-xl font-bold uppercase max-w-2xl">
+                      {item.desc}
+                    </p>
                   </div>
                 ))}
               </div>
+
             </section>
           ))}
         </div>
-
       </div>
     </div>
   );

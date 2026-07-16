@@ -36,7 +36,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-transparent border-r border-black/10 dark:border-white/10 z-40 p-8 flex-col justify-between pointer-events-none";
       case "pixel":
-        return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-[#e0f8d0] dark:bg-[#0f380f] border-r-4 border-black dark:border-white z-40 p-8 flex-col justify-between pointer-events-none font-pixel text-[#0f380f] dark:text-[#9bbc0f]";
+        return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-[#F0F0F0] dark:bg-[#111111] border-r-4 border-black dark:border-white z-40 p-8 flex-col justify-between pointer-events-none font-sans text-black dark:text-white";
       default:
         return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] p-8 flex-col justify-between pointer-events-none z-40 transition-colors";
     }
@@ -51,7 +51,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "group relative p-5 bg-transparent border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-all duration-500 overflow-hidden cursor-crosshair";
       case "pixel":
-        return "group relative p-5 bg-[#8bac0f] dark:bg-[#306230] border-4 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] transition-all duration-500 overflow-hidden cursor-crosshair font-pixel";
+        return "group relative p-5 bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)] hover:-translate-y-1 hover:shadow-[12px_12px_0_0_rgba(0,0,0,1)] dark:hover:shadow-[12px_12px_0_0_rgba(255,255,255,1)] transition-all duration-500 overflow-hidden cursor-crosshair font-sans";
       default:
         return "group relative p-5 rounded-3xl border border-border/60 bg-background/40 backdrop-blur-md hover:border-accent/40 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-md cursor-crosshair";
     }
@@ -66,7 +66,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "text-4xl font-light tracking-widest";
       case "pixel":
-        return "text-3xl font-pixel text-[#0f380f] dark:text-[#9bbc0f] uppercase";
+        return "text-4xl font-black tracking-tighter text-black dark:text-white uppercase";
       default:
         return "text-5xl font-black tracking-tighter text-foreground leading-[1.05]";
     }
@@ -80,7 +80,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "text-[10px] font-normal uppercase tracking-widest opacity-60";
       case "pixel":
-        return "text-[10px] font-pixel text-[#306230] dark:text-[#8bac0f] uppercase";
+        return "text-[10px] font-bold text-black dark:text-white uppercase tracking-widest";
       default:
         return "text-[10px] font-mono text-muted uppercase tracking-widest font-bold group-hover:text-muted-light transition-colors";
     }
@@ -95,7 +95,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "px-4 py-3 border-b border-black/10 dark:border-white/10 bg-transparent text-xs";
       case "pixel":
-        return "px-4 py-3 border-4 border-black dark:border-white bg-[#8bac0f] dark:bg-[#306230] font-pixel text-[10px] text-[#0f380f] dark:text-[#9bbc0f] uppercase shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] rounded-none";
+        return "px-4 py-3 border-4 border-black dark:border-white bg-white dark:bg-black font-sans text-xs font-bold text-black dark:text-white uppercase shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)] rounded-none";
       default:
         return "px-4 py-3 rounded-xl bg-neutral-100/40 dark:bg-neutral-900/30 border border-border/50 backdrop-blur-md shadow-sm group hover:border-accent/30 transition-colors overflow-hidden relative";
     }

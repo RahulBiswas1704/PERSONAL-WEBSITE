@@ -13,11 +13,11 @@ interface StructuralThemeContextType {
 const StructuralThemeContext = createContext<StructuralThemeContextType | undefined>(undefined);
 
 export const availableThemes = [
-  { id: 'modern' as StructuralTheme, label: 'Modern (Default)', icon: '✨' },
-  { id: 'minimal' as StructuralTheme, label: 'Minimal', icon: '📝' },
-  { id: 'retro' as StructuralTheme, label: 'Retro', icon: '🕹️' },
-  { id: 'brutal' as StructuralTheme, label: 'Neo-Brutalism', icon: '🏗️', locked: true },
-  { id: 'pixel' as StructuralTheme, label: 'Pixel Art / RPG', icon: '👾', locked: true },
+  { id: 'modern' as StructuralTheme, label: 'Vanilla Extract (Default)', icon: '✨' },
+  { id: 'minimal' as StructuralTheme, label: 'TL;DR (Bare Minimum)', icon: '📝' },
+  { id: 'retro' as StructuralTheme, label: '90s Webmaster', icon: '🕹️' },
+  { id: 'brutal' as StructuralTheme, label: 'Architect\'s Fever Dream', icon: '🏗️', locked: true },
+  { id: 'pixel' as StructuralTheme, label: 'Edgy Design Studio', icon: '📓', locked: true },
 ];
 
 export function StructuralThemeProvider({ 
@@ -47,8 +47,37 @@ export function StructuralThemeProvider({
     document.cookie = `structural-theme=${newTheme}; path=/; max-age=31536000`;
   };
 
+  const getGlobalStyles = () => {
+    switch (theme) {
+      case 'brutal':
+        return `
+          body {
+            background-color: #f4f4f0 !important;
+            background-image: 
+              linear-gradient(to right, rgba(0,0,0,0.1) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(0,0,0,0.1) 1px, transparent 1px) !important;
+            background-size: 24px 24px !important;
+            color: black !important;
+          }
+        `;
+      case 'retro':
+        return `
+          body { background-color: #f4ebd0 !important; }
+          .dark body { background-color: #000000 !important; }
+        `;
+      case 'pixel':
+        return `
+          body { background-color: #F0F0F0 !important; }
+          .dark body { background-color: #111111 !important; }
+        `;
+      default:
+        return '';
+    }
+  };
+
   return (
     <StructuralThemeContext.Provider value={{ theme, setTheme: handleSetTheme, availableThemes }}>
+      <style suppressHydrationWarning dangerouslySetInnerHTML={{ __html: getGlobalStyles() }} />
       {children}
     </StructuralThemeContext.Provider>
   );

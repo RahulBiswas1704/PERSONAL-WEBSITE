@@ -47,7 +47,7 @@ export default function MobileNav() {
       case "minimal":
         return "flex items-center gap-3 p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm";
       case "pixel":
-        return "flex items-center gap-1 p-2 bg-[#e0f8d0] dark:bg-[#0f380f] border-4 border-black dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] rounded-none";
+        return "flex items-center gap-1 p-2 bg-[#F0F0F0] dark:bg-[#111111] border-4 border-black dark:border-white shadow-[8px_8px_0_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_0_rgba(255,255,255,1)] rounded-none font-sans";
       default:
         return "flex items-center gap-1 p-2 rounded-full bg-background/80 dark:bg-black/60 backdrop-blur-xl border border-border/50 shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)]";
     }
@@ -69,8 +69,8 @@ export default function MobileNav() {
           : "w-10 h-10 text-neutral-400 hover:text-black dark:hover:text-white rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900/50 transition-colors";
       case "pixel":
         return isActive 
-          ? "bg-[#0f380f] text-[#9bbc0f] dark:bg-[#9bbc0f] dark:text-[#0f380f] px-4 py-2 gap-2 border-2 border-black dark:border-white font-pixel" 
-          : "w-10 h-10 text-[#306230] dark:text-[#8bac0f] border-2 border-transparent hover:border-black dark:hover:border-white hover:-translate-y-1 transition-transform";
+          ? "bg-black text-white dark:bg-white dark:text-black px-4 py-2 gap-2 border-2 border-black dark:border-white" 
+          : "w-10 h-10 text-black dark:text-white border-2 border-transparent hover:border-black dark:hover:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors";
       default:
         return isActive 
           ? "bg-accent text-white px-4 py-2 rounded-full gap-2" 
@@ -96,13 +96,13 @@ export default function MobileNav() {
                 if (!isActive) hapticTick();
               }}
               className={`relative flex items-center justify-center transition-all duration-300 ease-out overflow-hidden ${
-                theme === "brutal" || theme === "retro" ? "" : "rounded-full"
+                theme === "brutal" || theme === "retro" || theme === "pixel" ? "" : "rounded-full"
               } ${getLinkClass(isActive)}`}
             >
               <Icon className={`shrink-0 transition-transform duration-300 ${isActive ? 'w-4 h-4' : 'w-5 h-5'}`} />
               
               {isActive && (
-                <span className={`whitespace-nowrap animate-fade-in ${theme === "brutal" || theme === "retro" ? "text-xs font-black uppercase tracking-widest" : theme === "pixel" ? "text-[10px] font-pixel" : "text-xs font-bold"}`}>
+                <span className={`whitespace-nowrap animate-fade-in ${theme === "brutal" || theme === "retro" || theme === "pixel" ? "text-xs font-black uppercase tracking-widest" : "text-xs font-bold"}`}>
                   {label}
                 </span>
               )}

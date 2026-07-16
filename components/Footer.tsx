@@ -16,7 +16,7 @@ export default function Footer() {
       case "minimal":
         return "w-full border-t border-black/10 dark:border-white/10 bg-transparent py-8 mt-auto";
       case "pixel":
-        return "w-full border-t-4 border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] py-8 mt-auto font-pixel";
+        return "w-full border-t-4 border-black dark:border-white bg-[#F0F0F0] dark:bg-[#111111] py-8 mt-auto font-sans";
       default:
         return "w-full border-t border-border bg-background py-8 transition-colors mt-auto";
     }
@@ -31,7 +31,7 @@ export default function Footer() {
       case "minimal":
         return "text-xs font-light text-foreground uppercase tracking-widest";
       case "pixel":
-        return "text-[10px] text-[#0f380f] dark:text-[#9bbc0f] uppercase";
+        return "text-xs font-black uppercase text-black dark:text-white tracking-widest";
       default:
         return "text-xs text-muted-light";
     }
@@ -46,7 +46,7 @@ export default function Footer() {
       case "minimal":
         return "font-light opacity-50 uppercase";
       case "pixel":
-        return "text-[#306230] dark:text-[#8bac0f] mt-2 sm:mt-0";
+        return "font-bold uppercase text-black dark:text-white bg-transparent px-2 py-1 border-2 border-black dark:border-white mt-2 sm:mt-0";
       default:
         return "text-zinc-500 italic";
     }
@@ -61,7 +61,7 @@ export default function Footer() {
       case "minimal":
         return "text-neutral-500 hover:text-black dark:hover:text-white transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:bg-black dark:after:bg-white after:transition-transform after:duration-300";
       case "pixel":
-        return "hover:-translate-y-1 hover:text-black dark:hover:text-white transition-transform inline-block";
+        return "hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black px-2 py-1 border-2 border-transparent hover:border-black dark:hover:border-white transition-colors inline-block";
       default:
         return "hover-link";
     }
@@ -71,7 +71,7 @@ export default function Footer() {
     <footer className={getFooterClass()}>
       <div className={`max-w-3xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 ${getTextClass()}`}>
         <div className="flex flex-col sm:flex-row items-center gap-2">
-          <span className={theme === "brutal" ? "bg-black text-white px-2 py-1" : ""}>&copy; {currentYear} Rahul.</span>
+          <span className={theme === "brutal" || theme === "pixel" ? "bg-black text-white dark:bg-white dark:text-black px-2 py-1" : ""}>&copy; {currentYear} Rahul.</span>
           <span className={`${getSubtextClass()} hidden sm:inline-block`}>Built with Next.js, caffeine, and mild panic.</span>
           <span className={`${getSubtextClass()} sm:hidden`}>Fueled by caffeine & Next.js.</span>
         </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -12,33 +10,42 @@ export default function PixelProjectPost({
 }) {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
+      month: "long",
       day: "2-digit",
       year: "numeric"
     });
   };
 
   return (
-    <article className="space-y-8 animate-fade-in-up font-[family-name:var(--font-pixel)]">
-      <div className="space-y-4 border-b-4 border-dashed border-gray-300 dark:border-gray-700 pb-6">
-        <Link href="/projects" className="inline-flex items-center gap-2 text-xs uppercase font-bold text-gray-500 hover:text-black dark:hover:text-white transition-colors w-fit">
-          <ArrowLeft className="w-4 h-4" /> &lt; Go Back
-        </Link>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-wider text-black dark:text-white drop-shadow-md">{post.metadata.title}</h1>
-        <div className="flex items-center gap-4 text-xs font-bold text-gray-500 bg-gray-100 dark:bg-gray-800 p-2 border-2 border-gray-300 dark:border-gray-600 rounded w-fit">
-          <time>{formatDate(post.metadata.date)}</time>
-          {post.metadata.tags && post.metadata.tags.length > 0 && (
-            <div className="flex gap-2">
-              {post.metadata.tags.map((tag: string) => (
-                <span key={tag} className="text-[#ff00ff]">#{tag}</span>
-              ))}
+    <article className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
+        
+        <header className="mb-24 border-b-2 border-black dark:border-white pb-8">
+          <Link href="/projects" className="inline-flex items-center gap-2 text-2xl font-black uppercase tracking-tighter hover:underline mb-16 transition-all">
+            <ArrowLeft className="w-8 h-8" /> BACK TO DIRECTORY
+          </Link>
+          <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-12 break-all sm:break-normal hover:italic transition-all">
+            {post.metadata.title}
+          </h1>
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
+            <div className="text-2xl md:text-4xl font-bold uppercase">
+              <time>{formatDate(post.metadata.date)}</time>
             </div>
-          )}
+            {post.metadata.tags && post.metadata.tags.length > 0 && (
+              <div className="flex flex-wrap gap-4">
+                {post.metadata.tags.map((tag: string) => (
+                  <span key={tag} className="text-xl font-bold uppercase border-2 border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors cursor-crosshair">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </header>
+        
+        <div className="prose prose-xl md:prose-2xl prose-neutral dark:prose-invert max-w-4xl mx-auto prose-headings:font-black prose-headings:tracking-tighter prose-headings:uppercase prose-a:font-bold prose-a:uppercase prose-a:underline hover:prose-a:no-underline transition-colors prose-p:font-bold prose-p:leading-relaxed">
+          {children}
         </div>
-      </div>
-      
-      <div className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-wider prose-a:text-[#00ffff] hover:prose-a:text-[#ff00ff] transition-colors bg-white dark:bg-[#111] p-6 border-4 border-gray-300 dark:border-gray-700 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)]">
-        {children}
       </div>
     </article>
   );

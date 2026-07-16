@@ -11,7 +11,7 @@ export default function HomeThemeRouter({ posts }: { posts: any[] }) {
   const { theme } = useStructuralTheme();
 
   if (theme === 'pixel') {
-    return <PixelHome />;
+    return <PixelHome posts={posts} />;
   }
 
   if (theme === 'minimal') {
