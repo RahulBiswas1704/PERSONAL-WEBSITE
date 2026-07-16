@@ -284,7 +284,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return "relative w-32 h-32 bg-black brutal-shadow flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 border-4 border-black rounded-none";
       case "retro":
-        return "relative w-32 h-32 bg-black shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 border-2 border-green-500 rounded-none";
+        return "relative w-32 h-32 bg-[#f4ebd0] dark:bg-black shadow-[0_0_20px_rgba(74,59,44,0.3)] dark:shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0 border-4 border-[#4a3b2c] dark:border-green-500 rounded-none";
       case "minimal":
         return "relative w-32 h-32 bg-transparent border-2 border-black/10 dark:border-white/10 rounded-full flex items-center justify-center cursor-pointer hover:scale-105 transition-transform overflow-hidden shrink-0";
       case "pixel":
@@ -299,7 +299,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return "bg-black border-4 border-white text-white z-10 transition-transform duration-100 ease-in-out";
       case "retro":
-        return "bg-green-900 border-2 border-green-500 z-10 transition-transform duration-100 ease-in-out";
+        return "bg-[#4a3b2c] dark:bg-green-900 border-y-4 border-[#4a3b2c] dark:border-green-500 z-10 transition-transform duration-100 ease-in-out";
       case "minimal":
         return "bg-white dark:bg-black border border-black/10 dark:border-white/10 z-10 transition-transform duration-100 ease-in-out";
       case "pixel":
@@ -314,7 +314,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return "w-20 h-20 bg-[#f4f4f0] border-4 border-black flex items-center justify-center overflow-hidden relative z-0 rounded-none";
       case "retro":
-        return "w-20 h-20 bg-green-950 border border-green-500 flex items-center justify-center overflow-hidden relative z-0 rounded-none";
+        return "w-20 h-20 bg-white/50 dark:bg-green-950 border-4 border-[#4a3b2c] dark:border-green-500 flex items-center justify-center overflow-hidden relative z-0 rounded-none";
       case "minimal":
         return "w-20 h-20 bg-transparent border border-black/20 dark:border-white/20 rounded-full flex items-center justify-center overflow-hidden relative z-0";
       case "pixel":
@@ -329,7 +329,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return "w-8 h-8 bg-black transition-transform duration-75 flex items-center justify-center rounded-none border-2 border-[#f4f4f0]";
       case "retro":
-        return "w-8 h-8 bg-green-500 transition-transform duration-75 flex items-center justify-center rounded-none";
+        return "w-8 h-8 bg-[#4a3b2c] dark:bg-green-500 transition-transform duration-75 flex items-center justify-center rounded-none";
       case "minimal":
         return "w-6 h-6 bg-black dark:bg-white rounded-full transition-transform duration-75 flex items-center justify-center";
       case "pixel":
@@ -344,7 +344,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return "bg-[#f4f4f0] border-4 border-black text-black brutal-shadow font-mono font-bold uppercase rounded-none";
       case "retro":
-        return "bg-black border border-green-500 text-green-500 font-mono font-bold uppercase rounded-none shadow-[0_0_10px_rgba(34,197,94,0.3)]";
+        return "bg-white/50 dark:bg-black backdrop-blur-sm border-4 border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 font-mono font-bold uppercase rounded-none shadow-[0_0_10px_rgba(74,59,44,0.3)] dark:shadow-[0_0_10px_rgba(34,197,94,0.3)]";
       case "minimal":
         return "bg-transparent border border-black/20 dark:border-white/20 text-foreground font-sans font-light rounded-none";
       case "pixel":
@@ -359,7 +359,7 @@ export default function AICompanionSidebar() {
       case "brutal":
         return `flex flex-col w-full bg-[#f4f4f0] border-4 border-black p-2 overflow-hidden relative transition-all brutal-shadow ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
       case "retro":
-        return `flex flex-col w-full bg-black border border-green-500 p-2 overflow-hidden relative transition-all shadow-[0_0_10px_rgba(34,197,94,0.2)] ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
+        return `flex flex-col w-full bg-white/50 dark:bg-black backdrop-blur-sm border-4 border-[#4a3b2c] dark:border-green-500 p-2 overflow-hidden relative transition-all shadow-[0_0_10px_rgba(74,59,44,0.2)] dark:shadow-[0_0_10px_rgba(34,197,94,0.2)] ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
       case "minimal":
         return `flex flex-col w-full bg-transparent border border-black/10 dark:border-white/10 p-2 overflow-hidden relative transition-all rounded-none ${bpm > 150 ? 'animate-pulse origin-center scale-110' : ''}`;
       case "pixel":
@@ -388,12 +388,11 @@ export default function AICompanionSidebar() {
           )}
         </div>
 
-        {/* Quirky Funky Spooky Touch Me Popup */}
         <div
           className={`absolute right-full mr-6 top-8 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
             }`}
         >
-          <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5" : `relative px-3 py-1.5 border-2 border-dashed flex items-center gap-1.5 font-bold font-mono ${theme === "retro" ? "border-green-500 text-green-500 bg-black" : theme === "brutal" ? "border-black bg-black text-white brutal-shadow uppercase" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
+          <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5" : `relative px-3 py-1.5 border-2 border-dashed flex items-center gap-1.5 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white brutal-shadow uppercase" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
             <span className="animate-pulse tracking-tighter">tOuCh... mE...</span>
             <span className="text-sm">👁️</span>
           </div>
@@ -445,8 +444,8 @@ export default function AICompanionSidebar() {
           {(() => {
             const bpm = Math.floor(40 + activityLevel * 1.5);
             let status = "STABLE";
-            let color = theme === "retro" ? "text-green-500" : theme === "pixel" ? "text-[#0f380f] dark:text-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "text-foreground" : "text-accent";
-            let barColor = theme === "retro" ? "bg-green-500" : theme === "pixel" ? "bg-[#0f380f] dark:bg-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "bg-foreground" : "bg-accent";
+            let color = theme === "retro" ? "text-[#4a3b2c] dark:text-green-500" : theme === "pixel" ? "text-[#0f380f] dark:text-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "text-foreground" : "text-accent";
+            let barColor = theme === "retro" ? "bg-[#4a3b2c] dark:bg-green-500" : theme === "pixel" ? "bg-[#0f380f] dark:bg-[#9bbc0f]" : theme === "brutal" || theme === "minimal" ? "bg-foreground" : "bg-accent";
 
             if (bpm > 150) {
               status = "OVERLOAD";
@@ -527,7 +526,7 @@ export default function AICompanionSidebar() {
         className={`absolute right-full mr-4 top-2 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
           }`}
       >
-        <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1" : `relative px-2 py-1 border border-dashed flex items-center gap-1 font-bold font-mono ${theme === "retro" ? "border-green-500 text-green-500 bg-black" : theme === "brutal" ? "border-black bg-black text-white uppercase brutal-shadow" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
+        <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1" : `relative px-2 py-1 border-2 border-dashed flex items-center gap-1 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white uppercase brutal-shadow" : theme === "pixel" ? "border-black dark:border-white bg-[#e0f8d0] dark:bg-[#0f380f] text-[#0f380f] dark:text-[#9bbc0f] shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] font-pixel text-[8px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
           <span className="animate-pulse tracking-tighter text-[10px]">pOkE mE...</span>
           <span className="text-[10px]">👁️</span>
         </div>

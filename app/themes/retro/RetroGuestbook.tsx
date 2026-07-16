@@ -1,51 +1,39 @@
 import GuestbookClient from "@/app/guestbook/GuestbookClient";
 import DoNotTapButton from "@/components/DoNotTapButton";
-import { Terminal, MessageSquare } from "lucide-react";
+import { Terminal } from "lucide-react";
+import CRTEffect from "@/components/CRTEffect";
 
 export default function RetroGuestbook() {
   return (
-    <div className="space-y-16 pb-10 font-mono text-pink-500 selection:bg-pink-500 selection:text-black">
+    <div className="min-h-screen bg-[#f4ebd0] dark:bg-black space-y-16 pb-16 font-mono text-[#4a3b2c] dark:text-green-500 selection:bg-[#4a3b2c] selection:text-[#f4ebd0] dark:selection:bg-green-500 dark:selection:text-black">
+      <CRTEffect />
       
       {/* Header */}
-      <div className="border-4 border-pink-500 p-8 shadow-[8px_8px_0px_0px_rgba(236,72,153,1)] bg-black">
+      <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-8 shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[8px_8px_0px_0px_#22c55e] bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-10">
         <div className="flex items-center gap-4 mb-4">
           <Terminal className="w-8 h-8 animate-pulse" />
           <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-widest">
-            GUESTBOOK.DAT
+            GUESTBOOK.LOG
           </h1>
         </div>
-        <p className="text-lg uppercase opacity-80 border-t-2 border-pink-500/50 pt-4 mt-4 leading-relaxed">
-          &gt; Leave a message on the server...
-          <br />
-          &gt; Connection established. Write permission granted.
+        
+        <div className="mt-4 sm:mt-6 bg-[#4a3b2c] text-[#f4ebd0] dark:bg-green-500 dark:text-black px-4 py-1.5 text-xs sm:text-sm font-bold uppercase tracking-widest w-fit border-2 border-transparent">
+          [ SIGN_IT ]
+        </div>
+        
+        <p className="text-lg uppercase opacity-80 border-t-4 border-[#4a3b2c] dark:border-green-500 pt-4 mt-4 leading-relaxed font-bold">
+          &gt; "Leave a message, tell a joke, or just say hi to whoever wanders here next."
         </p>
       </div>
       
-      <div className="border-4 border-pink-500 p-6 bg-black shadow-[8px_8px_0px_0px_rgba(236,72,153,1)]">
-        <div className="flex items-center gap-3 mb-6 border-b-2 border-pink-500 pb-4">
-          <MessageSquare className="w-6 h-6" />
-          <h2 className="text-xl uppercase font-bold tracking-widest">Input Stream</h2>
-        </div>
-        <div className="retro-guestbook-container">
-          <GuestbookClient />
-        </div>
+      <div className="relative z-10 border-4 border-[#4a3b2c] dark:border-green-500 p-6 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e]">
+        <GuestbookClient />
       </div>
 
-      <div className="pt-20 flex justify-center">
-        {/* Global "DO NOT TAP" Button - the button component handles its own styling but we center it here */}
-        <div className="border-4 border-red-500 p-4 bg-black inline-block shadow-[8px_8px_0px_0px_rgba(239,68,68,1)]">
-          <DoNotTapButton />
-        </div>
+      {/* Global "DO NOT TAP" Button */}
+      <div className="relative z-10">
+        <DoNotTapButton />
       </div>
-      
-      {/* Global CSS for retro guestbook text overrides to fit the pink theme if needed */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .retro-guestbook-container input,
-        .retro-guestbook-container textarea,
-        .retro-guestbook-container button {
-          font-family: inherit;
-        }
-      `}} />
     </div>
   );
 }

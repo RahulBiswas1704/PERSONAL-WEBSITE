@@ -32,7 +32,7 @@ export default function FixedLeftSidebar() {
       case "brutal":
         return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-[#f4f4f0] border-r-8 border-black z-40 p-8 flex-col justify-between pointer-events-none brutal-shadow";
       case "retro":
-        return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-black border-r-2 border-green-500 z-40 p-8 flex-col justify-between pointer-events-none shadow-[10px_0_15px_-3px_rgba(34,197,94,0.1)]";
+        return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-[#f4ebd0] dark:bg-black border-r-4 border-[#4a3b2c] dark:border-green-500 z-40 p-8 flex-col justify-between pointer-events-none shadow-[10px_0_15px_-3px_rgba(74,59,44,0.1)] dark:shadow-[10px_0_15px_-3px_rgba(34,197,94,0.1)]";
       case "minimal":
         return "hidden xl:flex fixed left-0 top-0 bottom-0 w-[280px] bg-transparent border-r border-black/10 dark:border-white/10 z-40 p-8 flex-col justify-between pointer-events-none";
       case "pixel":
@@ -47,7 +47,7 @@ export default function FixedLeftSidebar() {
       case "brutal":
         return "group relative p-5 bg-white border-4 border-black brutal-shadow hover:-translate-y-1 hover:shadow-[8px_8px_0_0_#000] transition-all duration-500 overflow-hidden cursor-crosshair";
       case "retro":
-        return "group relative p-5 bg-black border-2 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.2)] hover:shadow-[0_0_25px_rgba(34,197,94,0.4)] transition-all duration-500 overflow-hidden cursor-crosshair";
+        return "group relative p-5 bg-white/50 dark:bg-black/50 backdrop-blur-sm border-4 border-[#4a3b2c] dark:border-green-500 shadow-[0_0_15px_rgba(74,59,44,0.2)] dark:shadow-[0_0_15px_rgba(34,197,94,0.2)] hover:shadow-[0_0_25px_rgba(74,59,44,0.4)] dark:hover:shadow-[0_0_25px_rgba(34,197,94,0.4)] transition-all duration-500 overflow-hidden cursor-crosshair";
       case "minimal":
         return "group relative p-5 bg-transparent border border-black/10 dark:border-white/10 hover:border-black/30 dark:hover:border-white/30 transition-all duration-500 overflow-hidden cursor-crosshair";
       case "pixel":
@@ -62,7 +62,7 @@ export default function FixedLeftSidebar() {
       case "brutal":
         return "text-5xl font-black tracking-tighter text-black uppercase";
       case "retro":
-        return "text-5xl font-bold tracking-tighter text-green-500 uppercase";
+        return "text-5xl font-bold tracking-tighter text-[#4a3b2c] dark:text-green-500 uppercase";
       case "minimal":
         return "text-4xl font-light tracking-widest";
       case "pixel":
@@ -91,7 +91,7 @@ export default function FixedLeftSidebar() {
       case "brutal":
         return "px-4 py-3 border-4 border-black bg-white brutal-shadow font-mono text-xs font-bold uppercase";
       case "retro":
-        return "px-4 py-3 border border-green-500 bg-black text-green-500 font-mono text-xs font-bold uppercase shadow-[0_0_10px_rgba(34,197,94,0.2)]";
+        return "px-4 py-3 border-4 border-[#4a3b2c] dark:border-green-500 bg-white/50 dark:bg-black/50 backdrop-blur-sm text-[#4a3b2c] dark:text-green-500 font-mono text-xs font-bold uppercase shadow-[0_0_10px_rgba(74,59,44,0.2)] dark:shadow-[0_0_10px_rgba(34,197,94,0.2)]";
       case "minimal":
         return "px-4 py-3 border-b border-black/10 dark:border-white/10 bg-transparent text-xs";
       case "pixel":
@@ -113,7 +113,7 @@ export default function FixedLeftSidebar() {
               <span>West Bengal, IN</span>
             </div>
             {/* Blinking dot */}
-            <div className={`w-1.5 h-1.5 rounded-full ${theme === "retro" ? "bg-green-500" : theme === "brutal" ? "bg-black" : "bg-accent/40 group-hover:bg-accent"} animate-pulse`} />
+            <div className={`w-1.5 h-1.5 rounded-full ${theme === "retro" ? "bg-[#4a3b2c] dark:bg-green-500" : theme === "brutal" ? "bg-black" : "bg-accent/40 group-hover:bg-accent"} animate-pulse`} />
           </div>
           
           <div className="relative z-10 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-y-2">
@@ -136,9 +136,9 @@ export default function FixedLeftSidebar() {
                 <span className={theme === "brutal" || theme === "retro" ? "" : "text-sm text-muted-light"}>(Because I don&apos;t have a 69 in my life 🥲)</span>
               </p>
               
-              <div className={theme === "brutal" ? "bg-black text-[#f4f4f0] p-3 border-2 border-black" : theme === "retro" ? "border border-green-500 p-3" : theme === "minimal" ? "p-3 border border-black/10 dark:border-white/10" : "bg-background/50 rounded-xl p-3 border border-border/50"}>
+              <div className={theme === "brutal" ? "bg-black text-[#f4f4f0] p-3 border-2 border-black" : theme === "retro" ? "border-4 border-[#4a3b2c] dark:border-green-500 p-3 bg-white/50 dark:bg-black/50" : theme === "minimal" ? "p-3 border border-black/10 dark:border-white/10" : "bg-background/50 rounded-xl p-3 border border-border/50"}>
                 <p className={`${theme === "brutal" ? "text-white" : getSubtextClass()} mb-1`}>Real Time</p>
-                <p className={`text-3xl tracking-tighter ${theme === "brutal" ? "font-black" : theme === "retro" ? "font-bold text-green-500" : "font-black text-accent"}`}>{exactTime}</p>
+                <p className={`text-3xl tracking-tighter ${theme === "brutal" ? "font-black" : theme === "retro" ? "font-bold text-[#4a3b2c] dark:text-green-500" : "font-black text-accent"}`}>{exactTime}</p>
               </div>
             </div>
           </div>

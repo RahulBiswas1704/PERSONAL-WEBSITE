@@ -43,7 +43,7 @@ export default function MobileNav() {
       case "brutal":
         return "flex items-center gap-1 p-2 bg-[#f4f4f0] border-4 border-black brutal-shadow rounded-none";
       case "retro":
-        return "flex items-center gap-1 p-2 bg-black border-2 border-green-500 rounded-none shadow-[0_0_15px_rgba(34,197,94,0.3)]";
+        return "flex items-center gap-1 p-2 bg-[#f4ebd0] dark:bg-black border-4 border-[#4a3b2c] dark:border-green-500 rounded-none shadow-[0_0_15px_rgba(74,59,44,0.3)] dark:shadow-[0_0_15px_rgba(34,197,94,0.3)]";
       case "minimal":
         return "flex items-center gap-3 p-3 bg-white/95 dark:bg-black/95 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 rounded-2xl shadow-sm";
       case "pixel":
@@ -61,8 +61,8 @@ export default function MobileNav() {
           : "w-10 h-10 text-black border-2 border-transparent hover:border-black hover:bg-black hover:text-white";
       case "retro":
         return isActive 
-          ? "bg-green-500 text-black px-4 py-2 gap-2" 
-          : "w-10 h-10 text-green-500/50 hover:text-green-500 hover:bg-green-500/20";
+          ? "bg-[#4a3b2c] text-[#f4ebd0] dark:bg-green-500 dark:text-black px-4 py-2 gap-2 border-2 border-transparent" 
+          : "w-10 h-10 text-[#4a3b2c]/60 dark:text-green-500/50 hover:text-[#4a3b2c] dark:hover:text-green-500 hover:bg-[#4a3b2c]/10 dark:hover:bg-green-500/20";
       case "minimal":
         return isActive 
           ? "text-black dark:text-white px-4 py-2 gap-2 bg-neutral-100 dark:bg-neutral-900 rounded-xl" 

@@ -1,41 +1,36 @@
 import LiveRoasterWrapper from "@/components/sandbox/LiveRoasterWrapper";
 import ShareRoastButton from "@/components/sandbox/ShareRoastButton";
-import { Terminal, AlertTriangle } from "lucide-react";
+import { Terminal } from "lucide-react";
+import CRTEffect from "@/components/CRTEffect";
 
 export default function RetroSandbox() {
   return (
-    <div className="space-y-16 pb-16 font-mono text-amber-500 selection:bg-amber-500 selection:text-black flex flex-col min-h-[calc(100vh-8rem)]">
+    <div className="min-h-[calc(100vh-8rem)] bg-[#f4ebd0] dark:bg-black space-y-16 pb-16 font-mono text-[#4a3b2c] dark:text-green-500 selection:bg-[#4a3b2c] selection:text-[#f4ebd0] dark:selection:bg-green-500 dark:selection:text-black flex flex-col relative">
+      <CRTEffect />
+      <div className="absolute top-4 right-4 z-50">
+        <ShareRoastButton />
+      </div>
       
       {/* Header */}
-      <div className="border-4 border-amber-500 p-8 shadow-[8px_8px_0px_0px_rgba(245,158,11,1)] bg-black relative">
-        <div className="absolute top-4 right-4 animate-pulse text-amber-500 flex items-center gap-2 border-2 border-amber-500 px-2 py-1">
-          <AlertTriangle className="w-4 h-4" />
-          <span className="text-xs uppercase font-bold">WARNING: HOSTILE AI</span>
-        </div>
-        
+      <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-8 shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[8px_8px_0px_0px_#22c55e] bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-10 shrink-0">
         <div className="flex items-center gap-4 mb-4">
           <Terminal className="w-8 h-8 animate-pulse" />
           <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-widest">
             ROAST_ROOM.EXE
           </h1>
         </div>
-        <p className="text-lg uppercase opacity-80 border-t-2 border-amber-500/50 pt-4 mt-4 leading-relaxed">
-          &gt; Loading Kishmish module...
-          <br />
-          &gt; Proceed at your own risk. This entity will aggressively insult you.
+        
+        <div className="mt-4 sm:mt-6 bg-[#4a3b2c] text-[#f4ebd0] dark:bg-green-500 dark:text-black px-4 py-1.5 text-xs sm:text-sm font-bold uppercase tracking-widest w-fit border-2 border-transparent">
+          [ BEWARE_OF_CAT ]
+        </div>
+        
+        <p className="text-lg uppercase opacity-80 border-t-4 border-[#4a3b2c] dark:border-green-500 pt-4 mt-4 leading-relaxed font-bold">
+          &gt; "Meet Kishmish. She's cute, she's sassy, and she will aggressively insult you in three languages. Proceed at your own risk."
         </p>
       </div>
 
-      <div className="flex justify-between items-center px-4">
-        <span className="uppercase text-sm tracking-widest opacity-50">&lt; SYSTEM_READY /&gt;</span>
-        <ShareRoastButton />
-      </div>
-
-      <div className="flex-1 w-full border-4 border-amber-500 p-4 sm:p-8 bg-black relative shadow-[8px_8px_0px_0px_rgba(245,158,11,1)]">
-        <div className="absolute inset-0 bg-[url('/scanline.png')] opacity-10 pointer-events-none mix-blend-overlay"></div>
-        <div className="relative z-10 w-full h-full flex flex-col items-center justify-center">
-          <LiveRoasterWrapper />
-        </div>
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center border-4 border-[#4a3b2c] dark:border-green-500 p-6 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e]">
+        <LiveRoasterWrapper />
       </div>
     </div>
   );

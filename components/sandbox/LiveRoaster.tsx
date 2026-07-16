@@ -26,7 +26,7 @@ export default function LiveRoaster() {
   const getChatContainerClasses = () => {
     switch (theme) {
       case 'brutal': return 'bg-white dark:bg-black border-4 border-black dark:border-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] rounded-none font-mono uppercase';
-      case 'retro': return 'bg-black border-2 border-dashed border-green-500 rounded-none font-mono';
+      case 'retro': return 'bg-[#f4ebd0] dark:bg-black border-4 border-dashed border-[#4a3b2c] dark:border-green-500 rounded-none font-mono';
       case 'pixel': return 'bg-neutral-900 border-4 border-neutral-600 shadow-[4px_4px_0_0_#000] rounded-none font-pixel text-xs';
       case 'minimal': return 'bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl border border-indigo-100 dark:border-indigo-900/30 shadow-xl rounded-3xl';
       default: return 'bg-card/80 backdrop-blur-md border-2 border-border/50 rounded-2xl shadow-inner';
@@ -41,8 +41,8 @@ export default function LiveRoaster() {
     }
     if (theme === 'retro') {
       return isUser
-        ? 'bg-green-900 text-green-100 border border-green-500 rounded-none'
-        : 'bg-black text-green-500 border border-green-500 rounded-none';
+        ? 'bg-[#4a3b2c] dark:bg-green-900 text-[#f4ebd0] dark:text-green-100 border-2 border-[#4a3b2c] dark:border-green-500 rounded-none'
+        : 'bg-white/50 dark:bg-black text-[#4a3b2c] dark:text-green-500 border-2 border-[#4a3b2c] dark:border-green-500 rounded-none';
     }
     if (theme === 'pixel') {
       return isUser
@@ -63,7 +63,7 @@ export default function LiveRoaster() {
   const getInputContainerClasses = () => {
     switch (theme) {
       case 'brutal': return 'bg-white dark:bg-black border-4 border-black dark:border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] rounded-none';
-      case 'retro': return 'bg-black border-2 border-green-500 rounded-none';
+      case 'retro': return 'bg-[#f4ebd0] dark:bg-black border-4 border-[#4a3b2c] dark:border-green-500 rounded-none';
       case 'pixel': return 'bg-neutral-800 border-4 border-neutral-600 shadow-[4px_4px_0_0_#000] rounded-none';
       case 'minimal': return 'bg-white dark:bg-zinc-900 border border-indigo-100 dark:border-indigo-900/30 shadow-md rounded-full';
       default: return 'shadow-lg rounded-full';
@@ -73,7 +73,7 @@ export default function LiveRoaster() {
   const getInputFieldClasses = () => {
     switch (theme) {
       case 'brutal': return 'w-full bg-transparent outline-none px-6 py-4 font-mono uppercase text-black dark:text-white placeholder-zinc-500 pr-24';
-      case 'retro': return 'w-full bg-black text-green-500 outline-none px-6 py-4 font-mono placeholder-green-800 pr-24';
+      case 'retro': return 'w-full bg-[#f4ebd0] dark:bg-black text-[#4a3b2c] dark:text-green-500 outline-none px-6 py-4 font-mono placeholder-[#4a3b2c]/50 dark:placeholder-green-800 pr-24';
       case 'pixel': return 'w-full bg-transparent outline-none px-6 py-4 font-pixel text-xs text-white placeholder-neutral-500 pr-24';
       case 'minimal': return 'w-full bg-transparent outline-none px-6 py-4 font-sans text-sm pr-24 transition-colors';
       default: return 'w-full bg-card border-2 border-border focus:border-accent outline-none px-6 py-4 rounded-full font-mono text-sm pr-24 transition-colors';

@@ -28,7 +28,7 @@ export default function StructuralThemeSelector() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className={theme === "brutal" ? "p-2 border-2 border-transparent hover:border-black hover:bg-black hover:text-white transition-colors text-black" : theme === "retro" ? "p-2 text-green-500 hover:bg-green-500 hover:text-black transition-colors" : theme === "pixel" ? "p-2 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors rounded-none border-2 border-transparent hover:border-black dark:hover:border-white" : "p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"}
+        className={theme === "brutal" ? "p-2 border-2 border-transparent hover:border-black hover:bg-black hover:text-white transition-colors text-black" : theme === "retro" ? "p-2 text-[#4a3b2c] dark:text-green-500 hover:bg-[#4a3b2c] hover:text-[#f4ebd0] dark:hover:bg-green-500 dark:hover:text-black transition-colors" : theme === "pixel" ? "p-2 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors rounded-none border-2 border-transparent hover:border-black dark:hover:border-white" : "p-2 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"}
         aria-label="Change Website Layout Theme"
         title="Change Layout Theme"
       >

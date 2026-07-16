@@ -1,111 +1,75 @@
-import Image from "next/image";
+import SocialGrid from "@/components/SocialGrid";
+import JourneyTimeline from "@/components/JourneyTimeline";
 import { Terminal, Code, Cpu, Activity } from "lucide-react";
+import CRTEffect from "@/components/CRTEffect";
 
 export default function RetroMe() {
   return (
-    <div className="space-y-16 pb-16 font-mono text-fuchsia-500 selection:bg-fuchsia-500 selection:text-black">
+    <div className="min-h-screen bg-[#f4ebd0] dark:bg-black space-y-8 sm:space-y-16 pb-24 sm:pb-16 px-2 sm:px-0 font-mono text-[#4a3b2c] dark:text-green-500 selection:bg-[#4a3b2c] selection:text-[#f4ebd0] dark:selection:bg-green-500 dark:selection:text-black overflow-x-hidden">
+      <CRTEffect />
       
       {/* Header */}
-      <div className="border-4 border-fuchsia-500 p-8 shadow-[8px_8px_0px_0px_rgba(217,70,239,1)] bg-black">
-        <div className="flex items-center gap-4 mb-4">
-          <Terminal className="w-8 h-8 animate-pulse" />
-          <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-widest">
-            WHOAMI
+      <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 shadow-[4px_4px_0px_0px_#4a3b2c] sm:shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] dark:sm:shadow-[8px_8px_0px_0px_#22c55e] bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-10 mx-2 sm:mx-0">
+        <div className="flex items-center gap-3 sm:gap-4 mb-4">
+          <Terminal className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse shrink-0" />
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-words">
+            ME.EXE
           </h1>
         </div>
-        <p className="text-lg uppercase opacity-80 border-t-2 border-fuchsia-500/50 pt-4 mt-4 leading-relaxed">
-          &gt; Loading bio.dat...
-          <br />
-          &gt; A system manager and project coordinator driven by curiosity and caffeine.
+        
+        <div className="mt-4 sm:mt-6 bg-[#4a3b2c] text-[#f4ebd0] dark:bg-green-500 dark:text-black px-4 py-1.5 text-xs sm:text-sm font-bold uppercase tracking-widest w-fit border-2 border-transparent">
+          [ THE_STORY ]
+        </div>
+        
+        <p className="text-lg uppercase opacity-80 border-t-4 border-[#4a3b2c] dark:border-green-500 pt-4 mt-4 leading-relaxed">
+          &gt; "The story of a curious dropout, self-taught dev, and lifelong learner."
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="space-y-8 sm:space-y-16 text-sm leading-relaxed max-w-prose relative z-10 mx-2 sm:mx-0">
         
-        {/* Left Col - Image & Stats */}
-        <div className="lg:col-span-1 space-y-8">
-          <div className="border-4 border-fuchsia-500 p-2 bg-black grayscale contrast-150 relative">
-            <div className="absolute inset-0 bg-fuchsia-500/20 z-10 mix-blend-overlay"></div>
-            <Image 
-              src="/me.jpg" 
-              alt="Rahul" 
-              width={400} 
-              height={400}
-              className="w-full object-cover"
-            />
-            <div className="absolute top-4 left-4 z-20 bg-black border-2 border-fuchsia-500 px-2 py-1 text-xs font-bold uppercase animate-pulse">
-              [ REC ]
-            </div>
+        {/* Quirky Sticky Notes / Cards converted to Retro logs */}
+        <section className="space-y-6 sm:space-y-8">
+          
+          <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-white/50 dark:bg-black/50 shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e]">
+            <p className="text-base sm:text-lg font-bold uppercase leading-relaxed">
+              <span className="animate-pulse">&gt;</span> Hey! I'm Rahul. Born in 2003 and raised in Krishnanagar, West Bengal, I have a habit of diving headfirst into whatever interests me. 
+            </p>
           </div>
           
-          <div className="border-4 border-fuchsia-500 p-6 bg-black">
-            <h2 className="text-xl font-bold uppercase border-b-2 border-fuchsia-500 pb-2 mb-4">Sys_Stats</h2>
-            <ul className="space-y-4 uppercase text-sm">
-              <li className="flex justify-between border-b border-fuchsia-500/30 pb-2">
-                <span>Location</span> <span>India</span>
-              </li>
-              <li className="flex justify-between border-b border-fuchsia-500/30 pb-2">
-                <span>Status</span> <span>Active</span>
-              </li>
-              <li className="flex justify-between border-b border-fuchsia-500/30 pb-2">
-                <span>Role</span> <span>Manager</span>
-              </li>
-              <li className="flex justify-between border-b border-fuchsia-500/30 pb-2">
-                <span>Uptime</span> <span>99.9%</span>
-              </li>
-            </ul>
+          <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] ml-0 sm:ml-12">
+            <p className="text-base sm:text-lg font-bold uppercase leading-relaxed">
+              <span className="animate-pulse">&gt;</span> Driven by a passion for technology and a flair for communication, I am constantly seeking new knowledge. My journey hasn't been a straight line—from dropping out of engineering, to working as a System and Project Manager, to chasing the dream of being a Seafarer, and ultimately teaching myself to build full-stack web applications.
+            </p>
           </div>
+          
+          <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-white/50 dark:bg-black/50 shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] mr-0 sm:mr-8">
+            <p className="text-base sm:text-lg font-bold uppercase leading-relaxed">
+              <span className="animate-pulse">&gt;</span> Whether it's managing unexpected challenges in a corporate project or architecting new digital products from scratch, I thrive on continuous growth. When I'm not coding, you'll find me reading, learning about AI, or practicing photography.
+            </p>
+          </div>
+        </section>
+
+        <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-white/50 dark:bg-black/50">
+          <div className="border-b-4 border-[#4a3b2c] dark:border-green-500 pb-4 mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold uppercase tracking-widest break-words">
+              <span className="animate-pulse">_</span> SYS_TIMELINE
+            </h2>
+          </div>
+          <JourneyTimeline />
         </div>
 
-        {/* Right Col - Bio */}
-        <div className="lg:col-span-2 space-y-8">
-          <section className="border-4 border-fuchsia-500 p-8 bg-black">
-            <h2 className="text-2xl font-bold uppercase tracking-widest flex items-center gap-3 mb-6">
-              <Code className="w-6 h-6" /> ./bio/about_me.txt
-            </h2>
-            <div className="space-y-6 text-base md:text-lg leading-relaxed opacity-90 uppercase">
-              <p>
-                Driven by a passion for technology and a flair for communication, I am constantly seeking new knowledge. My background in communications ignites my curiosity, while my love for technology inspires me to solve problems and explore innovative solutions.
-              </p>
-              <p>
-                From managing projects to orchestrating complex operational workflows, I aim to bridge the gap between technical execution and business operations.
-              </p>
-            </div>
-          </section>
-
-          <section className="border-4 border-fuchsia-500 p-8 bg-black">
-            <h2 className="text-2xl font-bold uppercase tracking-widest flex items-center gap-3 mb-6">
-              <Cpu className="w-6 h-6" /> ./bio/skills.dat
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {['Project Management', 'System Ops', 'Data Analysis', 'Web Development', 'UI/UX Design', 'Communications'].map((skill, i) => (
-                <div key={i} className="border-2 border-fuchsia-500 p-3 text-center text-xs md:text-sm font-bold uppercase hover:bg-fuchsia-500 hover:text-black transition-colors cursor-default">
-                  {skill}
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="border-4 border-fuchsia-500 p-8 bg-black">
-            <h2 className="text-2xl font-bold uppercase tracking-widest flex items-center gap-3 mb-6">
-              <Activity className="w-6 h-6" /> ./bio/status.log
-            </h2>
-            <ul className="space-y-4 uppercase text-sm leading-relaxed">
-              <li className="flex gap-4">
-                <span className="opacity-50">[2021-CUR]</span>
-                <span>Project Manager @ ZK Construction</span>
-              </li>
-              <li className="flex gap-4">
-                <span className="opacity-50">[2020-2021]</span>
-                <span>System Manager @ Unique Star</span>
-              </li>
-              <li className="flex gap-4">
-                <span className="opacity-50">[2019-2020]</span>
-                <span>IT Diploma @ KJNNYCC</span>
-              </li>
-            </ul>
-          </section>
-        </div>
+        <section className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] sm:shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] dark:sm:shadow-[8px_8px_0px_0px_#22c55e] space-y-4 sm:space-y-6">
+          <div className="inline-block bg-[#4a3b2c] text-[#f4ebd0] dark:bg-green-500 dark:text-black px-4 py-1.5 text-sm font-bold tracking-widest uppercase mb-2 border-2 border-transparent">
+            [ ESTABLISH_CONNECTION ]
+          </div>
+          <p className="text-base sm:text-lg font-bold uppercase">
+            &gt; I'm always down to talk about tech, startups, self-taught journeys, or movies. Feel free to shoot me an email or find me on my socials.
+          </p>
+          <div className="pt-4 border-t-4 border-[#4a3b2c] dark:border-green-500 border-dashed">
+            <SocialGrid />
+          </div>
+        </section>
       </div>
     </div>
   );

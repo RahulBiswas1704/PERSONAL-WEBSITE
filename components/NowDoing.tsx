@@ -15,7 +15,7 @@ export default function NowDoing() {
   const getHeaderClass = () => {
     if (theme === "minimal") return "text-sm font-semibold tracking-widest uppercase text-neutral-400 mb-6";
     if (theme === "brutal") return "text-2xl font-black uppercase tracking-tighter text-black border-b-4 border-black pb-2 mb-6";
-    if (theme === "retro") return "text-xl font-bold uppercase tracking-widest text-green-500 border-b-2 border-green-500 pb-2 mb-6";
+    if (theme === "retro") return "text-xl font-bold uppercase tracking-widest text-[#4a3b2c] dark:text-green-500 border-b-4 border-[#4a3b2c] dark:border-green-500 pb-2 mb-6";
     if (theme === "pixel") return "text-lg uppercase text-[#0f380f] dark:text-[#9bbc0f] border-b-4 border-current pb-2 mb-6";
     return "text-xl font-black tracking-tight text-amber-950 dark:text-amber-50 mb-4 font-serif border-b-2 border-dashed border-amber-200 dark:border-amber-900/50 pb-2";
   };
@@ -23,7 +23,7 @@ export default function NowDoing() {
   const getItemClass = (type: "build" | "watch" | "learn") => {
     if (theme === "minimal") return "flex items-start gap-4 py-4 border-b border-neutral-100 dark:border-neutral-900 last:border-0 group";
     if (theme === "brutal") return "flex items-start gap-4 p-4 border-4 border-black bg-white brutal-shadow mb-4 hover:-translate-y-1 transition-transform";
-    if (theme === "retro") return "flex items-start gap-4 p-4 border border-green-500 bg-black mb-4 hover:bg-green-950 transition-colors";
+    if (theme === "retro") return "flex items-start gap-4 p-4 border-4 border-[#4a3b2c] dark:border-green-500 bg-white/50 dark:bg-black mb-4 hover:bg-[#4a3b2c]/10 dark:hover:bg-green-950 transition-colors shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]";
     if (theme === "pixel") return "flex items-start gap-4 p-4 border-4 border-black dark:border-white bg-transparent mb-4 hover:bg-[#8bac0f] dark:hover:bg-[#306230] transition-colors";
     
     // Modern default
@@ -35,7 +35,7 @@ export default function NowDoing() {
   const getIconClass = (type: "build" | "watch" | "learn") => {
     if (theme === "minimal") return "text-neutral-400 group-hover:text-black dark:group-hover:text-white transition-colors shrink-0 mt-1";
     if (theme === "brutal") return "text-black shrink-0 border-2 border-black p-1";
-    if (theme === "retro") return "text-green-500 shrink-0 border border-green-500 p-1";
+    if (theme === "retro") return "text-[#4a3b2c] dark:text-green-500 shrink-0 border-4 border-[#4a3b2c] dark:border-green-500 p-1 bg-white/50 dark:bg-black/50";
     if (theme === "pixel") return "text-current shrink-0 border-2 border-current p-1 bg-black dark:bg-white text-white dark:text-black";
     
     if (type === "build") return "p-2 bg-rose-200 dark:bg-rose-900 rounded-lg shrink-0 text-rose-900 dark:text-rose-100";
@@ -46,7 +46,7 @@ export default function NowDoing() {
   const getTitleClass = (type: "build" | "watch" | "learn") => {
     if (theme === "minimal") return "text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-1";
     if (theme === "brutal") return "text-lg font-black uppercase tracking-tighter text-black mb-1";
-    if (theme === "retro") return "text-sm font-bold uppercase tracking-widest text-green-500 mb-1";
+    if (theme === "retro") return "text-sm font-bold uppercase tracking-widest text-[#4a3b2c] dark:text-green-500 mb-1";
     if (theme === "pixel") return "text-xs font-bold uppercase text-current mb-1";
     
     if (type === "build") return "text-[10px] font-black uppercase tracking-widest text-rose-800 dark:text-rose-200 mb-1";
@@ -57,7 +57,7 @@ export default function NowDoing() {
   const getTextClass = (type: "build" | "watch" | "learn") => {
     if (theme === "minimal") return "text-sm text-neutral-600 dark:text-neutral-300 leading-relaxed font-light";
     if (theme === "brutal") return "text-sm font-bold text-black uppercase leading-snug";
-    if (theme === "retro") return "text-xs text-green-400 uppercase leading-snug";
+    if (theme === "retro") return "text-xs font-bold text-[#4a3b2c]/80 dark:text-green-400 uppercase leading-snug";
     if (theme === "pixel") return "text-[10px] uppercase text-current opacity-80 leading-snug";
     
     if (type === "build") return "text-sm font-medium text-rose-950 dark:text-rose-50 leading-snug";
