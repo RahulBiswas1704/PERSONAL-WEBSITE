@@ -15,7 +15,7 @@ const StructuralThemeContext = createContext<StructuralThemeContextType | undefi
 export const availableThemes = [
   { id: 'modern' as StructuralTheme, label: 'Modern (Default)', icon: '✨' },
   { id: 'minimal' as StructuralTheme, label: 'Minimal', icon: '📝' },
-  { id: 'retro' as StructuralTheme, label: 'Retro', icon: '🕹️', locked: true },
+  { id: 'retro' as StructuralTheme, label: 'Retro', icon: '🕹️' },
   { id: 'brutal' as StructuralTheme, label: 'Neo-Brutalism', icon: '🏗️', locked: true },
   { id: 'pixel' as StructuralTheme, label: 'Pixel Art / RPG', icon: '👾', locked: true },
 ];

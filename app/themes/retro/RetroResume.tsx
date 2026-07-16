@@ -11,7 +11,7 @@ export default function RetroResume() {
       {/* Cover Letter (Print Only) */}
       <div className="hidden print:block print:pb-16" style={{ pageBreakAfter: 'always' }}>
         <div className="border-b-4 border-[#4a3b2c] dark:border-green-500 pb-8 mb-8">
-          <h1 className="text-6xl sm:text-8xl font-bold uppercase tracking-widest">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold uppercase tracking-widest break-all">
             HELLO.TXT
           </h1>
           <div className="mt-4 inline-block border-2 border-current px-4 py-1.5 text-sm font-bold uppercase tracking-widest">
@@ -46,7 +46,7 @@ export default function RetroResume() {
           <div>
             <div className="flex items-center gap-3 sm:gap-4 mb-4">
               <Terminal className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse shrink-0" />
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-words">
+              <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-all">
                 RESUME.DOC
               </h1>
             </div>

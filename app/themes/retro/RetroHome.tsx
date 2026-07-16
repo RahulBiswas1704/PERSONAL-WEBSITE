@@ -23,7 +23,7 @@ export default function RetroHome({ posts }: { posts: any[] }) {
       <section className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 shadow-[4px_4px_0px_0px_#4a3b2c] sm:shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] dark:sm:shadow-[8px_8px_0px_0px_#22c55e] relative bg-white/50 dark:bg-black/50 backdrop-blur-sm mx-2 sm:mx-0">
         <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 border-b-4 border-[#4a3b2c] dark:border-green-500 pb-4">
           <Terminal className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse shrink-0" />
-          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-words">
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-all">
             NAMASTE.
           </h1>
         </div>

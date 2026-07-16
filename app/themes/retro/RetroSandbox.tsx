@@ -5,17 +5,17 @@ import CRTEffect from "@/components/CRTEffect";
 
 export default function RetroSandbox() {
   return (
-    <div className="min-h-[calc(100vh-8rem)] bg-[#f4ebd0] dark:bg-black space-y-16 pb-16 font-mono text-[#4a3b2c] dark:text-green-500 selection:bg-[#4a3b2c] selection:text-[#f4ebd0] dark:selection:bg-green-500 dark:selection:text-black flex flex-col relative">
+    <div className="min-h-[calc(100vh-8rem)] bg-[#f4ebd0] dark:bg-black space-y-8 sm:space-y-16 pb-24 sm:pb-16 px-2 sm:px-0 font-mono text-[#4a3b2c] dark:text-green-500 selection:bg-[#4a3b2c] selection:text-[#f4ebd0] dark:selection:bg-green-500 dark:selection:text-black flex flex-col relative overflow-x-hidden">
       <CRTEffect />
       <div className="absolute top-4 right-4 z-50">
         <ShareRoastButton />
       </div>
       
       {/* Header */}
-      <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-8 shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[8px_8px_0px_0px_#22c55e] bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-10 shrink-0">
-        <div className="flex items-center gap-4 mb-4">
-          <Terminal className="w-8 h-8 animate-pulse" />
-          <h1 className="text-4xl sm:text-6xl font-bold uppercase tracking-widest">
+      <div className="border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 shadow-[4px_4px_0px_0px_#4a3b2c] sm:shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] dark:sm:shadow-[8px_8px_0px_0px_#22c55e] bg-white/50 dark:bg-black/50 backdrop-blur-sm relative z-10 shrink-0 mx-2 sm:mx-0">
+        <div className="flex items-center gap-3 sm:gap-4 mb-4">
+          <Terminal className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse shrink-0" />
+          <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold uppercase tracking-widest break-all">
             ROAST_ROOM.EXE
           </h1>
         </div>
@@ -29,7 +29,7 @@ export default function RetroSandbox() {
         </p>
       </div>
 
-      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center border-4 border-[#4a3b2c] dark:border-green-500 p-6 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e]">
+      <div className="flex-1 w-full relative z-10 flex flex-col items-center justify-center border-4 border-[#4a3b2c] dark:border-green-500 p-4 sm:p-8 bg-[#f4ebd0] dark:bg-black shadow-[4px_4px_0px_0px_#4a3b2c] sm:shadow-[8px_8px_0px_0px_#4a3b2c] dark:shadow-[4px_4px_0px_0px_#22c55e] dark:sm:shadow-[8px_8px_0px_0px_#22c55e] mx-2 sm:mx-0">
         <LiveRoasterWrapper />
       </div>
     </div>
