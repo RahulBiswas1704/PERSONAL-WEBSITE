@@ -22,12 +22,12 @@ export default function PixelMe() {
   return (
     <section id="me" className="overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
           <div className="lg:col-span-5 relative">
             <header className="sticky top-32 pb-8 z-20">
               <h1 className="text-6xl sm:text-[6rem] lg:text-[7rem] font-black uppercase tracking-tighter leading-[0.9] mb-8 break-all sm:break-normal text-stroke-2 hover:text-black dark:hover:text-white transition-colors duration-300 cursor-default">
-                About<br/>Me
+                About<br />Me
               </h1>
               <p className="text-xl md:text-2xl font-bold max-w-sm uppercase opacity-80">
                 Curious dropout. Self-taught dev. Lifelong learner.
@@ -42,7 +42,7 @@ export default function PixelMe() {
               <p className="mb-8">THAT</p>
               <p className="mb-8 italic">WORKS.</p>
             </div>
-            
+
             {/* Playful Quirky Cards Bio */}
             <div className="flex flex-col space-y-6 sm:space-y-12 my-12">
               <div className="transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-300 bg-black text-white dark:bg-white dark:text-black border border-black/10 dark:border-white/10 p-6 sm:p-10 shadow-[8px_8px_0_0_#CCFF00] relative w-full sm:w-[90%] self-start group cursor-default">
@@ -64,7 +64,7 @@ export default function PixelMe() {
                 </p>
               </div>
             </div>
-            
+
           </div>
         </div>
 
@@ -73,21 +73,21 @@ export default function PixelMe() {
       {/* Playful Horizontal Timeline Marquee / Grid */}
       <div className="w-full border-y border-black/20 dark:border-white/20 bg-black text-[#CCFF00] py-8 overflow-hidden relative group">
         <h2 className="text-center font-black text-4xl tracking-widest uppercase mb-12">Timeline</h2>
-        
+
         <div className="flex flex-nowrap overflow-x-auto gap-8 px-8 pb-12 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
           {events.map((event, i) => (
             <div key={i} className="snap-center shrink-0 w-[300px] h-[300px] border-2 border-[#CCFF00] p-6 flex flex-col justify-between hover:bg-[#CCFF00] hover:text-black transition-colors duration-300 group/card relative overflow-hidden">
               <div className="absolute -right-8 -bottom-12 text-[10rem] font-black opacity-20 group-hover/card:opacity-40 transition-opacity duration-300 leading-none">
                 {event.year}
               </div>
-              
+
               <div className="relative z-10 flex justify-between items-start">
                 <span className="font-mono font-bold text-xl px-2 py-1 bg-[#CCFF00] text-black group-hover/card:bg-black group-hover/card:text-[#CCFF00] transition-colors">
                   {event.label}
                 </span>
                 <event.icon className="w-8 h-8 opacity-80" />
               </div>
-              
+
               <div className="relative z-10">
                 <h3 className="text-2xl font-black uppercase tracking-tight mb-2">
                   {event.title}
