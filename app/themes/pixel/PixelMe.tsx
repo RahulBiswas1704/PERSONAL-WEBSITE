@@ -93,7 +93,7 @@ export default function PixelMe() {
                   {event.title}
                 </h3>
                 <p className="font-bold opacity-80 text-sm uppercase leading-tight">
-                  {event.description}
+                  {event.desc}
                 </p>
               </div>
             </div>
