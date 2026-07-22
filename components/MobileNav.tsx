@@ -69,8 +69,8 @@ export default function MobileNav() {
           : "w-10 h-10 text-neutral-400 hover:text-black dark:hover:text-white rounded-xl hover:bg-neutral-50 dark:hover:bg-neutral-900/50 transition-colors";
       case "pixel":
         return isActive 
-          ? "bg-black text-white dark:bg-white dark:text-black px-4 py-2 gap-2 border-2 border-black dark:border-white" 
-          : "w-10 h-10 text-black dark:text-white border-2 border-transparent hover:border-black dark:hover:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors";
+          ? "bg-black text-white dark:bg-white dark:text-black px-4 py-2 gap-2 border-4 border-black dark:border-white" 
+          : "w-10 h-10 text-black dark:text-white border-4 border-transparent hover-shimmer transition-colors";
       default:
         return isActive 
           ? "bg-accent text-white px-4 py-2 rounded-full gap-2" 
@@ -85,13 +85,17 @@ export default function MobileNav() {
       }`}
     >
       <div className={getContainerClass()}>
-        {links.map(({ href, label, icon: Icon }) => {
+        {links.filter(link => theme !== "pixel" || link.href === "/" || link.href === "/sandbox").map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href || (href !== "/" && pathname?.startsWith(href));
           
+          const finalHref = (theme === "pixel" && href !== "/" && href !== "/sandbox") 
+            ? `/#${href.substring(1)}` 
+            : href;
+
           return (
             <Link
               key={href}
-              href={href}
+              href={finalHref}
               onClick={() => {
                 if (!isActive) hapticTick();
               }}

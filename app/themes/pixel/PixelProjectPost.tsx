@@ -20,11 +20,11 @@ export default function PixelProjectPost({
     <article className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
         
-        <header className="mb-24 border-b-2 border-black dark:border-white pb-8">
-          <Link href="/projects" className="inline-flex items-center gap-2 text-2xl font-black uppercase tracking-tighter hover:underline mb-16 transition-all">
+        <header className="mb-24 border-b-4 border-black dark:border-white pb-8">
+          <Link href="/projects" className="inline-flex items-center gap-2 text-2xl font-black uppercase tracking-tighter hover:underline mb-16 transition-all hover:text-[#CCFF00]">
             <ArrowLeft className="w-8 h-8" /> BACK TO DIRECTORY
           </Link>
-          <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-12 break-all sm:break-normal hover:italic transition-all">
+          <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-12 break-all sm:break-normal transition-all text-stroke-2 hover:text-black dark:hover:text-white duration-300">
             {post.metadata.title}
           </h1>
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8">
@@ -34,7 +34,7 @@ export default function PixelProjectPost({
             {post.metadata.tags && post.metadata.tags.length > 0 && (
               <div className="flex flex-wrap gap-4">
                 {post.metadata.tags.map((tag: string) => (
-                  <span key={tag} className="text-xl font-bold uppercase border-2 border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors cursor-crosshair">
+                  <span key={tag} className="text-xl font-bold uppercase border-4 border-black dark:border-white px-4 py-2 hover-shimmer cursor-crosshair">
                     {tag}
                   </span>
                 ))}

@@ -6,12 +6,13 @@ import MinimalMe from "@/app/themes/minimal/MinimalMe";
 import RetroMe from "@/app/themes/retro/RetroMe";
 import BrutalMe from "@/app/themes/brutal/BrutalMe";
 import PixelMe from "@/app/themes/pixel/PixelMe";
+import PixelRedirect from "@/components/PixelRedirect";
 
 export default function MeThemeRouter() {
   const { theme } = useStructuralTheme();
 
   if (theme === 'pixel') {
-    return <PixelMe />;
+    return <PixelRedirect hash="#me" />;
   }
 
   if (theme === 'minimal') {

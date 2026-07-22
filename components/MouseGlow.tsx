@@ -1,25 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function MouseGlow() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isMounted, setIsMounted] = useState(false);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
+    let rafId: number;
+    let targetX = 0;
+    let targetY = 0;
+
     const updateMousePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      
-      // Update global CSS variables for fluid hover effects
-      document.documentElement.style.setProperty("--mouse-x", `${e.clientX}px`);
-      document.documentElement.style.setProperty("--mouse-y", `${e.clientY}px`);
+      targetX = e.clientX;
+      targetY = e.clientY;
+
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          document.documentElement.style.setProperty("--mouse-x", `${targetX}px`);
+          document.documentElement.style.setProperty("--mouse-y", `${targetY}px`);
+          
+          if (glowRef.current) {
+            glowRef.current.style.background = `radial-gradient(600px circle at ${targetX}px ${targetY}px, var(--accent), transparent 25%)`;
+          }
+          
+          rafId = 0;
+        });
+      }
     };
 
-    window.addEventListener("mousemove", updateMousePosition);
+    window.addEventListener("mousemove", updateMousePosition, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -27,11 +42,9 @@ export default function MouseGlow() {
 
   return (
     <div
+      ref={glowRef}
       className="pointer-events-none fixed inset-0 z-[-1] transition-opacity duration-300 hidden sm:block"
-      style={{
-        background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, var(--accent), transparent 25%)`,
-        opacity: 0.06, // Very subtle glow
-      }}
+      style={{ opacity: 0.06 }}
     />
   );
 }

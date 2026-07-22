@@ -66,7 +66,7 @@ export default function FixedLeftSidebar() {
       case "minimal":
         return "text-4xl font-light tracking-widest";
       case "pixel":
-        return "text-4xl font-black tracking-tighter text-black dark:text-white uppercase";
+        return "text-4xl font-black tracking-tighter text-black dark:text-white uppercase text-stroke-1";
       default:
         return "text-5xl font-black tracking-tighter text-foreground leading-[1.05]";
     }
@@ -100,6 +100,8 @@ export default function FixedLeftSidebar() {
         return "px-4 py-3 rounded-xl bg-neutral-100/40 dark:bg-neutral-900/30 border border-border/50 backdrop-blur-md shadow-sm group hover:border-accent/30 transition-colors overflow-hidden relative";
     }
   };
+
+  if (theme === 'pixel') return null;
 
   return (
     <aside className={getContainerClass()}>

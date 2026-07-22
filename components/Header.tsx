@@ -37,7 +37,7 @@ export default function Header() {
       case "minimal":
         return "font-light text-base tracking-widest uppercase";
       case "pixel":
-        return "font-black text-xl uppercase tracking-tighter text-black dark:text-white bg-transparent px-2 py-1 border-2 border-black dark:border-white";
+        return "font-black text-xl uppercase tracking-tighter text-stroke-1 hover:text-black dark:hover:text-white bg-transparent px-2 py-1 border-4 border-black dark:border-white transition-colors duration-300";
       default:
         return "font-bold text-sm sm:text-base hover:text-accent transition-colors duration-150";
     }
@@ -52,7 +52,7 @@ export default function Header() {
       case "minimal":
         return "text-xs font-light tracking-widest uppercase hover:opacity-50 transition-opacity";
       case "pixel":
-        return "text-xs font-black uppercase tracking-widest border-2 border-transparent hover:border-black dark:hover:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black px-2 py-1 transition-colors";
+        return "text-xs font-black uppercase tracking-widest border-4 border-transparent hover-shimmer px-2 py-1 transition-colors";
       default:
         return "text-sm font-medium hover-link";
     }
@@ -66,21 +66,29 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-3 sm:gap-5">
           <nav className="hidden sm:flex items-center gap-2 sm:gap-4">
-            <Link href="/projects" className={getNavClass()}>
-              Projects
-            </Link>
-            <Link href="/me" className={getNavClass()}>
-              Me
-            </Link>
+            {theme !== "pixel" && (
+              <>
+                <Link href="/projects" className={getNavClass()}>
+                  Projects
+                </Link>
+                <Link href="/me" className={getNavClass()}>
+                  Me
+                </Link>
+              </>
+            )}
             <Link href="/sandbox" className={getNavClass()}>
               Kishmish
             </Link>
-            <Link href="/guestbook" className={getNavClass()}>
-              Guestbook
-            </Link>
-            <Link href="/resume" className={getNavClass()}>
-              Resume
-            </Link>
+            {theme !== "pixel" && (
+              <>
+                <Link href="/guestbook" className={getNavClass()}>
+                  Guestbook
+                </Link>
+                <Link href="/resume" className={getNavClass()}>
+                  Resume
+                </Link>
+              </>
+            )}
           </nav>
           <div className={`flex items-center gap-1 sm:gap-2 ${theme === "brutal" ? "border-l-4 border-black pl-4" : theme === "retro" ? "border-l-4 border-[#4a3b2c] dark:border-green-500 pl-4" : theme === "pixel" ? "border-l-4 border-black dark:border-white pl-4" : theme === "minimal" ? "border-l border-black/10 dark:border-white/10 pl-4" : "sm:border-l sm:border-border sm:pl-4"}`}>
             <button 

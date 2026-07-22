@@ -2,96 +2,96 @@ import { Download } from "lucide-react";
 
 export default function PixelResume() {
   return (
-    <div className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <section id="resume">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
         
-        <header className="mb-24 flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-black dark:border-white pb-8 gap-8">
+        <header className="mb-24 flex flex-col lg:flex-row justify-between items-start lg:items-end border-b border-black/20 dark:border-white/20 pb-8 gap-8">
           <div>
-            <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-8 break-all sm:break-normal">
+            <h1 className="text-6xl sm:text-[6rem] lg:text-[7rem] font-black uppercase tracking-tighter leading-[0.9] mb-8 break-all sm:break-normal text-stroke-2 hover:text-black dark:hover:text-white transition-colors duration-300 cursor-default">
               RESUME
             </h1>
-            <p className="text-xl md:text-3xl font-bold max-w-2xl uppercase">
+            <p className="text-xl md:text-2xl font-bold max-w-sm uppercase opacity-80">
               The Paper Trail.
             </p>
           </div>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="group shrink-0 inline-flex items-center gap-3 bg-black text-white dark:bg-white dark:text-black border-2 border-transparent hover:bg-transparent hover:text-black hover:border-black dark:hover:text-white dark:hover:border-white px-8 py-4 uppercase font-bold text-xl transition-colors">
-            <Download className="w-6 h-6 group-hover:animate-bounce" /> Download PDF
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="group shrink-0 inline-flex items-center gap-3 bg-transparent text-black dark:text-white border border-black/20 dark:border-white/20 hover:border-[#CCFF00] dark:hover:border-[#CCFF00] hover:text-[#CCFF00] dark:hover:text-[#CCFF00] px-8 py-4 uppercase font-black text-sm tracking-widest transition-colors">
+            <Download className="w-5 h-5 group-hover:-translate-y-1 transition-transform" /> Download PDF
           </a>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
           
-          <div className="md:col-span-4 border-t-8 border-black dark:border-white pt-8">
-            <h2 className="text-5xl font-black uppercase tracking-tighter mb-8">Experience</h2>
+          <div className="lg:col-span-4 relative border-t border-black/20 dark:border-white/20 pt-8">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-[-0.04em] mb-8 sticky top-32">Experience</h2>
           </div>
           
-          <div className="md:col-span-8 border-t-2 border-black dark:border-white pt-8 space-y-16">
+          <div className="lg:col-span-8 border-t border-black/20 dark:border-white/20 pt-8 space-y-16">
             
             <div className="group">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b-2 border-black dark:border-white pb-4">
-                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:italic transition-all">Project Manager</h3>
-                <span className="text-lg font-bold uppercase bg-black text-white dark:bg-white dark:text-black px-3 py-1 self-start md:self-auto">Nov 2021 - Present</span>
+              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b border-black/20 dark:border-white/20 pb-4">
+                <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">Project Manager</h3>
+                <span className="text-xs font-black tracking-widest uppercase bg-black text-white dark:bg-white dark:text-black px-3 py-1.5 self-start md:self-auto">Nov 2021 - Present</span>
               </div>
-              <p className="text-2xl font-bold uppercase mb-8">ZK Construction</p>
-              <ul className="text-lg font-medium uppercase leading-relaxed space-y-4 list-none">
-                <li className="flex gap-4"><span className="font-black">→</span> Managing Projects & Coordinating Operations</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Organizing Company's Profile & Documentation</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Executing and Planning Strategic Roadmaps</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Improving Internal Systems for Efficiency</li>
+              <p className="text-xl sm:text-2xl font-bold uppercase mb-8 opacity-80">ZK Construction</p>
+              <ul className="text-base font-bold uppercase leading-relaxed space-y-4 list-none opacity-80">
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Managing Projects & Coordinating Operations</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Organizing Company's Profile & Documentation</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Executing and Planning Strategic Roadmaps</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Improving Internal Systems for Efficiency</li>
               </ul>
             </div>
 
             <div className="group">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b-2 border-black dark:border-white pb-4">
-                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:italic transition-all">System Manager</h3>
-                <span className="text-lg font-bold uppercase bg-black text-white dark:bg-white dark:text-black px-3 py-1 self-start md:self-auto">Mar 2020 - Oct 2021</span>
+              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b border-black/20 dark:border-white/20 pb-4">
+                <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">System Manager</h3>
+                <span className="text-xs font-black tracking-widest uppercase bg-black text-white dark:bg-white dark:text-black px-3 py-1.5 self-start md:self-auto">Mar 2020 - Oct 2021</span>
               </div>
-              <p className="text-2xl font-bold uppercase mb-8">Unique Star (NNTUS)</p>
-              <ul className="text-lg font-medium uppercase leading-relaxed space-y-4 list-none">
-                <li className="flex gap-4"><span className="font-black">→</span> Managing Accounts & Client Relations</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Control & Maintenance of the Admin Panel</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Create Marketing Related Graphics & Materials</li>
-                <li className="flex gap-4"><span className="font-black">→</span> Create High Quality Executive Presentations</li>
+              <p className="text-xl sm:text-2xl font-bold uppercase mb-8 opacity-80">Unique Star (NNTUS)</p>
+              <ul className="text-base font-bold uppercase leading-relaxed space-y-4 list-none opacity-80">
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Managing Accounts & Client Relations</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Control & Maintenance of the Admin Panel</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Create Marketing Related Graphics & Materials</li>
+                <li className="flex gap-4 items-center"><span className="w-1.5 h-1.5 bg-[#CCFF00] rounded-none"></span> Create High Quality Executive Presentations</li>
               </ul>
             </div>
 
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 mt-24">
-          <div className="md:col-span-4 border-t-8 border-black dark:border-white pt-8">
-            <h2 className="text-5xl font-black uppercase tracking-tighter mb-8">Education</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mt-24">
+          <div className="lg:col-span-4 relative border-t border-black/20 dark:border-white/20 pt-8">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-[-0.04em] mb-8 sticky top-32">Education</h2>
           </div>
           
-          <div className="md:col-span-8 border-t-2 border-black dark:border-white pt-8 space-y-16">
+          <div className="lg:col-span-8 border-t border-black/20 dark:border-white/20 pt-8 space-y-16">
             <div className="group">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b-2 border-black dark:border-white pb-4">
-                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:italic transition-all">Diploma In IT</h3>
-                <span className="text-lg font-bold uppercase border-2 border-black dark:border-white px-3 py-1 self-start md:self-auto">Mar 2019 - Feb 2020</span>
+              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b border-black/20 dark:border-white/20 pb-4">
+                <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">Diploma In IT</h3>
+                <span className="text-xs font-black tracking-widest uppercase border border-black/20 dark:border-white/20 px-3 py-1.5 self-start md:self-auto">Mar 2019 - Feb 2020</span>
               </div>
-              <p className="text-2xl font-bold uppercase mb-2">Krishnanagar Youth Computer Centre</p>
-              <p className="text-lg font-bold uppercase opacity-60">Completed With 92.5% Grades</p>
+              <p className="text-xl sm:text-2xl font-bold uppercase mb-2 opacity-80">Krishnanagar Youth Computer Centre</p>
+              <p className="text-sm font-bold uppercase opacity-60">Completed With 92.5% Grades</p>
             </div>
 
             <div className="group">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b-2 border-black dark:border-white pb-4">
-                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:italic transition-all">Diploma In Electrical Engineering</h3>
-                <span className="text-lg font-bold uppercase border-2 border-black dark:border-white px-3 py-1 self-start md:self-auto">Aug 2019 - Dropped out</span>
+              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b border-black/20 dark:border-white/20 pb-4">
+                <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">Diploma In Electrical Engineering</h3>
+                <span className="text-xs font-black tracking-widest uppercase border border-black/20 dark:border-white/20 px-3 py-1.5 self-start md:self-auto">Aug 2019 - Dropped out</span>
               </div>
-              <p className="text-2xl font-bold uppercase mb-2">Modern Institute of Engineering & Technology</p>
+              <p className="text-xl sm:text-2xl font-bold uppercase mb-2 opacity-80">Modern Institute of Engineering & Technology</p>
             </div>
             
             <div className="group">
-              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b-2 border-black dark:border-white pb-4">
-                <h3 className="text-4xl font-black uppercase tracking-tighter group-hover:italic transition-all">Secondary Exam</h3>
-                <span className="text-lg font-bold uppercase border-2 border-black dark:border-white px-3 py-1 self-start md:self-auto">Jan 2013 - Feb 2019</span>
+              <div className="flex flex-col md:flex-row justify-between md:items-center mb-4 gap-2 border-b border-black/20 dark:border-white/20 pb-4">
+                <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">Secondary Exam</h3>
+                <span className="text-xs font-black tracking-widest uppercase border border-black/20 dark:border-white/20 px-3 py-1.5 self-start md:self-auto">Jan 2013 - Feb 2019</span>
               </div>
-              <p className="text-2xl font-bold uppercase mb-2">Krishnanagar A.V. High School</p>
+              <p className="text-xl sm:text-2xl font-bold uppercase mb-2 opacity-80">Krishnanagar A.V. High School</p>
             </div>
           </div>
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

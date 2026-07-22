@@ -46,7 +46,7 @@ export default function Footer() {
       case "minimal":
         return "font-light opacity-50 uppercase";
       case "pixel":
-        return "font-bold uppercase text-black dark:text-white bg-transparent px-2 py-1 border-2 border-black dark:border-white mt-2 sm:mt-0";
+        return "font-bold uppercase text-black dark:text-white bg-transparent px-2 py-1 border-4 border-black dark:border-white mt-2 sm:mt-0";
       default:
         return "text-zinc-500 italic";
     }
@@ -61,7 +61,7 @@ export default function Footer() {
       case "minimal":
         return "text-neutral-500 hover:text-black dark:hover:text-white transition-colors relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:bg-black dark:after:bg-white after:transition-transform after:duration-300";
       case "pixel":
-        return "hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black px-2 py-1 border-2 border-transparent hover:border-black dark:hover:border-white transition-colors inline-block";
+        return "hover-shimmer px-2 py-1 border-4 border-transparent transition-colors inline-block";
       default:
         return "hover-link";
     }

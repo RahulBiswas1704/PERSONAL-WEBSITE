@@ -6,12 +6,13 @@ import MinimalProjects from "@/app/themes/minimal/MinimalProjects";
 import RetroProjects from "@/app/themes/retro/RetroProjects";
 import BrutalProjects from "@/app/themes/brutal/BrutalProjects";
 import PixelProjects from "@/app/themes/pixel/PixelProjects";
+import PixelRedirect from "@/components/PixelRedirect";
 
 export default function ProjectsThemeRouter({ projects }: { projects: any[] }) {
   const { theme } = useStructuralTheme();
 
   if (theme === 'pixel') {
-    return <PixelProjects projects={projects} />;
+    return <PixelRedirect hash="#projects" />;
   }
 
   if (theme === 'minimal') {

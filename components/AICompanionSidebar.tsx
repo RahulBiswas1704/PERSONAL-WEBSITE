@@ -120,6 +120,8 @@ export default function AICompanionSidebar() {
       }
     };
 
+    if (theme === 'pixel') return;
+
     if ('getBattery' in navigator) {
       (navigator as any).getBattery().then((b: any) => {
         batteryObj = b;
@@ -143,7 +145,7 @@ export default function AICompanionSidebar() {
         (navigator as any).connection.removeEventListener('change', checkHardware);
       }
     };
-  }, []);
+  }, [theme]);
 
   // Shake Detection
   useEffect(() => {
@@ -179,39 +181,61 @@ export default function AICompanionSidebar() {
       }
     };
 
-    window.addEventListener('devicemotion', handleMotion);
-    return () => window.removeEventListener('devicemotion', handleMotion);
-  }, []);
+    if (theme !== 'pixel') {
+      window.addEventListener('devicemotion', handleMotion);
+    }
+    
+    return () => {
+      window.removeEventListener('devicemotion', handleMotion);
+    };
+  }, [theme]);
 
   // Time ticker for idle animation
   useEffect(() => {
+    if (theme === 'pixel') return;
     const interval = setInterval(() => setTime(Date.now()), 100);
     return () => clearInterval(interval);
-  }, []);
+  }, [theme]);
 
   // Mouse Tracking
   useEffect(() => {
+    if (theme === 'pixel') return;
+    
+    let rafId: number;
     const handleMouseMove = (e: MouseEvent) => {
-      if (!eyeRef.current) return;
-      const rect = eyeRef.current.getBoundingClientRect();
-      const eyeX = rect.left + rect.width / 2;
-      const eyeY = rect.top + rect.height / 2;
+      if (!rafId) {
+        rafId = requestAnimationFrame(() => {
+          if (!eyeRef.current) {
+            rafId = 0;
+            return;
+          }
+          const rect = eyeRef.current.getBoundingClientRect();
+          const eyeX = rect.left + rect.width / 2;
+          const eyeY = rect.top + rect.height / 2;
 
-      const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
-      const distance = Math.min(16, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
+          const angle = Math.atan2(e.clientY - eyeY, e.clientX - eyeX);
+          const distance = Math.min(16, Math.hypot(e.clientX - eyeX, e.clientY - eyeY) / 30);
 
-      setPupilPos({
-        x: Math.cos(angle) * distance,
-        y: Math.sin(angle) * distance,
-      });
+          setPupilPos({
+            x: Math.cos(angle) * distance,
+            y: Math.sin(angle) * distance,
+          });
+          rafId = 0;
+        });
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [theme]);
 
   // Blinking Logic
   useEffect(() => {
+    if (theme === 'pixel') return;
+    
     const blink = () => {
       setIsBlinking(true);
       setTimeout(() => setIsBlinking(false), 150); // fast blink
@@ -220,10 +244,12 @@ export default function AICompanionSidebar() {
     };
     const initial = setTimeout(blink, 1000);
     return () => clearTimeout(initial);
-  }, []);
+  }, [theme]);
 
   // Spooky "Touch Me" Pop-up Logic
   useEffect(() => {
+    if (theme === 'pixel') return;
+    
     const creepyPrompt = () => {
       // Only show if the quote isn't currently showing
       setShowTouchMe(true);
@@ -235,10 +261,12 @@ export default function AICompanionSidebar() {
     };
     const initial = setTimeout(creepyPrompt, 5000);
     return () => clearTimeout(initial);
-  }, []);
+  }, [theme]);
 
   // Generic Activity Tracking
   useEffect(() => {
+    if (theme === 'pixel') return;
+    
     // Increase activity based on action type
     const handleMouse = () => setActivityLevel((prev) => Math.min(200, prev + 0.3));
     const handleScroll = () => setActivityLevel((prev) => Math.min(200, prev + 1.5));
@@ -262,7 +290,7 @@ export default function AICompanionSidebar() {
       window.removeEventListener("mousedown", handleClickEvent);
       clearInterval(decayInterval);
     };
-  }, []);
+  }, [theme]);
 
   const handleClick = () => {
     setShowTouchMe(false);
@@ -369,6 +397,8 @@ export default function AICompanionSidebar() {
     }
   };
 
+  if (theme === 'pixel') return null;
+
   return (
     <>
     {/* Desktop Version */}
@@ -392,7 +422,7 @@ export default function AICompanionSidebar() {
           className={`absolute right-full mr-6 top-8 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
             }`}
         >
-          <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5" : `relative px-3 py-1.5 border-2 border-dashed flex items-center gap-1.5 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white brutal-shadow uppercase" : theme === "pixel" ? "border-black dark:border-white bg-white dark:bg-black text-black dark:text-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] font-sans font-black text-[10px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
+          <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-3 py-1.5 border-2 border-dashed border-lime-400 shadow-[4px_4px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1.5" : `relative px-3 py-1.5 border-2 border-dashed flex items-center gap-1.5 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white brutal-shadow uppercase" : "border-foreground bg-transparent text-foreground"}`}>
             <span className="animate-pulse tracking-tighter">tOuCh... mE...</span>
             <span className="text-sm">👁️</span>
           </div>
@@ -444,8 +474,8 @@ export default function AICompanionSidebar() {
           {(() => {
             const bpm = Math.floor(40 + activityLevel * 1.5);
             let status = "STABLE";
-            let color = theme === "retro" ? "text-[#4a3b2c] dark:text-green-500" : theme === "pixel" ? "text-black dark:text-white" : theme === "brutal" || theme === "minimal" ? "text-foreground" : "text-accent";
-            let barColor = theme === "retro" ? "bg-[#4a3b2c] dark:bg-green-500" : theme === "pixel" ? "bg-black dark:bg-white" : theme === "brutal" || theme === "minimal" ? "bg-foreground" : "bg-accent";
+            let color = theme === "retro" ? "text-[#4a3b2c] dark:text-green-500" : theme === "brutal" || theme === "minimal" ? "text-foreground" : "text-accent";
+            let barColor = theme === "retro" ? "bg-[#4a3b2c] dark:bg-green-500" : theme === "brutal" || theme === "minimal" ? "bg-foreground" : "bg-accent";
 
             if (bpm > 150) {
               status = "OVERLOAD";
@@ -464,16 +494,16 @@ export default function AICompanionSidebar() {
             return (
               <div className={getEKGClass(bpm)}>
                 {/* CRT Scanline Overlay */}
-                {(theme === "modern" || theme === "retro" || theme === "brutal" || theme === "pixel") && (
+                {(theme === "modern" || theme === "retro" || theme === "brutal") && (
                   <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, #fff 1px, #fff 2px)' }} />
                 )}
 
                 <div className="flex items-center justify-between z-10 w-full mb-1">
-                  <span className={`text-[10px] ${theme === "pixel" ? "font-sans font-black" : "font-mono font-bold tracking-[0.2em]"} transition-colors ${theme === "brutal" ? "text-black" : color} flex items-center gap-1.5`}>
+                  <span className={`text-[10px] font-mono font-bold tracking-[0.2em] transition-colors ${theme === "brutal" ? "text-black" : color} flex items-center gap-1.5`}>
                     {bpm > 150 ? <Zap className="w-3 h-3 animate-ping" /> : <Activity className="w-3 h-3" />}
                     {status}
                   </span>
-                  <span className={`text-[9px] ${theme === "pixel" ? "font-sans font-black" : "font-mono font-bold"} transition-colors ${theme === "brutal" ? "text-black" : color}`}>{bpm}</span>
+                  <span className={`text-[9px] font-mono font-bold transition-colors ${theme === "brutal" ? "text-black" : color}`}>{bpm}</span>
                 </div>
 
                 <div className="flex items-end justify-between w-full h-8 gap-[2px] z-10 mt-1">
@@ -526,7 +556,7 @@ export default function AICompanionSidebar() {
         className={`absolute right-full mr-4 top-2 pointer-events-none transition-all duration-700 ease-out ${showTouchMe && !showQuote ? 'opacity-100 scale-100 rotate-[-12deg]' : 'opacity-0 scale-50 rotate-[20deg] blur-md'
           }`}
       >
-        <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1" : `relative px-2 py-1 border-2 border-dashed flex items-center gap-1 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white uppercase brutal-shadow" : theme === "pixel" ? "border-black dark:border-white bg-white dark:bg-black text-black dark:text-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] font-sans font-black text-[10px] uppercase" : "border-foreground bg-transparent text-foreground"}`}>
+        <div className={theme === "modern" ? "relative bg-purple-900 dark:bg-purple-950 text-lime-400 font-black font-mono px-2 py-1 border border-dashed border-lime-400 shadow-[2px_2px_0_rgba(163,230,53,0.8)] rounded-md flex items-center gap-1" : `relative px-2 py-1 border-2 border-dashed flex items-center gap-1 font-bold font-mono ${theme === "retro" ? "border-4 border-dashed border-[#4a3b2c] dark:border-green-500 text-[#4a3b2c] dark:text-green-500 bg-white/80 dark:bg-black backdrop-blur-sm shadow-[4px_4px_0_0_rgba(74,59,44,1)] dark:shadow-[4px_4px_0_0_rgba(34,197,94,1)]" : theme === "brutal" ? "border-black bg-black text-white uppercase brutal-shadow" : "border-foreground bg-transparent text-foreground"}`}>
           <span className="animate-pulse tracking-tighter text-[10px]">pOkE mE...</span>
           <span className="text-[10px]">👁️</span>
         </div>

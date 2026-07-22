@@ -54,15 +54,15 @@ export default function PixelGuestbook() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <section id="guestbook">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
         
-        <header className="mb-24 flex flex-col md:flex-row justify-between items-start md:items-end border-b-2 border-black dark:border-white pb-8 gap-8">
+        <header className="mb-24 flex flex-col lg:flex-row justify-between items-start lg:items-end border-b border-black/20 dark:border-white/20 pb-8 gap-8">
           <div>
-            <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-8 break-all sm:break-normal">
+            <h1 className="text-6xl sm:text-[6rem] lg:text-[7rem] font-black uppercase tracking-tighter leading-[0.9] mb-8 break-all sm:break-normal text-stroke-2 cursor-default">
               GUEST<br/>BOOK
             </h1>
-            <p className="text-xl md:text-3xl font-bold max-w-2xl uppercase">
+            <p className="text-xl md:text-2xl font-bold max-w-sm uppercase opacity-80">
               Leave a mark.
             </p>
           </div>
@@ -70,67 +70,67 @@ export default function PixelGuestbook() {
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
           
-          <div className="md:col-span-5 space-y-12">
-            <div className="sticky top-24 border-4 border-black dark:border-white bg-white dark:bg-black p-8">
-              <h2 className="text-4xl font-black uppercase tracking-tighter mb-8 border-b-2 border-black dark:border-white pb-4">
+          <div className="lg:col-span-5 space-y-12 relative">
+            <div className="sticky top-32 border border-black/20 dark:border-white/20 bg-black/5 dark:bg-white/5 p-8">
+              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-[-0.04em] mb-8 border-b border-black/20 dark:border-white/20 pb-4">
                 Sign Here
               </h2>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
-                  <label className="block text-xl font-bold uppercase mb-2">Name</label>
+                  <label className="block text-sm font-black tracking-widest uppercase mb-2">Name</label>
                   <input 
                     type="text" 
                     placeholder="JOHN DOE (OPTIONAL)" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-transparent border-2 border-black dark:border-white p-4 text-xl font-bold uppercase placeholder:opacity-30 focus:outline-none focus:bg-black focus:text-white dark:focus:bg-white dark:focus:text-black transition-colors"
+                    className="w-full bg-transparent border border-black/20 dark:border-white/20 p-4 text-base font-bold uppercase placeholder:opacity-30 focus:outline-none focus:border-[#CCFF00] dark:focus:border-[#CCFF00] transition-colors"
                   />
                 </div>
                 <div>
-                  <label className="block text-xl font-bold uppercase mb-2">Message</label>
+                  <label className="block text-sm font-black tracking-widest uppercase mb-2">Message</label>
                   <textarea 
                     rows={5}
                     required
                     placeholder="YOUR MESSAGE..." 
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full bg-transparent border-2 border-black dark:border-white p-4 text-xl font-bold uppercase placeholder:opacity-30 focus:outline-none focus:bg-black focus:text-white dark:focus:bg-white dark:focus:text-black transition-colors resize-none"
+                    className="w-full bg-transparent border border-black/20 dark:border-white/20 p-4 text-base font-bold uppercase placeholder:opacity-30 focus:outline-none focus:border-[#CCFF00] dark:focus:border-[#CCFF00] transition-colors resize-none"
                   />
                 </div>
-                <button type="submit" disabled={isSubmitting || !message.trim()} className="w-full bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white p-4 text-2xl font-black uppercase hover:bg-transparent hover:text-black dark:hover:text-white transition-colors flex items-center justify-between group disabled:opacity-50">
-                  Submit <Send className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
+                <button type="submit" disabled={isSubmitting || !message.trim()} className="w-full bg-transparent text-black dark:text-white border border-black dark:border-white p-4 text-xl font-black tracking-widest uppercase hover:bg-[#CCFF00] hover:text-black hover:border-[#CCFF00] transition-colors flex items-center justify-between group disabled:opacity-50">
+                  Submit <Send className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </button>
               </form>
             </div>
           </div>
 
-          <div className="md:col-span-7 space-y-12">
-            <h2 className="text-5xl font-black uppercase tracking-tighter border-b-4 border-black dark:border-white pb-4">
+          <div className="lg:col-span-7 space-y-12 mt-16 lg:mt-0">
+            <h2 className="text-4xl sm:text-5xl font-black uppercase tracking-[-0.04em] border-b border-black/20 dark:border-white/20 pb-4">
               Entries
             </h2>
             
             <div className="space-y-12">
               {loading ? (
-                <p className="text-2xl font-bold uppercase">LOADING...</p>
+                <p className="text-xl font-bold uppercase opacity-80">LOADING...</p>
               ) : entries.length === 0 ? (
-                <p className="text-2xl font-bold uppercase">NO ENTRIES YET.</p>
+                <p className="text-xl font-bold uppercase opacity-80">NO ENTRIES YET.</p>
               ) : (
                 entries.map((entry, i) => (
-                  <div key={entry.id} className="group border-t-2 border-black dark:border-white pt-8 relative">
-                    {i === 0 && <div className="absolute -top-4 right-0 bg-black text-white dark:bg-white dark:text-black font-black uppercase px-4 py-1 text-xl rotate-3">New</div>}
+                  <div key={entry.id} className="group border-t border-black/20 dark:border-white/20 pt-8 relative">
+                    {i === 0 && <div className="absolute -top-4 right-0 bg-[#CCFF00] text-black font-black uppercase px-3 py-1 text-sm tracking-widest rotate-3">New</div>}
                     <div className="flex justify-between items-start mb-6">
                       <div>
-                        <h3 className="text-3xl font-black uppercase tracking-tighter">{entry.name || "Anonymous"}</h3>
-                        <p className="text-lg font-bold uppercase opacity-50">{new Date(entry.timestamp).toLocaleDateString()}</p>
+                        <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-[-0.04em] group-hover:text-[#CCFF00] transition-colors">{entry.name || "Anonymous"}</h3>
+                        <p className="text-sm font-bold uppercase opacity-50 tracking-widest">{new Date(entry.timestamp).toLocaleDateString()}</p>
                       </div>
                     </div>
-                    <p className="text-2xl font-bold uppercase leading-snug break-words">
+                    <p className="text-lg sm:text-xl font-bold uppercase leading-snug break-words opacity-80">
                       {entry.message}
                     </p>
                     {entry.adminReply && (
-                      <div className="mt-8 border-l-4 border-black dark:border-white pl-4 ml-4">
-                        <span className="text-xl font-black uppercase tracking-tighter block mb-2">Rahul Replied:</span>
-                        <p className="text-xl font-bold uppercase italic leading-snug">"{entry.adminReply}"</p>
+                      <div className="mt-8 border-l-2 border-[#CCFF00] pl-4 ml-4">
+                        <span className="text-sm font-black uppercase tracking-widest block mb-2 opacity-60">Rahul Replied:</span>
+                        <p className="text-base sm:text-lg font-bold uppercase italic leading-snug text-[#CCFF00]">"{entry.adminReply}"</p>
                       </div>
                     )}
                   </div>
@@ -143,6 +143,6 @@ export default function PixelGuestbook() {
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

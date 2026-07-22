@@ -12,63 +12,72 @@ function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
 
 export default function PixelProjects({ projects }: { projects: any[] }) {
   return (
-    <div className="min-h-screen bg-[#F0F0F0] dark:bg-[#111111] text-black dark:text-white font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black">
+    <section id="projects">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 py-24">
-        
-        <header className="mb-24 border-b-2 border-black dark:border-white pb-8">
-          <h1 className="text-6xl sm:text-8xl md:text-[10rem] font-black uppercase tracking-tighter leading-none mb-8 break-all sm:break-normal">
-            Selected<br/>Works
-          </h1>
-          <p className="text-xl md:text-3xl font-bold max-w-2xl uppercase">
-            A brutal collection of platforms, tools, and digital experiments.
-          </p>
-        </header>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+          
+          {/* Sticky Left Header */}
+          <div className="lg:col-span-5 relative">
+            <header className="sticky top-32 pb-8">
+              <h1 className="text-6xl sm:text-[6rem] lg:text-[7rem] font-black uppercase tracking-tighter leading-[0.9] mb-8 break-all sm:break-normal text-stroke-2 hover:text-black dark:hover:text-white transition-colors duration-300 cursor-default">
+                Selected<br/>Works
+              </h1>
+              <p className="text-xl md:text-2xl font-bold max-w-sm uppercase opacity-80">
+                A brutal collection of platforms, tools, and digital experiments.
+              </p>
+            </header>
+          </div>
 
-        <div className="grid grid-cols-1 gap-16">
-          {projects.map((project, i) => (
-            <div 
-              key={project.slug || project.title}
-              className="group border-t-2 border-black dark:border-white pt-8"
-            >
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-8">
-                <h2 className="text-4xl sm:text-6xl md:text-8xl font-black uppercase tracking-tighter hover:italic transition-all break-all sm:break-normal">
-                  {project.title}
-                </h2>
-                <div className="text-left md:text-right flex flex-col items-start md:items-end gap-4 w-full md:w-auto">
-                  <p className="text-xl font-bold uppercase max-w-md text-left md:text-right">
-                    {project.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 justify-start md:justify-end">
-                    {project.tech?.map((t: string) => (
-                      <span key={t} className="text-xs font-bold border border-black dark:border-white px-2 py-1 uppercase rounded-full">
-                        {t}
-                      </span>
-                    ))}
+          {/* Scrolling Projects on Right */}
+          <div className="lg:col-span-7 flex flex-col">
+            {projects.map((project, i) => (
+              <div 
+                key={project.slug || project.title}
+                className={`group border-t border-black/20 dark:border-white/20 py-12 md:py-16 relative overflow-hidden flex flex-col ${i === projects.length - 1 ? "border-b border-black/20 dark:border-white/20" : ""}`}
+              >
+                <div className="flex flex-col gap-6 mb-8">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-[-0.04em] transition-all break-all sm:break-normal flex items-center gap-4 group-hover:translate-x-4 duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]">
+                      <ArrowUpRight className="w-10 h-10 opacity-0 -ml-14 group-hover:opacity-100 transition-all duration-500 text-[#CCFF00]" />
+                      {project.title}
+                    </h2>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <p className="text-xl font-bold uppercase opacity-80">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech?.map((t: string) => (
+                        <span key={t} className="text-[10px] font-black border border-black/20 dark:border-white/20 px-3 py-1.5 uppercase rounded-none tracking-widest bg-black/5 dark:bg-white/5">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-wrap items-center gap-4">
-                {project.slug && (
-                  <Link href={`/projects/${project.slug}`} className="text-sm md:text-lg font-bold uppercase border-2 border-black dark:border-white px-4 md:px-6 py-2 md:py-3 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors flex items-center gap-2">
-                    Case Study <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
-                  </Link>
-                )}
-                {project.link && (
-                  <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-sm md:text-lg font-bold uppercase underline hover:no-underline px-2 md:px-4 py-2 md:py-3 transition-colors flex items-center gap-2">
-                    Live Demo
-                  </a>
-                )}
-                {project.github && (
-                  <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-sm md:text-lg font-bold uppercase underline hover:no-underline px-2 md:px-4 py-2 md:py-3 transition-colors flex items-center gap-2">
-                    <GithubIcon className="w-4 h-4 md:w-5 md:h-5" /> Source
-                  </a>
-                )}
+                <div className="flex flex-wrap items-center gap-4 relative z-10 mt-4">
+                  {project.slug && (
+                    <Link href={`/projects/${project.slug}`} className="text-sm font-black uppercase border border-black dark:border-white px-6 py-3 hover-shimmer transition-colors flex items-center gap-2 bg-transparent text-black dark:text-white hover:text-black tracking-widest">
+                      Case Study <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+                    </Link>
+                  )}
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-sm font-black uppercase underline hover:no-underline px-4 py-3 transition-colors flex items-center gap-2 tracking-widest opacity-80 hover:opacity-100 hover:text-[#CCFF00]">
+                      Live Demo
+                    </a>
+                  )}
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-sm font-black uppercase underline hover:no-underline px-4 py-3 transition-colors flex items-center gap-2 tracking-widest opacity-80 hover:opacity-100 hover:text-[#CCFF00]">
+                      <GithubIcon className="w-4 h-4" /> Source
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
